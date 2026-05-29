@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basketball Sims Trainer</title>
+<meta name="description" content="Self-guided basketball workouts with optional plyometrics. Built on basketballsims.com drills.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.10.0/dist/tabler-icons.min.css">
+<style>
+  :root {
+    --green: #1D9E75;
+    --green-dark: #0F6E56;
+    --green-deeper: #085041;
+    --green-light: #E1F5EE;
+    --green-mid: #9FE1CB;
+    --orange: #D85A30;
+    --orange-dark: #993C1D;
+    --orange-deeper: #712B13;
+    --orange-light: #FAECE7;
+    --purple-light: #EEEDFE;
+    --purple-dark: #3C3489;
+    --blue-light: #E6F1FB;
+    --blue-dark: #0C447C;
+    --amber-light: #FAEEDA;
+    --amber-dark: #633806;
+    --bg: #ffffff;
+    --bg2: #f7f7f5;
+    --bg3: #f0efed;
+    --text: #1a1a18;
+    --text2: #5a5a57;
+    --text3: #9a9a96;
+    --border: rgba(0,0,0,0.10);
+    --border2: rgba(0,0,0,0.18);
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg2: #252523;
+      --bg3: #2e2e2b;
+      --text: #f0f0ec;
+      --text2: #a0a09a;
+      --text3: #606060;
+      --border: rgba(255,255,255,0.10);
+      --border2: rgba(255,255,255,0.18);
+      --green-light: #0a2e22;
+      --orange-light: #2e1508;
+      --purple-light: #1a1838;
+      --blue-light: #0a1e38;
+      --amber-light: #2a1c04;
+      --green-deeper: #9FE1CB;
+      --orange-deeper: #F0997B;
+      --purple-dark: #AFA9EC;
+      --blue-dark: #85B7EB;
+      --amber-dark: #FAC775;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .app-shell {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 4rem;
+  }
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* Header */
+  .hdr { display: flex; align-items: center; gap: 12px; margin-bottom: 1.75rem; }
+  .logo { width: 42px; height: 42px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .logo i { font-size: 21px; color: #fff; }
+  .hdr h1 { font-size: 19px; font-weight: 600; color: var(--text); }
+  .hdr p { font-size: 12px; color: var(--text2); }
+
+  /* Section label */
+  .slabel { font-size: 11px; font-weight: 600; color: var(--text3); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; margin-top: 1.5rem; }
+
+  /* Card grid */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+  .mode-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 13px; cursor: pointer; text-align: left; transition: border-color .15s; }
+  .mode-card:hover { border-color: var(--border2); }
+  .mode-card.sel { border: 2px solid var(--green); }
+  .mode-card i { font-size: 20px; color: var(--green); display: block; margin-bottom: 7px; }
+  .mode-card h3 { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .mode-card p { font-size: 11px; color: var(--text2); line-height: 1.4; }
+
+  /* Diff buttons */
+  .diff-row { display: flex; gap: 6px; }
+  .dbtn { flex: 1; padding: 9px 4px; border: 0.5px solid var(--border); border-radius: var(--radius); background: var(--bg); font-size: 12px; color: var(--text2); cursor: pointer; text-align: center; line-height: 1.5; }
+  .dbtn:hover { border-color: var(--border2); }
+  .dbtn.sel { border: 2px solid var(--green); color: var(--green-deeper); background: var(--green-light); font-weight: 500; }
+  .dbtn span { font-size: 10px; color: var(--text3); display: block; }
+
+  /* Chips */
+  .chip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(95px, 1fr)); gap: 8px; }
+  .chip { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 7px 10px; cursor: pointer; font-size: 12px; color: var(--text2); text-align: center; transition: all .15s; }
+  .chip:hover { border-color: var(--border2); color: var(--text); }
+  .chip.sel { background: var(--green-light); border-color: var(--green); color: var(--green-deeper); }
+
+  /* Toggle rows */
+  .toggle-row { display: flex; flex-direction: column; gap: 8px; }
+  .tog { display: flex; align-items: center; justify-content: space-between; background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 10px 13px; cursor: pointer; }
+  .tog:hover { border-color: var(--border2); }
+  .tog.sel { border-color: var(--green); background: var(--green-light); }
+  .tog-left { display: flex; align-items: center; gap: 10px; }
+  .tog-left i { font-size: 18px; color: var(--green); }
+  .tog-txt h4 { font-size: 13px; font-weight: 500; color: var(--text); }
+  .tog.sel .tog-txt h4 { color: var(--green-deeper); }
+  .tog-txt p { font-size: 11px; color: var(--text2); }
+  .pill { width: 36px; height: 20px; border-radius: 10px; background: var(--bg3); position: relative; transition: background .2s; flex-shrink: 0; }
+  .tog.sel .pill { background: var(--green); }
+  .pill::after { content: ''; position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #fff; top: 3px; left: 3px; transition: left .2s; }
+  .tog.sel .pill::after { left: 19px; }
+
+  /* Plyo card */
+  .plyo-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 14px; margin-top: .75rem; transition: opacity .2s; }
+  .plyo-card.disabled { opacity: .4; pointer-events: none; }
+  .plyo-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .plyo-icon { width: 34px; height: 34px; border-radius: 50%; background: var(--orange-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .plyo-icon i { font-size: 17px; color: var(--orange-dark); }
+  .plyo-title { font-size: 14px; font-weight: 500; color: var(--text); }
+  .plyo-sub { font-size: 11px; color: var(--text2); }
+  .plyo-len-btn { flex: 1; padding: 8px 4px; border: 0.5px solid var(--border); border-radius: var(--radius); background: var(--bg2); font-size: 12px; color: var(--text2); cursor: pointer; text-align: center; line-height: 1.5; }
+  .plyo-len-btn:hover { border-color: var(--border2); }
+  .plyo-len-btn.sel { border: 2px solid var(--orange); color: var(--orange-deeper); background: var(--orange-light); font-weight: 500; }
+  .plyo-len-btn span { font-size: 10px; color: var(--text3); display: block; }
+  .plyo-chip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 6px; margin-top: 8px; }
+  .plyo-chip { background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 6px 8px; cursor: pointer; font-size: 11px; color: var(--text2); text-align: center; transition: all .15s; }
+  .plyo-chip:hover { border-color: var(--border2); }
+  .plyo-chip.sel { background: var(--orange-light); border-color: var(--orange); color: var(--orange-deeper); }
+  .plyo-note { font-size: 11px; color: var(--text3); margin-top: 8px; }
+
+  /* Buttons */
+  .btn-primary { background: var(--green); color: #fff; border: none; border-radius: var(--radius); padding: 12px 20px; font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; margin-top: 1.5rem; font-family: inherit; }
+  .btn-primary:hover { background: var(--green-dark); }
+  .btn-primary:disabled { background: var(--bg2); color: var(--text3); cursor: default; }
+  .btn-primary.orange { background: var(--orange); }
+  .btn-primary.orange:hover { background: var(--orange-dark); }
+  .btn-ghost { background: transparent; border: 0.5px solid var(--border2); border-radius: var(--radius); padding: 7px 13px; font-size: 13px; color: var(--text2); cursor: pointer; font-family: inherit; }
+  .btn-ghost:hover { background: var(--bg2); }
+
+  /* Badges */
+  .badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 20px; margin-right: 4px; margin-bottom: 3px; }
+  .bdg-g { background: var(--green-light); color: var(--green-deeper); }
+  .bdg-o { background: var(--amber-light); color: var(--amber-dark); }
+  .bdg-p { background: var(--purple-light); color: var(--purple-dark); }
+  .bdg-b { background: var(--blue-light); color: var(--blue-dark); }
+  .bdg-r { background: var(--orange-light); color: var(--orange-deeper); }
+
+  /* Progress bar */
+  .prog-wrap { height: 4px; background: var(--bg3); border-radius: 2px; margin-bottom: 1.25rem; }
+  .prog-fill { height: 4px; border-radius: 2px; transition: width .3s, background .3s; background: var(--green); }
+
+  /* Drill list */
+  .drill-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.25rem; }
+  .drill-item { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 11px 13px; display: flex; align-items: flex-start; gap: 10px; }
+  .drill-item.is-plyo { border-left: 3px solid var(--orange); }
+  .drill-item.active-d { border-color: var(--green); background: var(--green-light); }
+  .drill-item.active-d.is-plyo { border-color: var(--orange); background: var(--orange-light); }
+  .drill-item.done-d { opacity: .4; }
+  .dnum { width: 26px; height: 26px; border-radius: 50%; background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: var(--text2); flex-shrink: 0; margin-top: 1px; }
+  .active-d .dnum { background: var(--green); color: #fff; }
+  .active-d.is-plyo .dnum { background: var(--orange); color: #fff; }
+  .done-d .dnum { background: var(--green-mid); color: var(--green-deeper); }
+  .dinfo { flex: 1; min-width: 0; }
+  .dname { font-size: 13px; font-weight: 500; color: var(--text); }
+  .active-d .dname { color: var(--green-deeper); }
+  .active-d.is-plyo .dname { color: var(--orange-deeper); }
+  .ddesc { font-size: 11px; color: var(--text2); margin-top: 2px; line-height: 1.4; }
+  .dcues { font-size: 11px; color: var(--green-dark); margin-top: 3px; line-height: 1.4; font-style: italic; }
+  .dcues.plyo-cue { color: var(--orange-dark); }
+  .dtags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+  .dtag { font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 500; }
+  .tag-plyo { background: var(--orange-light); color: var(--orange-deeper); }
+  .tag-2ball { background: var(--purple-light); color: var(--purple-dark); }
+  .tag-indoor { background: var(--blue-light); color: var(--blue-dark); }
+  .dtime { font-size: 11px; font-weight: 500; color: var(--text3); flex-shrink: 0; margin-top: 2px; }
+
+  /* Section divider */
+  .section-divider { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+  .sdiv-line { flex: 1; height: 0.5px; background: var(--border); }
+  .sdiv-lbl { font-size: 10px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; }
+  .sdiv-bball { color: var(--green-deeper); background: var(--green-light); }
+  .sdiv-plyo { color: var(--orange-deeper); background: var(--orange-light); }
+
+  /* Timer block */
+  .timer-block { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; margin-bottom: 1rem; }
+  .timer-block.plyo-mode { border-color: var(--orange); background: var(--orange-light); }
+  .t-step { font-size: 11px; color: var(--text3); margin-bottom: 3px; }
+  .t-type { font-size: 10px; font-weight: 600; padding: 2px 9px; border-radius: 10px; display: inline-block; margin-bottom: 5px; }
+  .bball-type { background: var(--green-light); color: var(--green-deeper); }
+  .plyo-type { background: var(--orange-light); color: var(--orange-deeper); }
+  .t-name { font-size: 17px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+  .t-sets { font-size: 12px; color: var(--text2); margin-bottom: 5px; min-height: 16px; }
+  .t-cue { font-size: 12px; margin-bottom: 1rem; min-height: 16px; font-style: italic; }
+  .bball-cue { color: var(--green-dark); }
+  .plyo-cue-txt { color: var(--orange-dark); }
+
+  /* Ring timer */
+  .ring-wrap { position: relative; width: 120px; height: 120px; margin: 0 auto .85rem; }
+  .ring-wrap svg { transform: rotate(-90deg); }
+  .ring-track { fill: none; stroke: var(--bg3); stroke-width: 7; }
+  .ring-fill { fill: none; stroke-width: 7; stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
+  .ring-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 500; color: var(--text); }
+
+  /* Controls */
+  .ctrl-row { display: flex; gap: 10px; justify-content: center; align-items: center; }
+  .ctrl-btn { width: 44px; height: 44px; border-radius: 50%; border: 0.5px solid var(--border2); background: var(--bg); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--text); font-family: inherit; }
+  .ctrl-btn:hover { background: var(--bg2); }
+  .ctrl-btn.cp-g { background: var(--green); border-color: var(--green); color: #fff; }
+  .ctrl-btn.cp-g:hover { background: var(--green-dark); }
+  .ctrl-btn.cp-o { background: var(--orange); border-color: var(--orange); color: #fff; }
+  .ctrl-btn.cp-o:hover { background: var(--orange-dark); }
+
+  /* Nav row */
+  .nav-row { display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; }
+  .next-lbl { background: var(--bg2); border-radius: var(--radius); padding: 7px 12px; font-size: 12px; color: var(--text2); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .next-lbl span { font-weight: 500; color: var(--text); }
+
+  /* Rest screen */
+  .rest-wrap { text-align: center; padding: 2.5rem 1rem; }
+  .rest-num { font-size: 38px; font-weight: 500; color: var(--text); margin: 1rem 0; }
+
+  /* Plyo intro */
+  .plyo-intro-box { background: var(--orange-light); border-radius: var(--radius); padding: 14px; margin-bottom: 1.5rem; text-align: left; font-size: 12px; color: var(--orange-deeper); }
+  .plyo-intro-box strong { display: block; margin-bottom: 4px; font-weight: 500; }
+
+  /* Done screen */
+  .done-icon { width: 60px; height: 60px; border-radius: 50%; background: var(--green-light); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+  .done-icon i { font-size: 28px; color: var(--green); }
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 1.25rem 0; }
+  .stat-box { background: var(--bg2); border-radius: var(--radius); padding: 10px 6px; text-align: center; }
+  .stat-v { font-size: 20px; font-weight: 500; color: var(--text); }
+  .stat-l { font-size: 10px; color: var(--text2); margin-top: 2px; }
+  .btn-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+  /* Print log */
+  .print-sec { background: var(--bg2); border-radius: var(--radius-lg); padding: 1rem; margin-top: 1rem; }
+  .print-sec h4 { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 8px; }
+  .print-line { padding: 4px 0; border-bottom: 0.5px solid var(--border); display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); }
+  .print-line.plyo-line { color: var(--orange-dark); }
+  .print-line:last-child { border-bottom: none; }
+  .print-footer { margin-top: 8px; font-size: 11px; color: var(--text3); }
+
+  /* Equip note */
+  .equip-note { background: var(--amber-light); border-radius: var(--radius); padding: 8px 12px; font-size: 12px; color: var(--amber-dark); margin-top: 8px; display: flex; align-items: flex-start; gap: 7px; }
+
+  /* Footer */
+  .site-footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2rem; padding-top: 1rem; border-top: 0.5px solid var(--border); }
+  .site-footer a { color: var(--green); text-decoration: none; }
+
+  @media (max-width: 400px) {
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+    .diff-row { flex-wrap: wrap; }
+    .dbtn { min-width: 70px; }
+  }
+</style>
+</head>
+<body>
+<div class="app-shell" role="main">
+  <h1 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden">Basketball Sims Trainer — self-guided timed workouts</h1>
+
+  <!-- ══════════════ SETUP ══════════════ -->
+  <div class="screen active" id="s-setup">
+    <div class="hdr">
+      <div class="logo"><i class="ti ti-ball-basketball" aria-hidden="true"></i></div>
+      <div>
+        <h1>Basketball Sims Trainer</h1>
+        <p>Self-guided workouts · up to 45 min · <a href="https://sites.google.com/view/basketballsims/home" target="_blank" rel="noopener">basketballsims.com</a></p>
+      </div>
+    </div>
+
+    <div class="slabel">Who is training?</div>
+    <div class="card-grid" id="mode-grid">
+      <div class="mode-card" data-v="solo" onclick="pick(this,'mode')"><i class="ti ti-user" aria-hidden="true"></i><h3>Solo player</h3><p>Individual skill work, no partner needed</p></div>
+      <div class="mode-card" data-v="partner" onclick="pick(this,'mode')"><i class="ti ti-users" aria-hidden="true"></i><h3>With a partner</h3><p>2-player drills and competitive reps</p></div>
+      <div class="mode-card" data-v="team" onclick="pick(this,'mode')"><i class="ti ti-tournament" aria-hidden="true"></i><h3>Team practice</h3><p>Group drills, shells, full team reps</p></div>
+    </div>
+
+    <div class="slabel">Age / level</div>
+    <div class="diff-row" id="level-grid">
+      <button class="dbtn" data-v="beginner" onclick="pick(this,'level')">Beginner<span>U10 / new</span></button>
+      <button class="dbtn" data-v="intermediate" onclick="pick(this,'level')">Intermediate<span>U12–U14</span></button>
+      <button class="dbtn" data-v="advanced" onclick="pick(this,'level')">Advanced<span>U16–HS+</span></button>
+      <button class="dbtn" data-v="elite" onclick="pick(this,'level')">Elite<span>College / Pro</span></button>
+    </div>
+
+    <div class="slabel">Equipment &amp; location</div>
+    <div class="toggle-row">
+      <div class="tog" id="tog-indoor" onclick="toggleEq('indoor')">
+        <div class="tog-left"><i class="ti ti-building" aria-hidden="true"></i><div class="tog-txt"><h4>Indoor gym</h4><p>Full court — unlocks gym-only drills</p></div></div>
+        <div class="pill" id="pill-indoor"></div>
+      </div>
+      <div class="tog" id="tog-2ball" onclick="toggleEq('twoball')">
+        <div class="tog-left"><i class="ti ti-circles-relation" aria-hidden="true"></i><div class="tog-txt"><h4>I have 2 balls</h4><p>Unlocks 2-ball dribbling and finishing series</p></div></div>
+        <div class="pill" id="pill-2ball"></div>
+      </div>
+    </div>
+
+    <div class="slabel">Basketball skill focus — pick 1 to 3</div>
+    <div class="chip-grid" id="focus-grid">
+      <div class="chip" data-v="handles" onclick="toggleFocus(this)"><i class="ti ti-hand-stop" style="font-size:13px" aria-hidden="true"></i> Handles</div>
+      <div class="chip" data-v="shooting" onclick="toggleFocus(this)"><i class="ti ti-target" style="font-size:13px" aria-hidden="true"></i> Shooting</div>
+      <div class="chip" data-v="finishing" onclick="toggleFocus(this)"><i class="ti ti-flame" style="font-size:13px" aria-hidden="true"></i> Finishing</div>
+      <div class="chip" data-v="defense" onclick="toggleFocus(this)"><i class="ti ti-shield" style="font-size:13px" aria-hidden="true"></i> Defense</div>
+      <div class="chip" data-v="passing" onclick="toggleFocus(this)"><i class="ti ti-arrow-right" style="font-size:13px" aria-hidden="true"></i> Passing</div>
+      <div class="chip" data-v="conditioning" onclick="toggleFocus(this)"><i class="ti ti-bolt" style="font-size:13px" aria-hidden="true"></i> Conditioning</div>
+    </div>
+
+    <div class="slabel">Skill workout length</div>
+    <div class="diff-row" id="len-grid">
+      <button class="dbtn" data-v="15" onclick="pick(this,'len')">15 min<span>3–4 drills</span></button>
+      <button class="dbtn" data-v="20" onclick="pick(this,'len')">20 min<span>4–5 drills</span></button>
+      <button class="dbtn" data-v="30" onclick="pick(this,'len')">30 min<span>6–7 drills</span></button>
+    </div>
+
+    <div class="slabel">Add a plyometrics &amp; agility block?</div>
+    <div class="tog" id="tog-plyo" onclick="toggleEq('plyo')">
+      <div class="tog-left"><i class="ti ti-run" style="color:var(--orange)" aria-hidden="true"></i><div class="tog-txt"><h4>Yes — add plyometrics block</h4><p>5–15 min of jumps, bounds, agility and explosive training</p></div></div>
+      <div class="pill" id="pill-plyo"></div>
+    </div>
+
+    <div class="plyo-card disabled" id="plyo-card">
+      <div class="plyo-header">
+        <div class="plyo-icon"><i class="ti ti-run" aria-hidden="true"></i></div>
+        <div><div class="plyo-title">Plyometrics block settings</div><div class="plyo-sub">Runs after your skill session · max effort, full recovery</div></div>
+      </div>
+      <div class="slabel" style="margin-top:4px">Block length</div>
+      <div class="diff-row" id="plyo-len-grid">
+        <button class="plyo-len-btn" data-v="5" onclick="pickPlyoLen(this)">5 min<span>2–3 exercises</span></button>
+        <button class="plyo-len-btn" data-v="10" onclick="pickPlyoLen(this)">10 min<span>4–5 exercises</span></button>
+        <button class="plyo-len-btn" data-v="15" onclick="pickPlyoLen(this)">15 min<span>6–7 exercises</span></button>
+      </div>
+      <div class="slabel">Focus (pick 1–2)</div>
+      <div class="plyo-chip-grid" id="plyo-focus-grid">
+        <div class="plyo-chip" data-v="vertical" onclick="togglePlyoFocus(this)"><i class="ti ti-arrow-up" style="font-size:12px" aria-hidden="true"></i> Vertical</div>
+        <div class="plyo-chip" data-v="lateral" onclick="togglePlyoFocus(this)"><i class="ti ti-arrows-left-right" style="font-size:12px" aria-hidden="true"></i> Lateral</div>
+        <div class="plyo-chip" data-v="speed" onclick="togglePlyoFocus(this)"><i class="ti ti-bolt" style="font-size:12px" aria-hidden="true"></i> Speed</div>
+        <div class="plyo-chip" data-v="strength" onclick="togglePlyoFocus(this)"><i class="ti ti-barbell" style="font-size:12px" aria-hidden="true"></i> Strength</div>
+        <div class="plyo-chip" data-v="reaction" onclick="togglePlyoFocus(this)"><i class="ti ti-eye" style="font-size:12px" aria-hidden="true"></i> Reaction</div>
+      </div>
+      <p class="plyo-note"><i class="ti ti-info-circle" style="font-size:12px;vertical-align:-1px" aria-hidden="true"></i> Max effort each rep. Full rest between sets. Quality over speed.</p>
+    </div>
+
+    <button class="btn-primary" id="build-btn" disabled onclick="buildWorkout()"><i class="ti ti-layout-list" aria-hidden="true"></i> Build my workout</button>
+
+    <div class="site-footer">Built on <a href="https://sites.google.com/view/basketballsims/home" target="_blank" rel="noopener">basketballsims.com</a> · Sims Consulting Inc</div>
+  </div>
+
+  <!-- ══════════════ PLAN ══════════════ -->
+  <div class="screen" id="s-plan">
+    <div class="nav-row">
+      <button class="btn-ghost" onclick="show('s-setup')"><i class="ti ti-arrow-left" aria-hidden="true"></i> Back</button>
+      <button class="btn-ghost" onclick="printWorkout()" style="margin-left:auto"><i class="ti ti-printer" aria-hidden="true"></i> Print / share</button>
+    </div>
+    <div style="margin-bottom:.75rem">
+      <div id="plan-title" style="font-size:17px;font-weight:600;color:var(--text);margin-bottom:6px"></div>
+      <div id="plan-badges"></div>
+    </div>
+    <div id="equip-note-plan"></div>
+    <div class="prog-wrap"><div class="prog-fill" style="width:0%"></div></div>
+    <div class="drill-list" id="plan-list"></div>
+    <div id="print-sec-wrap" style="display:none"></div>
+    <button class="btn-primary" onclick="startWorkout()"><i class="ti ti-player-play" aria-hidden="true"></i> Start workout</button>
+  </div>
+
+  <!-- ══════════════ ACTIVE ══════════════ -->
+  <div class="screen" id="s-active">
+    <div class="nav-row">
+      <button class="btn-ghost" onclick="endWorkout()"><i class="ti ti-x" aria-hidden="true"></i> End</button>
+      <div class="next-lbl" id="next-lbl"></div>
+    </div>
+    <div class="prog-wrap"><div class="prog-fill" id="active-prog" style="width:0%"></div></div>
+    <div class="timer-block" id="timer-block">
+      <div class="t-step" id="t-step"></div>
+      <div id="t-type-badge"></div>
+      <div class="t-name" id="t-name"></div>
+      <div class="t-sets" id="t-sets"></div>
+      <div class="t-cue" id="t-cue"></div>
+      <div class="ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle class="ring-track" cx="60" cy="60" r="53"/>
+          <circle class="ring-fill" id="ring" cx="60" cy="60" r="53" stroke="var(--green)" stroke-dasharray="333" stroke-dashoffset="0"/>
+        </svg>
+        <div class="ring-num" id="t-display">5:00</div>
+      </div>
+      <div class="ctrl-row">
+        <button class="ctrl-btn" onclick="restartDrill()" aria-label="Restart drill"><i class="ti ti-refresh" aria-hidden="true"></i></button>
+        <button class="ctrl-btn cp-g" id="pp-btn" onclick="toggleTimer()" aria-label="Play or pause"><i class="ti ti-player-play" id="pp-icon" aria-hidden="true"></i></button>
+        <button class="ctrl-btn" onclick="skipDrill()" aria-label="Skip drill"><i class="ti ti-player-skip-forward" aria-hidden="true"></i></button>
+      </div>
+    </div>
+    <div class="drill-list" id="active-list" style="max-height:220px;overflow-y:auto"></div>
+  </div>
+
+  <!-- ══════════════ REST ══════════════ -->
+  <div class="screen" id="s-rest">
+    <div class="rest-wrap">
+      <div style="margin-bottom:8px"><i class="ti ti-droplet" style="font-size:36px;color:var(--green)" aria-hidden="true"></i></div>
+      <div style="font-size:19px;font-weight:500;color:var(--text);margin-bottom:4px" id="rest-title">Rest up</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:3px" id="rest-next"></div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:.5rem" id="rest-tip"></div>
+      <div class="rest-num" id="rest-display">0:45</div>
+      <button class="btn-primary" style="max-width:200px;margin:0 auto" onclick="skipRest()">Skip rest →</button>
+    </div>
+  </div>
+
+  <!-- ══════════════ PLYO INTRO ══════════════ -->
+  <div class="screen" id="s-plyo-intro">
+    <div style="text-align:center;padding:2rem 0">
+      <div style="width:60px;height:60px;border-radius:50%;background:var(--orange-light);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem"><i class="ti ti-run" style="font-size:28px;color:var(--orange)" aria-hidden="true"></i></div>
+      <div style="font-size:19px;font-weight:600;color:var(--text);margin-bottom:6px">Skills done — plyo block up next</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:1.5rem">Max effort every rep. Full recovery between sets. Quality over speed.</div>
+      <div class="plyo-intro-box">
+        <strong><i class="ti ti-info-circle" style="font-size:13px;vertical-align:-1px" aria-hidden="true"></i> Before you start</strong>
+        Land softly on the balls of your feet · Keep your core tight · If a surface is too hard, reduce the set or swap to a soft-knee variant
+      </div>
+      <button class="btn-primary orange" style="max-width:260px;margin:0 auto" onclick="beginPlyo()"><i class="ti ti-player-play" aria-hidden="true"></i> Start plyometrics block</button>
+    </div>
+  </div>
+
+  <!-- ══════════════ DONE ══════════════ -->
+  <div class="screen" id="s-done">
+    <div style="text-align:center;padding:2rem 0">
+      <div class="done-icon"><i class="ti ti-trophy" aria-hidden="true"></i></div>
+      <div style="font-size:20px;font-weight:600;color:var(--text);margin-bottom:5px">Workout complete!</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:4px" id="done-sub"></div>
+      <div class="stat-row" id="done-stats"></div>
+      <div class="btn-row">
+        <button class="btn-ghost" onclick="show('s-setup')">New workout</button>
+        <button class="btn-primary" style="width:auto" onclick="startWorkout()">Repeat this workout</button>
+      </div>
+      <div id="done-print" style="margin-top:1rem;text-align:left"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const BBALL_DB={handles:[{name:"Sideline / cone touches",desc:"Side to side touches across the lane, stay low",cues:{beginner:"Wide base, eyes ahead",intermediate:"Push tempo, stay low",advanced:"Max speed, stay controlled",elite:"Attack each rep at game speed"},dur:{beginner:120,intermediate:150,advanced:180,elite:180},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Stationary 2-ball dribble",desc:"Both hands simultaneously, eyes up, pound the ball",cues:{beginner:"Feel one ball first, then both",intermediate:"Alternate heights: high/low combo",advanced:"Eyes up, find a target on the wall",elite:"Staggered rhythm, speed bursts"},dur:{beginner:120,intermediate:180,advanced:240,elite:240},solo:1,partner:1,team:1,twoball:1,indoor:0},{name:"Zig-zag dribble",desc:"Attack the cones head-up, sharp direction changes",cues:{beginner:"Stay balanced, no rushing",intermediate:"Low crossover at each cone",advanced:"Sell the hesitation before each change",elite:"Change pace + add a counter move"},dur:{beginner:150,intermediate:180,advanced:240,elite:300},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Hip switch series",desc:"Cross, between legs, behind back — stay rhythmic",cues:{beginner:"Start slow, feel the rhythm",intermediate:"Build speed, keep dribble below knee",advanced:"Fluid transitions, no pauses",elite:"Burst into attack after each combo"},dur:{beginner:120,intermediate:180,advanced:180,elite:240},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Pull back / hesitation",desc:"Drive full speed, hard pull back, explode again",cues:{beginner:"Two-dribble pull back is fine",intermediate:"One-dribble pull back, freeze the feet",advanced:"Head fake on the hesitation",elite:"Read the defense after the freeze"},dur:{beginner:150,intermediate:180,advanced:240,elite:300},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Bounding figure-8s",desc:"Low and fast through the legs, cover ground each rep",cues:{beginner:"Slow and controlled first",intermediate:"Push stride length each rep",advanced:"Explode out of each figure-8",elite:"Combine with a move to basket"},dur:{beginner:120,intermediate:150,advanced:180,elite:180},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Manage pace — stop / start",desc:"Full speed burst → dead stop → explode again",cues:{beginner:"Make the stop a real stop",intermediate:"Jump stop on each dead stop",advanced:"React to a signal for the stop",elite:"Partner calls the stops randomly"},dur:{beginner:150,intermediate:180,advanced:240,elite:300},solo:1,partner:1,team:1,twoball:0,indoor:0}],shooting:[{name:"Form shooting — close range",desc:"Elbow in, eyes on rim, make 3 of 4 before stepping back",cues:{beginner:"One-hand form, no guide hand yet",intermediate:"Full pocket, focus on follow-through",advanced:"Game-speed release, consistent arc",elite:"Film your form — find inefficiencies"},dur:{beginner:180,intermediate:240,advanced:300,elite:300},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Range builder — step back",desc:"Make 3 of 4 at one spot before stepping back",cues:{beginner:"Don't rush range — earn it",intermediate:"Same mechanics at every spot",advanced:"Trust your arc, aim for back of rim",elite:"3 of 4 each spot, no exceptions"},dur:{beginner:180,intermediate:240,advanced:300,elite:300},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"4-spot self-toss shooting",desc:"Self-toss left, right, front, back — catch in rhythm and shoot",cues:{beginner:"Land balanced before shooting",intermediate:"Catch in your shot pocket",advanced:"One motion — no separate gather",elite:"Jab or shot fake before each rep"},dur:{beginner:180,intermediate:240,advanced:300,elite:300},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"1-dribble pull-up",desc:"One hard dribble, quick gather, pull-up at elbow or wing",cues:{beginner:"Full jump stop on the gather",intermediate:"Dribble hard — don't reach",advanced:"Eyes up before the dribble",elite:"Vary the angle, keep D guessing"},dur:{beginner:180,intermediate:240,advanced:300,elite:300},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Corner shooting",desc:"Set feet before the catch, corners only",cues:{beginner:"Feet fully set before ball arrives",intermediate:"Hands up early, ready position",advanced:"Shot fake every other rep",elite:"Sprint the corner — no walking"},dur:{beginner:180,intermediate:240,advanced:300,elite:300},solo:0,partner:1,team:1,twoball:0,indoor:0},{name:"6-spot shooting — 4 lines",desc:"4 lines at top, 2 baseline — rotate, catch, shoot",cues:{beginner:"Communication before each shot",intermediate:"Sprint to next spot after the shot",advanced:"No hold — instant release",elite:"Call make/miss aloud"},dur:{beginner:240,intermediate:300,advanced:300,elite:300},solo:0,partner:0,team:1,twoball:0,indoor:1},{name:"Syracuse shooting drill",desc:"Two lines, shooter sprints corner to corner",cues:{beginner:"Jog until form is solid",intermediate:"Sprint full speed corner to corner",advanced:"Feet set before catch every rep",elite:"Vary catch location"},dur:{beginner:240,intermediate:300,advanced:300,elite:300},solo:0,partner:0,team:1,twoball:0,indoor:1}],finishing:[{name:"Basic layups — R / L / Center",desc:"Right-hand right, left-hand left, power from center",cues:{beginner:"Right side = left foot up",intermediate:"High off glass, controlled speed",advanced:"Full speed — game tempo only",elite:"Shot fake before each drive"},dur:{beginner:120,intermediate:150,advanced:180,elite:180},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Mikans — block to block",desc:"Alternating-hand finishes, quick off the glass",cues:{beginner:"High off glass, not a smash",intermediate:"Faster tempo — catch and go",advanced:"Power each side, no wasted steps",elite:"Max reps in time — count them"},dur:{beginner:120,intermediate:120,advanced:120,elite:120},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Power layups",desc:"Two-foot gather on the drive, strong through contact",cues:{beginner:"Jump stop into the gather",intermediate:"Low gather, explode up",advanced:"Absorb and finish — stay vertical",elite:"Contact finish from partner"},dur:{beginner:150,intermediate:180,advanced:240,elite:240},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Floaters",desc:"1–2 dribbles, extend high over imaginary big",cues:{beginner:"High release — don't bring it down",intermediate:"One-foot and two-foot float",advanced:"Add a rip-through gather",elite:"Mix floater with pull-up"},dur:{beginner:180,intermediate:240,advanced:300,elite:300},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Euro step",desc:"Gather, step one way, step opposite, finish away from help",cues:{beginner:"Two clear steps — don't rush",intermediate:"Long first step, control the second",advanced:"Keep ball low and protected",elite:"Add a fake on the gather"},dur:{beginner:180,intermediate:240,advanced:300,elite:300},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Pro hop",desc:"Wide two-foot gather simultaneously, power explosion finish",cues:{beginner:"Two-foot landing together is the key",intermediate:"Gather square, finish strong",advanced:"Pro hop into contact",elite:"Left, right, and center each rep"},dur:{beginner:150,intermediate:180,advanced:240,elite:300},solo:1,partner:1,team:1,twoball:0,indoor:0}],defense:[{name:"Zigzag defensive slides",desc:"Stance baseline to baseline, slide side to side",cues:{beginner:"Wide base, butt down, nose over toes",intermediate:"Push and pull — not a shuffle",advanced:"Belly button square to the attacker",elite:"Reaction slides off partner's jab"},dur:{beginner:150,intermediate:180,advanced:240,elite:300},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Agility shuttles",desc:"Baseline → FT line → half → far FT → far baseline",cues:{beginner:"Touch each line cleanly",intermediate:"Low on the stop, explode out",advanced:"Drive each sprint — no jogging",elite:"Partner calls random stops"},dur:{beginner:150,intermediate:180,advanced:180,elite:240},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"1v1 — contest, land, box out",desc:"Defend the shot, contest clean, box and rebound",cues:{beginner:"Two hands up on the contest",intermediate:"Find the shooter after the shot",advanced:"Box and seal before they move",elite:"Live — compete for every board"},dur:{beginner:180,intermediate:240,advanced:300,elite:300},solo:0,partner:1,team:1,twoball:0,indoor:0},{name:"3v3 shell drill",desc:"Ball rotation, deny, help and recover",cues:{beginner:"Point at ball and your player",intermediate:"Call 'help' when leaving your player",advanced:"No split — talk on every rotation",elite:"React to skip passes with no warning"},dur:{beginner:240,intermediate:300,advanced:300,elite:300},solo:0,partner:0,team:1,twoball:0,indoor:0}],passing:[{name:"Chest and bounce pass",desc:"Crisp passes on the hands — snap wrists, step into every rep",cues:{beginner:"Thumbs down on the release",intermediate:"Target the receiver's hands",advanced:"Vary the angle every 5 reps",elite:"Blindfold the receiver — precision"},dur:{beginner:120,intermediate:150,advanced:180,elite:180},solo:0,partner:1,team:1,twoball:0,indoor:0},{name:"2-ball simultaneous passing",desc:"Two balls moving at once — timing and communication",cues:{beginner:"Alternate one ball at a time first",intermediate:"Same rhythm — no hesitation",advanced:"Mix chest and bounce simultaneously",elite:"Add movement — both players live"},dur:{beginner:180,intermediate:240,advanced:300,elite:300},solo:0,partner:1,team:1,twoball:1,indoor:0},{name:"Pass-and-cut sequence",desc:"Pass to partner, cut hard to the basket, receive back",cues:{beginner:"V-cut before the pass and cut",intermediate:"Read defender position on the cut",advanced:"Don't telegraph the cut",elite:"Live 2v2 — pass and cut to score"},dur:{beginner:180,intermediate:240,advanced:300,elite:300},solo:0,partner:1,team:1,twoball:0,indoor:0},{name:"Over-under relay",desc:"Two teams — pass ball over head and under legs alternating",cues:{beginner:"Steady — control wins",intermediate:"Clean hand-off",advanced:"Compete — winning team calls it",elite:"Penalty reps for drops"},dur:{beginner:120,intermediate:120,advanced:120,elite:150},solo:0,partner:0,team:1,twoball:0,indoor:0}],conditioning:[{name:"Dynamic warmup jog",desc:"Easy lap, arm circles, high knees, butt kicks",cues:{beginner:"Never skip the warmup",intermediate:"Stay moving — no standing around",advanced:"Add dynamic stretches on the move",elite:"Elevate HR before drill 1"},dur:{beginner:120,intermediate:120,advanced:120,elite:120},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Suicide runs",desc:"Baseline → FT line → half → opposite FT → full court",cues:{beginner:"Touch every line — no shortcuts",intermediate:"Drive off each stop",advanced:"Compete — beat your last time",elite:"Timed suicides — progressive target"},dur:{beginner:180,intermediate:240,advanced:300,elite:300},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Full-court defensive slides",desc:"Lateral slide the full court and back",cues:{beginner:"Don't cross feet — ever",intermediate:"Low base — don't bob up/down",advanced:"Fastest possible, control at each end",elite:"Partner calls direction changes"},dur:{beginner:180,intermediate:240,advanced:300,elite:300},solo:1,partner:1,team:1,twoball:0,indoor:0},{name:"Agility ladder / cone cuts",desc:"Quick feet through the pattern, balls of feet",cues:{beginner:"Slow and accurate — speed comes later",intermediate:"Arms pumping, eyes ahead",advanced:"Max speed, keep pattern clean",elite:"Add a ball — dribble through the ladder"},dur:{beginner:150,intermediate:180,advanced:240,elite:300},solo:1,partner:1,team:1,twoball:0,indoor:0}]};
+const PLYO_DB={vertical:[{name:"Squat jumps",desc:"Feet shoulder-width, squat to parallel, explode vertically, land soft",cues:{beginner:"Pause at the bottom 2 sec before jumping",intermediate:"Continuous rhythm — no pause at top",advanced:"Max height every rep, arms drive up",elite:"Add weight vest or hold for resistance"},sets:"3 sets × 8 reps",restNote:"90 sec between sets",dur:{beginner:150,intermediate:180,advanced:210,elite:240}},{name:"Box jumps",desc:"Jump onto a sturdy box or raised surface, step down carefully",cues:{beginner:"Step down — never jump down",intermediate:"Full hip extension at the top",advanced:"Minimal ground contact on the jump",elite:"Depth drop into box jump — reactive"},sets:"3 sets × 6 reps",restNote:"2 min between sets",dur:{beginner:180,intermediate:180,advanced:210,elite:240}},{name:"Standing broad jumps",desc:"Two-foot takeoff, drive forward for distance, stick the landing",cues:{beginner:"Stick each landing 2 sec before next rep",intermediate:"Drive arms back then forward for power",advanced:"Max distance and stick the landing",elite:"Consecutive broad jumps — 5 in a row"},sets:"3 sets × 5 reps",restNote:"90 sec between sets",dur:{beginner:150,intermediate:180,advanced:210,elite:240}},{name:"Tuck jumps",desc:"Jump and bring knees to chest, land soft on balls of feet",cues:{beginner:"Don't force the knees — comfortable height",intermediate:"Pull knees up actively",advanced:"Quick and rhythmic, minimal ground time",elite:"Maximum knee pull every rep"},sets:"3 sets × 10 reps",restNote:"90 sec between sets",dur:{beginner:150,intermediate:180,advanced:210,elite:240}},{name:"Single-leg hops",desc:"Hop forward, backward, and side to side on one foot",cues:{beginner:"Low height — focus on landing control",intermediate:"Increase the distance of each hop",advanced:"Rapid-fire hops — minimum ground time",elite:"Eyes closed on the landing"},sets:"2 sets × 8 each leg",restNote:"60 sec between sets",dur:{beginner:150,intermediate:180,advanced:210,elite:240}}],lateral:[{name:"Lateral bounds (skater jumps)",desc:"Explosive side-to-side single-leg bound, stick each landing",cues:{beginner:"Short distance, focus on landing balance",intermediate:"Drive the free leg across for power",advanced:"Max width, land stable every rep",elite:"Continuous rhythm — no hesitation"},sets:"3 sets × 8 each side",restNote:"90 sec between sets",dur:{beginner:150,intermediate:180,advanced:210,elite:240}},{name:"5-10-5 shuttle",desc:"Start center, sprint 5 yards right, sprint 10 yards left, sprint 5 yards back",cues:{beginner:"Touch the line cleanly each turn",intermediate:"Stay low on the turns",advanced:"Drive off the inside foot on each turn",elite:"Time it — compete against your best"},sets:"4 sets",restNote:"90 sec between sets",dur:{beginner:180,intermediate:210,advanced:240,elite:240}},{name:"Lateral hurdle hops",desc:"Set 4 cones or shoes — lateral hop over each one and back",cues:{beginner:"Step over if too high",intermediate:"Quick feet — get off the ground fast",advanced:"Arms stay tight, eyes forward",elite:"Single-leg lateral hops"},sets:"3 sets × 4 lengths",restNote:"90 sec between sets",dur:{beginner:150,intermediate:180,advanced:210,elite:240}},{name:"Carioca (grapevine) run",desc:"Sideways run with alternating crossovers — both directions",cues:{beginner:"Slow until the footwork is automatic",intermediate:"Hips rotate fully on each crossover",advanced:"Full speed — stay low throughout",elite:"React to direction change signal"},sets:"3 sets × 2 lengths",restNote:"60 sec between sets",dur:{beginner:120,intermediate:150,advanced:180,elite:180}}],speed:[{name:"Acceleration sprints",desc:"Drive out of an athletic stance — 10-yard explosive burst",cues:{beginner:"Stay low the first 3 steps",intermediate:"Drive the back knee forward on the start",advanced:"Chin down, hands pumping fast",elite:"Reaction start — partner drops a ball"},sets:"4–6 sets × 10 yards",restNote:"60 sec full recovery between sets",dur:{beginner:150,intermediate:180,advanced:210,elite:240}},{name:"High knees",desc:"Drive knees above hip height at a controlled pace",cues:{beginner:"Arms match legs — opposite arm, opposite knee",intermediate:"Keep torso upright, don't lean back",advanced:"Increase tempo — faster ground contact",elite:"Max speed for a 5-sec burst, then recover"},sets:"3 sets × 20 sec",restNote:"45 sec between sets",dur:{beginner:120,intermediate:150,advanced:180,elite:180}},{name:"Ankle pops",desc:"Quick, low bounces on the balls of feet — minimize ground time",cues:{beginner:"Stay on toes, never let heels touch",intermediate:"Increase rhythm — faster and faster",advanced:"As fast as possible, stay light",elite:"Add a lateral shift mid-set"},sets:"3 sets × 20 sec",restNote:"45 sec between sets",dur:{beginner:90,intermediate:120,advanced:150,elite:150}},{name:"Wall drive starts",desc:"Lean into a wall at 45°, drive knees rapidly in place",cues:{beginner:"Slow and controlled — learn the position",intermediate:"Drive the knee past the hip",advanced:"Max knee drive speed for the full set",elite:"Partner calls 'GO' for random bursts"},sets:"4 sets × 10 sec",restNote:"60 sec between sets",dur:{beginner:120,intermediate:150,advanced:180,elite:180}}],strength:[{name:"Split squat jumps",desc:"Lunge position, jump and switch legs in the air, land in opposite lunge",cues:{beginner:"Step switch instead of jump first",intermediate:"Equal time on each leg in the air",advanced:"Drive knee up on the switch for height",elite:"Continuous — no pause at the top"},sets:"3 sets × 8 reps each leg",restNote:"90 sec between sets",dur:{beginner:150,intermediate:180,advanced:210,elite:240}},{name:"Single-leg squat to stand",desc:"Balance on one leg, lower toward a pistol squat, stand back up",cues:{beginner:"Use a chair for support",intermediate:"Go to parallel — no lower yet",advanced:"Full range, no support",elite:"Add a jump at the top"},sets:"3 sets × 6 each leg",restNote:"90 sec between sets",dur:{beginner:150,intermediate:180,advanced:210,elite:240}},{name:"Broad jump to sprint",desc:"Two broad jumps consecutive, immediately sprint 10 yards",cues:{beginner:"Focus on the jump quality — sprint is a bonus",intermediate:"Seamless transition from jump to sprint",advanced:"No wasted movement at the transition",elite:"Reactive — go at partner's signal"},sets:"4 sets",restNote:"90 sec between sets",dur:{beginner:150,intermediate:180,advanced:210,elite:240}},{name:"Nordic hamstring lowering",desc:"Anchor feet, start kneeling tall, lower body forward slowly",cues:{beginner:"Use hands to catch yourself — fine",intermediate:"Go as low as you can control",advanced:"3–4 second eccentric — no hands",elite:"Slow and controlled — 5 sec down"},sets:"3 sets × 5 reps",restNote:"2 min between sets",dur:{beginner:150,intermediate:180,advanced:210,elite:240}},{name:"Plyo push-ups",desc:"Push-up with explosive push so hands leave the floor",cues:{beginner:"Do a regular push-up first — perfect it",intermediate:"Push explosively, catch gently",advanced:"Clap in the air on each rep",elite:"Add a lateral shift between reps"},sets:"3 sets × 8 reps",restNote:"90 sec between sets",dur:{beginner:150,intermediate:180,advanced:210,elite:240}}],reaction:[{name:"Partner ball-drop reaction",desc:"Partner holds ball at shoulder height, drops it — sprint and catch before bounce 2",cues:{beginner:"Start 5 feet away — build to 8",intermediate:"React to the drop, not the signal",advanced:"Random drops — stay in ready stance",elite:"Multiple drops across different spots"},sets:"4 sets × 5 reps",restNote:"60 sec between sets",dur:{beginner:150,intermediate:180,advanced:210,elite:240}},{name:"Mirror drill",desc:"Face a partner — mirror their lateral movements exactly",cues:{beginner:"Small movements, stay in sync",intermediate:"Partner increases speed and direction changes",advanced:"No telegraphing — react only",elite:"Add jab steps to confuse the mirror"},sets:"4 sets × 15 sec",restNote:"45 sec between sets",dur:{beginner:120,intermediate:150,advanced:180,elite:210}},{name:"T-drill agility",desc:"Sprint, shuffle, backpedal in a T pattern — touch each cone",cues:{beginner:"Walk through the pattern first",intermediate:"Low on the shuffles — don't stand up",advanced:"Full speed, touch each cone clean",elite:"Time it — beat your PR"},sets:"4 sets",restNote:"90 sec between sets",dur:{beginner:180,intermediate:210,advanced:240,elite:240}},{name:"Color cone reaction",desc:"4 cones labeled by color — coach calls a color, sprint to that cone",cues:{beginner:"Walk through the pattern first",intermediate:"Quick start — first step is key",advanced:"Stay in athletic stance between calls",elite:"Partner adds a fake call"},sets:"3 sets × 8 calls",restNote:"60 sec between sets",dur:{beginner:150,intermediate:180,advanced:210,elite:240}}]};
+
+let cfg={mode:null,level:null,focuses:[],len:null,indoor:false,twoball:false,plyo:false,plyoLen:null,plyoFocuses:[]};
+let fullWorkout=[],idx=0,secsLeft=0,totalSecs=0,running=false,timer=null,restTmr=null,restSecs=0,wStart=null,plyoStartIdx=0;
+
+function pick(el,group){const m={mode:'mode-grid',level:'level-grid',len:'len-grid'};document.querySelectorAll('#'+m[group]+' .mode-card,#'+m[group]+' .dbtn').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');cfg[group]=el.dataset.v;checkReady();}
+function pickPlyoLen(el){document.querySelectorAll('#plyo-len-grid .plyo-len-btn').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');cfg.plyoLen=el.dataset.v;}
+function toggleFocus(el){const f=el.dataset.v;if(el.classList.contains('sel')){el.classList.remove('sel');cfg.focuses=cfg.focuses.filter(x=>x!==f);}else{if(cfg.focuses.length>=3)return;el.classList.add('sel');cfg.focuses.push(f);}checkReady();}
+function togglePlyoFocus(el){const f=el.dataset.v;if(el.classList.contains('sel')){el.classList.remove('sel');cfg.plyoFocuses=cfg.plyoFocuses.filter(x=>x!==f);}else{if(cfg.plyoFocuses.length>=2)return;el.classList.add('sel');cfg.plyoFocuses.push(f);}}
+function toggleEq(key){cfg[key]=!cfg[key];const tog=document.getElementById('tog-'+key);if(tog)tog.classList.toggle('sel',cfg[key]);if(key==='plyo'){const card=document.getElementById('plyo-card');card.classList.toggle('disabled',!cfg.plyo);}checkReady();}
+function checkReady(){document.getElementById('build-btn').disabled=!(cfg.mode&&cfg.level&&cfg.focuses.length&&cfg.len);}
+
+function buildWorkout(){
+  const bballSecs=parseInt(cfg.len)*60;const restBuf=45;let bballDrills=[];
+  const warmup={name:"Dynamic warmup",desc:"Jog the lane, arm circles, hip swings, high knees — get fully loose",cues:{beginner:"Never skip the warmup",intermediate:"Get your HR up before drill 1",advanced:"Add dynamic stretches on the move",elite:"Elevate HR and lock in mentally"},dur:{beginner:120,intermediate:120,advanced:120,elite:120},solo:1,partner:1,team:1,twoball:0,indoor:0,isPlyo:false};
+  bballDrills.push(warmup);let budget=bballSecs-120-restBuf;
+  for(const focus of cfg.focuses){
+    const pool=(BBALL_DB[focus]||[]).filter(d=>{if(!d[cfg.mode])return false;if(d.twoball&&!cfg.twoball)return false;if(d.indoor&&!cfg.indoor)return false;return true;}).sort(()=>Math.random()-.5);
+    for(const d of pool){const dur=d.dur[cfg.level]||180;if(budget-dur-restBuf>30){bballDrills.push({...d,isPlyo:false});budget-=dur+restBuf;}}
+  }
+  let plyoDrills=[];
+  if(cfg.plyo&&cfg.plyoLen){
+    let plyoBudget=parseInt(cfg.plyoLen)*60;
+    const focuses=cfg.plyoFocuses.length?cfg.plyoFocuses:['vertical','lateral'];
+    const pool=[];for(const f of focuses)(PLYO_DB[f]||[]).forEach(d=>pool.push({...d,plyoCat:f}));
+    const shuffled=pool.sort(()=>Math.random()-.5);
+    for(const d of shuffled){const dur=d.dur[cfg.level]||180;if(plyoBudget-dur-30>0){plyoDrills.push({...d,isPlyo:true});plyoBudget-=dur+60;}}
+  }
+  plyoStartIdx=bballDrills.length;fullWorkout=[...bballDrills,...plyoDrills];
+  renderPlan();show('s-plan');
+}
+
+function renderPlan(){
+  const bballMin=Math.round(fullWorkout.filter(d=>!d.isPlyo).reduce((a,d)=>a+(d.dur[cfg.level]||180),0)/60);
+  const plyoMin=Math.round(fullWorkout.filter(d=>d.isPlyo).reduce((a,d)=>a+(d.dur[cfg.level]||180),0)/60);
+  const bballCount=fullWorkout.filter(d=>!d.isPlyo).length;const plyoCount=fullWorkout.filter(d=>d.isPlyo).length;
+  const lvl={beginner:'Beginner',intermediate:'Intermediate',advanced:'Advanced',elite:'Elite'}[cfg.level];
+  const modeL={solo:'Solo',partner:'Partner',team:'Team'}[cfg.mode];
+  document.getElementById('plan-title').textContent=cfg.focuses.map(f=>f.charAt(0).toUpperCase()+f.slice(1)).join(' + ')+(plyoCount?' + Plyometrics':'')+' Workout';
+  document.getElementById('plan-badges').innerHTML=`<span class="badge bdg-g">${bballCount} skill drills</span>`+(plyoCount?`<span class="badge bdg-r"><i class="ti ti-run" style="font-size:10px"></i> ${plyoCount} plyo</span>`:'')+`<span class="badge bdg-o">~${bballMin+(plyoMin||0)} min total</span><span class="badge bdg-p">${lvl}</span><span class="badge bdg-b">${modeL}</span>`+(cfg.indoor?`<span class="badge bdg-b"><i class="ti ti-building" style="font-size:10px"></i> Indoor</span>`:'')+( cfg.twoball?`<span class="badge bdg-p"><i class="ti ti-circles-relation" style="font-size:10px"></i> 2-ball</span>`:'');
+  const twoBall=fullWorkout.filter(d=>d.twoball).map(d=>d.name);
+  document.getElementById('equip-note-plan').innerHTML=twoBall.length?`<div class="equip-note"><i class="ti ti-circles-relation"></i> 2-ball drills: ${twoBall.join(', ')}</div>`:'';
+  let html='';let prevP=null;
+  fullWorkout.forEach((d,i)=>{
+    if(prevP!==null&&d.isPlyo!==prevP)html+=d.isPlyo?`<div class="section-divider"><div class="sdiv-line"></div><div class="sdiv-lbl sdiv-plyo"><i class="ti ti-run" style="font-size:10px"></i> Plyometrics block</div><div class="sdiv-line"></div></div>`:`<div class="section-divider"><div class="sdiv-line"></div><div class="sdiv-lbl sdiv-bball"><i class="ti ti-ball-basketball" style="font-size:10px"></i> Skill drills</div><div class="sdiv-line"></div></div>`;
+    if(i===0)html+=`<div class="section-divider"><div class="sdiv-line"></div><div class="sdiv-lbl sdiv-bball"><i class="ti ti-ball-basketball" style="font-size:10px"></i> Skill drills</div><div class="sdiv-line"></div></div>`;
+    prevP=d.isPlyo;
+    const dur=d.dur[cfg.level]||180;
+    const plC=d.isPlyo?'is-plyo':'';
+    const setsL=d.isPlyo&&d.sets?`<div class="dcues plyo-cue">${d.sets} · ${d.restNote||''}</div>`:'';
+    const cueStr=d.cues[cfg.level]||'';
+    const cueL=cueStr?`<div class="dcues${d.isPlyo?' plyo-cue':''}">${cueStr}</div>`:'';
+    const tags=(d.twoball?`<span class="dtag tag-2ball"><i class="ti ti-circles-relation" style="font-size:10px"></i> 2-ball</span>`:'')+( d.indoor?`<span class="dtag tag-indoor"><i class="ti ti-building" style="font-size:10px"></i> Indoor</span>`:'')+( d.isPlyo?`<span class="dtag tag-plyo"><i class="ti ti-run" style="font-size:10px"></i> Plyo</span>`:'');
+    html+=`<div class="drill-item ${plC}"><div class="dnum">${i+1}</div><div class="dinfo"><div class="dname">${d.name}</div><div class="ddesc">${d.desc}</div>${d.isPlyo?setsL:''}${cueL}${tags?'<div class="dtags">'+tags+'</div>':''}</div><div class="dtime">${fmtDur(dur)}</div></div>`;
+  });
+  document.getElementById('plan-list').innerHTML=html;
+}
+
+function printWorkout(){const w=document.getElementById('print-sec-wrap');w.style.display=w.style.display==='none'?'block':'none';if(w.style.display==='block'){const lvl={beginner:'Beginner',intermediate:'Intermediate',advanced:'Advanced',elite:'Elite'}[cfg.level];const mL={solo:'Solo',partner:'Partner',team:'Team'}[cfg.mode];w.innerHTML=`<div class="print-sec"><h4>${cfg.focuses.map(f=>f.charAt(0).toUpperCase()+f.slice(1)).join(' + ')} Workout — ${lvl} · ${mL}</h4>`+fullWorkout.map((d,i)=>`<div class="print-line${d.isPlyo?' plyo-line':''}"><span>${i+1}. ${d.name}${d.isPlyo?' (plyo)':''}</span><span>${fmtDur(d.dur[cfg.level]||180)}</span></div>`).join('')+`<div class="print-footer">basketballsims.com · ${new Date().toLocaleDateString()}</div></div>`;}}
+
+function startWorkout(){idx=0;wStart=Date.now();show('s-active');loadDrill(0);}
+function loadDrill(i){
+  if(i>=fullWorkout.length){finishWorkout();return;}
+  if(i>0&&!fullWorkout[i-1].isPlyo&&fullWorkout[i].isPlyo){show('s-plyo-intro');return;}
+  idx=i;const d=fullWorkout[i];secsLeft=d.dur[cfg.level]||180;totalSecs=secsLeft;running=false;
+  const isP=d.isPlyo;
+  document.getElementById('timer-block').className='timer-block'+(isP?' plyo-mode':'');
+  document.getElementById('ring').setAttribute('stroke',isP?'var(--orange)':'var(--green)');
+  document.getElementById('t-step').textContent=`${isP?'Exercise':'Drill'} ${i+1} of ${fullWorkout.length}`;
+  document.getElementById('t-type-badge').innerHTML=`<span class="t-type ${isP?'plyo-type':'bball-type'}">${isP?'Plyometrics':'Basketball skills'}</span>`;
+  document.getElementById('t-name').textContent=d.name;
+  document.getElementById('t-sets').textContent=isP&&d.sets?d.sets+' · '+d.restNote:'';
+  const cueEl=document.getElementById('t-cue');cueEl.textContent=d.cues[cfg.level]||'';cueEl.className='t-cue '+(isP?'plyo-cue-txt':'bball-cue');
+  document.getElementById('pp-btn').className='ctrl-btn '+(isP?'cp-o':'cp-g');
+  document.getElementById('pp-icon').className='ti ti-player-play';
+  const next=fullWorkout[i+1];document.getElementById('next-lbl').innerHTML=next?`Next: <span>${next.name}</span>`:'<span>Last one — finish strong!</span>';
+  updateDisplay();updateRing(1);updateActiveProgress();renderActiveList();clearInterval(timer);
+}
+function beginPlyo(){show('s-active');loadDrill(plyoStartIdx);}
+function toggleTimer(){running=!running;document.getElementById('pp-icon').className=running?'ti ti-player-pause':'ti ti-player-play';if(running){timer=setInterval(()=>{secsLeft--;updateDisplay();updateRing(secsLeft/totalSecs);if(secsLeft<=0){clearInterval(timer);running=false;startRest();}},1000);}else clearInterval(timer);}
+function startRest(){if(idx+1>=fullWorkout.length){finishWorkout();return;}const curr=fullWorkout[idx];const next=fullWorkout[idx+1];restSecs=curr.isPlyo?90:45;document.getElementById('rest-title').textContent=curr.isPlyo?'Recovery':'Rest up';document.getElementById('rest-next').textContent='Coming up: '+next.name;document.getElementById('rest-tip').textContent=curr.isPlyo?'Full recovery between plyo sets — quality over speed.':'Shake it out, grab water.';updateRestDisplay();show('s-rest');restTmr=setInterval(()=>{restSecs--;updateRestDisplay();if(restSecs<=0){clearInterval(restTmr);if(next.isPlyo&&!curr.isPlyo){show('s-plyo-intro');}else{show('s-active');loadDrill(idx+1);}}},1000);}
+function skipRest(){clearInterval(restTmr);const next=fullWorkout[idx+1];if(next?.isPlyo&&!fullWorkout[idx].isPlyo){show('s-plyo-intro');}else{show('s-active');loadDrill(idx+1);}}
+function skipDrill(){clearInterval(timer);running=false;startRest();}
+function restartDrill(){clearInterval(timer);running=false;const d=fullWorkout[idx];secsLeft=d.dur[cfg.level]||180;totalSecs=secsLeft;updateDisplay();updateRing(1);document.getElementById('pp-icon').className='ti ti-player-play';}
+function endWorkout(){clearInterval(timer);clearInterval(restTmr);running=false;show('s-setup');}
+function finishWorkout(){clearInterval(timer);const elapsed=Math.round((Date.now()-wStart)/60000);const bC=fullWorkout.filter(d=>!d.isPlyo).length;const pC=fullWorkout.filter(d=>d.isPlyo).length;const lvl={beginner:'Beginner',intermediate:'Intermediate',advanced:'Advanced',elite:'Elite'}[cfg.level];document.getElementById('done-sub').textContent=cfg.focuses.map(f=>f.charAt(0).toUpperCase()+f.slice(1)).join(' + ')+(pC?' + Plyo':'')+' · '+lvl;document.getElementById('done-stats').innerHTML=`<div class="stat-box"><div class="stat-v">${bC}</div><div class="stat-l">Skill drills</div></div>`+(pC?`<div class="stat-box"><div class="stat-v" style="color:var(--orange)">${pC}</div><div class="stat-l">Plyo exercises</div></div>`:'')+`<div class="stat-box"><div class="stat-v">${elapsed}m</div><div class="stat-l">Time on court</div></div><div class="stat-box"><div class="stat-v">${cfg.focuses.length}</div><div class="stat-l">Focus areas</div></div>`;document.getElementById('done-print').innerHTML=`<div class="print-sec"><h4>Workout log</h4>`+fullWorkout.map((d,i)=>`<div class="print-line${d.isPlyo?' plyo-line':''}"><span>${i+1}. ${d.name}</span><span>${fmtDur(d.dur[cfg.level]||180)}</span></div>`).join('')+`<div class="print-footer">basketballsims.com · ${new Date().toLocaleDateString()}</div></div>`;show('s-done');}
+function updateDisplay(){document.getElementById('t-display').textContent=fmtTime(secsLeft);}
+function updateRestDisplay(){document.getElementById('rest-display').textContent=fmtTime(restSecs);}
+function updateRing(f){document.getElementById('ring').style.strokeDashoffset=333*(1-f);}
+function updateActiveProgress(){const p=Math.round((idx/fullWorkout.length)*100);const el=document.getElementById('active-prog');el.style.background=fullWorkout[idx]?.isPlyo?'var(--orange)':'var(--green)';el.style.width=p+'%';}
+function renderActiveList(){document.getElementById('active-list').innerHTML=fullWorkout.map((d,i)=>{const cl=(i===idx?'active-d ':i<idx?'done-d ':'')+(d.isPlyo?'is-plyo':'');const num=i<idx?'<i class="ti ti-check"></i>':(i+1);const cue=i===idx?(d.cues[cfg.level]||''):'';const setsInfo=i===idx&&d.isPlyo&&d.sets?`<div class="dcues plyo-cue">${d.sets}</div>`:'';return `<div class="drill-item ${cl}"><div class="dnum">${num}</div><div class="dinfo"><div class="dname">${d.name}</div><div class="ddesc">${d.desc}</div>${setsInfo}${cue?`<div class="dcues${d.isPlyo?' plyo-cue':''}">${cue}</div>`:''}</div><div class="dtime">${fmtDur(d.dur[cfg.level]||180)}</div></div>`;}).join('');}
+function fmtTime(s){const m=Math.floor(s/60),sec=s%60;return `${m}:${sec.toString().padStart(2,'0')}`;}
+function fmtDur(s){return s<60?s+'s':Math.round(s/60)+'m';}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+</script>
+</body>
+</html>
