@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0A1628">
+<title>BForce Summer Scorecard 2025</title>
+<link rel="manifest" href="data:application/json,{}">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#0A1628;--navy2:#132240;--navy3:#1E3A6E;
+  --gold:#F5C842;--gold2:#E6B830;
+  --white:#FFFFFF;--off:#F4F3EF;
+  --green:#1DB954;--red:#E74C3C;--purple:#8B5CF6;--orange:#F97316;--blue:#3B82F6;
+  --text:#1a1a18;--text2:#5a5a57;--text3:#9a9a96;
+  --card:#ffffff;--cardborder:rgba(0,0,0,0.09);--bg:#F0EFE9;
+  --radius:14px;--rsm:10px;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bot:env(safe-area-inset-bottom,0px);
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Helvetica,sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
+
+.screen{display:none;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.screen.active{display:flex;flex-direction:column}
+
+/* ─── JOIN ─────────────────────────────────────────────────────── */
+.join-hero{flex:1;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px calc(40px + var(--safe-bot));text-align:center}
+.join-logo{width:88px;height:88px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:44px;margin:0 auto 22px}
+.join-title{color:var(--white);font-size:26px;font-weight:700;margin-bottom:6px;letter-spacing:-.4px}
+.join-tagline{color:rgba(255,255,255,.55);font-size:14px;line-height:1.55;margin-bottom:30px}
+.join-card{background:var(--white);border-radius:22px;padding:22px;width:100%;max-width:380px}
+.jlabel{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;text-align:left;letter-spacing:.04em;text-transform:uppercase}
+.jinput{width:100%;padding:14px 15px;border:1.5px solid var(--cardborder);border-radius:var(--rsm);font-size:16px;font-family:inherit;outline:none;color:var(--text);background:var(--off);-webkit-appearance:none}
+.jinput:focus{border-color:var(--navy3)}
+.av-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin:8px 0 18px}
+.av-opt{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:2.5px solid transparent;background:var(--off);transition:all .15s;-webkit-user-select:none;user-select:none}
+.av-opt.sel{border-color:var(--navy);background:#E1F5EE;transform:scale(1.08)}
+.join-btn{width:100%;padding:15px;background:var(--navy);color:var(--white);border:none;border-radius:var(--rsm);font-size:16px;font-weight:700;cursor:pointer;margin-top:14px;letter-spacing:-.1px}
+.join-btn:active{background:var(--navy3)}
+.join-divider{display:flex;align-items:center;gap:10px;margin:18px 0 14px}
+.join-divider::before,.join-divider::after{content:'';flex:1;height:1px;background:var(--cardborder)}
+.join-divider span{font-size:12px;color:var(--text3)}
+
+/* ─── TOP BAR ──────────────────────────────────────────────────── */
+.topbar{background:var(--navy);padding:calc(var(--safe-top) + 10px) 16px 0;flex-shrink:0}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.brand{display:flex;align-items:center;gap:9px}
+.brand-ball{width:34px;height:34px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.brand-name{color:var(--white);font-size:15px;font-weight:700;line-height:1.2}
+.brand-season{color:rgba(255,255,255,.45);font-size:11px}
+.player-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.13);border-radius:20px;padding:5px 12px 5px 5px;cursor:pointer;-webkit-user-select:none;user-select:none}
+.pp-av{width:24px;height:24px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:12px}
+.pp-name{color:var(--white);font-size:12px;font-weight:600}
+.month-row{display:flex;gap:5px;background:rgba(255,255,255,.09);border-radius:10px;padding:3px;margin-bottom:12px}
+.mtab{flex:1;padding:8px 4px;text-align:center;color:rgba(255,255,255,.45);font-size:13px;font-weight:600;cursor:pointer;border-radius:7px;border:none;background:transparent;font-family:inherit;transition:all .15s}
+.mtab.active{background:var(--gold);color:var(--navy)}
+
+/* ─── TABS ─────────────────────────────────────────────────────── */
+.tabs-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(80px + var(--safe-bot))}
+.tab{display:none}.tab.active{display:block}
+
+/* ─── DASH HERO ────────────────────────────────────────────────── */
+.dash-hero{background:var(--navy);padding:4px 16px 20px}
+.dh-name{color:var(--white);font-size:22px;font-weight:700;margin-bottom:2px}
+.dh-greet{color:rgba(255,255,255,.5);font-size:13px;margin-bottom:12px}
+.dh-pts{background:rgba(255,255,255,.1);border-radius:16px;padding:16px;display:flex;align-items:center;justify-content:space-between}
+.dh-main{color:var(--gold);font-size:42px;font-weight:800;line-height:1}
+.dh-mlabel{color:rgba(255,255,255,.5);font-size:12px;margin-top:3px}
+.dh-rank-num{color:var(--white);font-size:30px;font-weight:800;text-align:right}
+.dh-rlabel{color:rgba(255,255,255,.45);font-size:11px;text-align:right}
+
+.section{padding:16px 16px 0}
+.sec-title{font-size:11px;font-weight:700;color:var(--text2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:11px;display:flex;align-items:center;justify-content:space-between}
+.sec-sub{font-size:12px;font-weight:400;color:var(--text3);text-transform:none;letter-spacing:0}
+
+/* ─── STREAK ───────────────────────────────────────────────────── */
+.streak-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.streak-row::-webkit-scrollbar{display:none}
+.sday{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0}
+.sdot{width:34px;height:34px;border-radius:50%;border:2px solid var(--cardborder);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--text3);background:var(--card)}
+.sdot.logged{background:var(--green);border-color:var(--green);color:#fff}
+.sdot.today{border-color:var(--navy);border-width:2.5px}
+.slbl{font-size:9px;color:var(--text3);font-weight:600;letter-spacing:.02em}
+
+/* ─── STATS STRIP ──────────────────────────────────────────────── */
+.stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stat-box{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--rsm);padding:12px 8px;text-align:center}
+.stat-v{font-size:22px;font-weight:700;color:var(--text)}
+.stat-l{font-size:10px;color:var(--text3);margin-top:2px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+
+/* ─── PROGRESS BARS ────────────────────────────────────────────── */
+.prog-list{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+.prog-item{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--rsm);padding:12px 14px}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.prog-name{font-size:13px;font-weight:600;color:var(--text)}
+.prog-right{font-size:12px;color:var(--text2);text-align:right}
+.prog-pts{font-weight:700;color:var(--text)}
+.prog-bar{height:7px;background:var(--off);border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+
+/* ─── LOG ──────────────────────────────────────────────────────── */
+.log-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.log-card{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--radius);padding:14px 13px;position:relative;overflow:hidden;transition:transform .1s}
+.log-card:active{transform:scale(.97)}
+.log-accent{position:absolute;top:0;left:0;right:0;height:4px}
+.log-icon{font-size:24px;margin-bottom:6px;display:block}
+.log-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:1px}
+.log-pts-hint{font-size:11px;color:var(--text2);margin-bottom:10px}
+.cnt-row{display:flex;align-items:center;border:1px solid var(--cardborder);border-radius:8px;overflow:hidden;background:var(--off)}
+.cnt-btn{width:38px;height:38px;border:none;background:transparent;font-size:22px;line-height:1;cursor:pointer;color:var(--text);flex-shrink:0;font-weight:400}
+.cnt-btn:active{background:var(--cardborder)}
+.cnt-inp{flex:1;border:none;background:transparent;text-align:center;font-size:17px;font-weight:700;font-family:inherit;color:var(--text);outline:none;height:38px;min-width:0;padding:0}
+.log-pts-today{font-size:11px;font-weight:600;color:var(--text3);margin-top:7px}
+.log-full{grid-column:1/-1}
+
+.log-submit{width:100%;padding:16px;background:var(--navy);color:var(--white);border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;margin-top:12px;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:-.1px}
+.log-submit:active{background:var(--navy3)}
+
+/* ─── LEADERBOARD ──────────────────────────────────────────────── */
+.lb-filter{display:flex;gap:6px;overflow-x:auto;padding:12px 16px 4px;scrollbar-width:none}
+.lb-filter::-webkit-scrollbar{display:none}
+.lb-chip{padding:8px 14px;border-radius:20px;border:1.5px solid var(--cardborder);background:var(--card);font-size:12px;font-weight:600;white-space:nowrap;cursor:pointer;color:var(--text2);flex-shrink:0;transition:all .15s}
+.lb-chip.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
+.lb-list{padding:0 16px 16px;display:flex;flex-direction:column;gap:8px}
+.lb-row{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--radius);padding:13px 14px;display:flex;align-items:center;gap:12px}
+.lb-row.me{border:2px solid var(--navy);background:rgba(10,22,40,.04)}
+.lb-row.top1{background:linear-gradient(135deg,#FFFBEB,#FFF9E0)}
+.lb-rank-col{font-size:15px;font-weight:800;color:var(--text3);min-width:28px;text-align:center}
+.lb-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.lb-info{flex:1;min-width:0}
+.lb-pname{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.you-pill{font-size:10px;background:var(--navy);color:var(--white);padding:2px 7px;border-radius:10px;font-weight:600}
+.lb-psub{font-size:11px;color:var(--text3);margin-top:2px}
+.lb-score{text-align:right;flex-shrink:0}
+.lb-pts{font-size:19px;font-weight:800;color:var(--navy)}
+.lb-pts-lbl{font-size:10px;color:var(--text3);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.lb-empty{text-align:center;padding:48px 20px}
+.lb-empty-icon{font-size:48px;margin-bottom:12px}
+.lb-empty-t{font-size:17px;font-weight:600;color:var(--text);margin-bottom:6px}
+.lb-empty-s{font-size:14px;color:var(--text2);line-height:1.5}
+
+/* ─── SHARE ─────────────────────────────────────────────────────── */
+.share-hero{background:var(--navy);margin:16px;border-radius:18px;padding:24px;text-align:center}
+.share-title{color:var(--white);font-size:16px;font-weight:700;margin-bottom:4px}
+.share-sub{color:rgba(255,255,255,.5);font-size:13px;margin-bottom:16px}
+.share-url{background:rgba(255,255,255,.12);border-radius:10px;padding:12px;margin-bottom:12px}
+.share-url-text{color:var(--gold);font-size:14px;font-weight:700;word-break:break-all;font-family:monospace}
+.share-btns{display:flex;gap:8px}
+.share-btn{flex:1;padding:12px 8px;border-radius:9px;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+.share-btn.primary{background:var(--gold);color:var(--navy)}
+.share-btn.secondary{background:rgba(255,255,255,.12);color:var(--white)}
+.score-item{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--rsm);padding:13px 14px;display:flex;align-items:center;gap:12px}
+.score-icon{font-size:26px;flex-shrink:0}
+.score-info{flex:1}
+.score-name{font-size:13px;font-weight:700;color:var(--text)}
+.score-desc{font-size:11px;color:var(--text2);margin-top:2px}
+.score-pts{text-align:right}
+.score-big{font-size:18px;font-weight:800;color:var(--navy)}
+.score-small{font-size:10px;color:var(--text3);font-weight:600}
+
+/* ─── BOTTOM NAV ────────────────────────────────────────────────── */
+.bottom-nav{background:var(--white);border-top:0.5px solid var(--cardborder);display:flex;padding:10px 0 calc(10px + var(--safe-bot));flex-shrink:0}
+.bnav{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:2px 0}
+.bnav-icon{font-size:24px;opacity:.35;transition:opacity .15s}
+.bnav-label{font-size:10px;color:var(--text2);font-weight:600;opacity:.5;transition:opacity .15s;letter-spacing:.02em}
+.bnav.active .bnav-icon,.bnav.active .bnav-label{opacity:1;color:var(--navy)}
+
+/* ─── MODAL ─────────────────────────────────────────────────────── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+.modal-sheet{background:var(--white);border-radius:22px 22px 0 0;padding:20px 22px calc(24px + var(--safe-bot));width:100%;max-width:480px;animation:slideUp .25s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-handle{width:38px;height:4px;background:var(--cardborder);border-radius:2px;margin:0 auto 18px}
+.modal-t{font-size:18px;font-weight:700;color:var(--text);margin-bottom:3px}
+.modal-s{font-size:13px;color:var(--text2);margin-bottom:22px}
+.big-counter{display:flex;align-items:center;justify-content:center;gap:16px;margin:4px 0 4px}
+.big-btn{width:60px;height:60px;border-radius:50%;border:none;background:var(--off);font-size:32px;cursor:pointer;color:var(--text);display:flex;align-items:center;justify-content:center;font-weight:300;line-height:1;-webkit-user-select:none;user-select:none}
+.big-btn:active{background:#ddd}
+.big-num{font-size:58px;font-weight:800;color:var(--navy);min-width:110px;text-align:center;line-height:1}
+.big-unit{text-align:center;font-size:13px;color:var(--text2);margin-bottom:16px}
+.modal-preview{background:var(--off);border-radius:10px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.mp-label{font-size:13px;color:var(--text2)}
+.mp-val{font-size:20px;font-weight:800;color:var(--navy)}
+.modal-ok{width:100%;padding:16px;background:var(--navy);color:var(--white);border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit}
+.modal-ok:active{background:var(--navy3)}
+.modal-cancel-btn{width:100%;padding:13px;background:transparent;color:var(--text2);border:none;font-size:15px;cursor:pointer;margin-top:6px;font-family:inherit}
+
+/* ─── TOAST ─────────────────────────────────────────────────────── */
+.toast{position:fixed;bottom:calc(88px + var(--safe-bot));left:50%;transform:translateX(-50%) translateY(16px);background:var(--navy);color:var(--white);padding:11px 22px;border-radius:22px;font-size:14px;font-weight:600;opacity:0;transition:all .3s;z-index:600;white-space:nowrap;pointer-events:none;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ─── UTIL ──────────────────────────────────────────────────────── */
+.gap16{margin-bottom:16px}
+</style>
+</head>
+<body>
+
+<!-- ══════════ JOIN ══════════ -->
+<div class="screen active" id="s-join">
+  <div class="join-hero">
+    <div class="join-logo">🏀</div>
+    <div class="join-title">BForce Summer Scorecard</div>
+    <div class="join-tagline">Track every shot. Earn points. Climb the leaderboard.<br>June · July · August 2025</div>
+    <div class="join-card">
+      <div class="jlabel">Pick your avatar</div>
+      <div class="av-grid" id="av-grid"></div>
+      <div class="jlabel">Your name</div>
+      <input class="jinput" id="jname" placeholder="e.g. Marcus, T-Mac, Kobe..." maxlength="20" autocomplete="off" autocorrect="off">
+      <button class="join-btn" onclick="joinTeam()">Join the squad 🔥</button>
+      <div class="join-divider"><span>already on the squad?</span></div>
+      <select class="jinput" id="existing-sel" style="cursor:pointer">
+        <option value="">— Switch player —</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ APP ══════════ -->
+<div class="screen" id="s-app">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-ball">🏀</div>
+        <div>
+          <div class="brand-name">BForce Scorecard</div>
+          <div class="brand-season">Summer 2025</div>
+        </div>
+      </div>
+      <div class="player-pill" onclick="switchPlayer()">
+        <div class="pp-av" id="nav-av"></div>
+        <div class="pp-name" id="nav-name">—</div>
+      </div>
+    </div>
+    <div class="month-row">
+      <button class="mtab active" data-m="6" onclick="setMonth(this,6)">June</button>
+      <button class="mtab" data-m="7" onclick="setMonth(this,7)">July</button>
+      <button class="mtab" data-m="8" onclick="setMonth(this,8)">August</button>
+    </div>
+  </div>
+
+  <div class="tabs-content">
+    <!-- DASHBOARD -->
+    <div class="tab active" id="tab-dash">
+      <div class="dash-hero">
+        <div class="dh-greet" id="dh-greet"></div>
+        <div class="dh-name" id="dh-name"></div>
+        <div class="dh-pts">
+          <div>
+            <div class="dh-main" id="dh-pts">0</div>
+            <div class="dh-mlabel">total points this month</div>
+          </div>
+          <div>
+            <div class="dh-rank-num" id="dh-rank">#—</div>
+            <div class="dh-rlabel">leaderboard</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section gap16">
+        <div class="sec-title">Activity streak — last 14 days</div>
+        <div class="streak-row" id="streak-row"></div>
+      </div>
+
+      <div class="section gap16">
+        <div class="sec-title">Month stats <span class="sec-sub" id="stats-month-label"></span></div>
+        <div class="stat-strip" id="stat-strip"></div>
+        <div class="prog-list" id="prog-list"></div>
+      </div>
+
+      <div class="section" style="padding-bottom:16px">
+        <div class="sec-title">Log today's session <span class="sec-sub" id="today-lbl"></span></div>
+        <div class="log-grid" id="log-grid"></div>
+        <button class="log-submit" onclick="submitLog()">🏀 Save today's session</button>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div class="tab" id="tab-lb">
+      <div class="section" style="padding-bottom:0">
+        <div class="sec-title" style="padding-top:4px">Leaderboard <span class="sec-sub" id="lb-month-lbl"></span></div>
+      </div>
+      <div class="lb-filter" id="lb-filter"></div>
+      <div class="lb-list" id="lb-list"></div>
+    </div>
+
+    <!-- SHARE -->
+    <div class="tab" id="tab-share">
+      <div style="padding:16px 0 0">
+        <div class="share-hero">
+          <div class="share-title">Invite your teammates 🏀</div>
+          <div class="share-sub">Share this link — everyone joins the same live leaderboard</div>
+          <div class="share-url">
+            <div class="share-url-text" id="share-url-text">basketballsims.github.io/basketballsimstrainer/scorecard.html</div>
+          </div>
+          <div class="share-btns">
+            <button class="share-btn primary" onclick="copyLink()">📋 Copy link</button>
+            <button class="share-btn secondary" onclick="shareApp()">📲 Share</button>
+          </div>
+        </div>
+
+        <div class="section gap16">
+          <div class="sec-title">Scoring matrix</div>
+          <div style="display:flex;flex-direction:column;gap:8px" id="score-matrix"></div>
+        </div>
+
+        <div class="section gap16">
+          <div class="sec-title">Season overview</div>
+          <div style="display:flex;flex-direction:column;gap:8px" id="season-overview"></div>
+        </div>
+
+        <div class="section gap16">
+          <div class="sec-title">All players</div>
+          <div style="display:flex;flex-direction:column;gap:8px" id="all-players-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <div class="bnav active" id="bn-dash" onclick="showTab('dash')">
+      <div class="bnav-icon">🏠</div>
+      <div class="bnav-label">Dashboard</div>
+    </div>
+    <div class="bnav" id="bn-lb" onclick="showTab('lb')">
+      <div class="bnav-icon">🏆</div>
+      <div class="bnav-label">Leaderboard</div>
+    </div>
+    <div class="bnav" id="bn-share" onclick="showTab('share')">
+      <div class="bnav-icon">📲</div>
+      <div class="bnav-label">Share</div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modal" style="display:none" onclick="closeModal(event)">
+  <div class="modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-t" id="m-title"></div>
+    <div class="modal-s" id="m-sub"></div>
+    <div class="big-counter">
+      <button class="big-btn" onclick="madj(-1)">−</button>
+      <div class="big-num" id="m-num">0</div>
+      <button class="big-btn" onclick="madj(1)">+</button>
+    </div>
+    <div class="big-unit" id="m-unit"></div>
+    <div class="modal-preview">
+      <div class="mp-label">Points earned</div>
+      <div class="mp-val" id="m-pts">0 pts</div>
+    </div>
+    <button class="modal-ok" onclick="confirmModal()">Save ✓</button>
+    <button class="modal-cancel-btn" onclick="closeModal(null)">Cancel</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+const AVATARS=['🏀','⚡','🔥','💪','🐉','🦁','🐺','👑','🚀','⭐','🎯','💎'];
+const MONTHS={6:'June',7:'July',8:'August'};
+const AVBGS=['#E1F5EE','#E6F1FB','#FAECE7','#FAEEDA','#EEEDFE','#FCEBEB','#EAF3DE','#FFF9E0'];
+
+const TYPES=[
+  {key:'short', label:'Short shots',   icon:'🎯', color:'#1DB954', desc:'Inside the charge circle',           unit:'shots made', ppt:10,  per:100, isTime:false},
+  {key:'medium',label:'Medium shots',  icon:'🏀', color:'#3B82F6', desc:'Outside charge circle, inside FT line', unit:'shots made', ppt:20,  per:100, isTime:false},
+  {key:'long',  label:'Long shots',    icon:'💥', color:'#8B5CF6', desc:'Past free throw line — 3s count!',  unit:'shots made', ppt:75,  per:100, isTime:false},
+  {key:'ov1',   label:'1v1 game time', icon:'⚡', color:'#F97316', desc:'30 min session = 45 pts',           unit:'minutes',    ppt:45,  per:30,  isTime:true},
+  {key:'ov3',   label:'3v3 game time', icon:'🔥', color:'#E74C3C', desc:'30 min session = 35 pts',           unit:'minutes',    ppt:35,  per:30,  isTime:true},
+  {key:'ov5',   label:'5v5 game time', icon:'👑', color:'#F5C842', desc:'30 min session = 25 pts',           unit:'minutes',    ppt:25,  per:30,  isTime:true},
+];
+const LB_CATS=[
+  {key:'all',   label:'🏆 Overall'},
+  {key:'short', label:'🎯 Short'},
+  {key:'medium',label:'🏀 Medium'},
+  {key:'long',  label:'💥 Long'},
+  {key:'ov1',   label:'⚡ 1v1'},
+  {key:'ov3',   label:'🔥 3v3'},
+  {key:'ov5',   label:'👑 5v5'},
+];
+
+function pts(type,val){return Math.floor((val/type.per)*type.ppt);}
+
+const TODAY=new Date();
+const YEAR=2025;
+let DB={players:{},logs:{}};
+let me=null;
+let curMonth=Math.max(6,Math.min(8,TODAY.getMonth()+1));
+let lbCat='all';
+let mType=null,mVal=0;
+let logV={};
+
+// ── STORAGE ────────────────────────────────────────────────────────────────
+async function load(){
+  try{const r=await window.storage.get('bforce2025');if(r&&r.value)DB=JSON.parse(r.value);}
+  catch(e){DB={players:{},logs:{}};}
+}
+async function save(){try{await window.storage.set('bforce2025',JSON.stringify(DB));}catch(e){}}
+
+function dk(){const d=TODAY;return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function mk(pid,m){return `${pid}_${YEAR}_${m}`;}
+
+function monthStats(pid,m){
+  const logs=DB.logs[mk(pid,m)]||{};
+  const t={};TYPES.forEach(x=>t[x.key]=0);
+  Object.values(logs).forEach(d=>{TYPES.forEach(x=>{t[x.key]+=(d[x.key]||0);});});
+  return t;
+}
+function monthPts(pid,m){
+  const s=monthStats(pid,m);let p=0;
+  TYPES.forEach(t=>{p+=pts(t,s[t.key]||0);});return p;
+}
+function catPtsAll(pid,m){
+  const s=monthStats(pid,m);const o={};
+  TYPES.forEach(t=>{o[t.key]=pts(t,s[t.key]||0);});return o;
+}
+
+// ── JOIN ────────────────────────────────────────────────────────────────────
+function buildAvGrid(){
+  const g=document.getElementById('av-grid');g.innerHTML='';
+  AVATARS.forEach((a,i)=>{
+    const d=document.createElement('div');d.className='av-opt'+(i===0?' sel':'');
+    d.textContent=a;d.style.fontSize='22px';
+    d.onclick=()=>{document.querySelectorAll('.av-opt').forEach(x=>x.classList.remove('sel'));d.classList.add('sel');};
+    g.appendChild(d);
+  });
+}
+function buildExisting(){
+  const s=document.getElementById('existing-sel');
+  s.innerHTML='<option value="">— Switch player —</option>';
+  Object.values(DB.players).forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=p.av+' '+p.name;s.appendChild(o);});
+  s.onchange=()=>{if(s.value&&DB.players[s.value])login(DB.players[s.value]);};
+}
+function joinTeam(){
+  const name=document.getElementById('jname').value.trim();
+  if(!name){showToast('Enter your name first 👆');return;}
+  const av=document.querySelector('.av-opt.sel')?.textContent||'🏀';
+  const id='p'+Date.now();
+  const p={id,name,av,joined:dk()};
+  DB.players[id]=p;save();login(p);
+}
+function login(p){
+  me=p;localStorage.setItem('bfpid',p.id);
+  document.getElementById('nav-av').textContent=p.av;
+  document.getElementById('nav-name').textContent=p.name.split(' ')[0];
+  document.getElementById('s-join').classList.remove('active');
+  document.getElementById('s-app').classList.add('active');
+  initLogV();renderDash();renderLB();renderShare();showTab('dash');
+}
+function switchPlayer(){
+  document.getElementById('s-app').classList.remove('active');
+  document.getElementById('s-join').classList.add('active');
+  buildExisting();
+}
+
+// ── MONTH ────────────────────────────────────────────────────────────────────
+function setMonth(el,m){
+  curMonth=m;document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('active'));el.classList.add('active');
+  initLogV();renderDash();renderLB();
+}
+
+// ── LOG VALUES ────────────────────────────────────────────────────────────────
+function initLogV(){
+  TYPES.forEach(t=>logV[t.key]=0);
+  const day=(DB.logs[mk(me.id,curMonth)]||{})[dk()]||{};
+  TYPES.forEach(t=>{logV[t.key]=day[t.key]||0;});
+}
+
+// ── DASHBOARD ────────────────────────────────────────────────────────────────
+function renderDash(){
+  if(!me)return;
+  const h=TODAY.getHours();
+  document.getElementById('dh-greet').textContent=h<12?'Good morning ☀️':h<17?'Good afternoon ⚡':'Good evening 🌙';
+  document.getElementById('dh-name').textContent=me.av+' '+me.name;
+  const p=monthPts(me.id,curMonth);
+  document.getElementById('dh-pts').textContent=p;
+  document.getElementById('stats-month-label').textContent=MONTHS[curMonth];
+  document.getElementById('lb-month-lbl').textContent=MONTHS[curMonth];
+  document.getElementById('today-lbl').textContent=TODAY.toLocaleDateString('en-CA',{month:'short',day:'numeric'});
+  const ranked=Object.values(DB.players).map(pl=>({pl,p:monthPts(pl.id,curMonth)})).sort((a,b)=>b.p-a.p);
+  const rank=ranked.findIndex(r=>r.pl.id===me.id)+1;
+  document.getElementById('dh-rank').textContent='#'+(rank||'—');
+  renderStreak();renderStats();renderLogGrid();
+}
+
+function renderStreak(){
+  const row=document.getElementById('streak-row');row.innerHTML='';
+  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  for(let i=13;i>=0;i--){
+    const d=new Date(TODAY);d.setDate(d.getDate()-i);
+    const m=d.getMonth()+1;
+    if(m<6||m>8)continue;
+    const key=`${d.getFullYear()}-${String(m).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const has=Object.keys((DB.logs[mk(me.id,m)]||{})[key]||{}).filter(k=>k!=='ts').some(k=>{const t=TYPES.find(x=>x.key===k);return t&&(((DB.logs[mk(me.id,m)]||{})[key]||{})[k]||0)>0;});
+    const isT=i===0;
+    const el=document.createElement('div');el.className='sday';
+    el.innerHTML=`<div class="sdot${has?' logged':''}${isT?' today':''}">${d.getDate()}</div><div class="slbl">${days[d.getDay()]}</div>`;
+    row.appendChild(el);
+  }
+}
+
+function renderStats(){
+  const s=monthStats(me.id,curMonth);const cp=catPtsAll(me.id,curMonth);
+  const tot=Object.values(cp).reduce((a,b)=>a+b,0);
+  const shots=(s.short||0)+(s.medium||0)+(s.long||0);
+  const gm=(s.ov1||0)+(s.ov3||0)+(s.ov5||0);
+  document.getElementById('stat-strip').innerHTML=`
+    <div class="stat-box"><div class="stat-v">${tot}</div><div class="stat-l">Points</div></div>
+    <div class="stat-box"><div class="stat-v">${shots.toLocaleString()}</div><div class="stat-l">Shots</div></div>
+    <div class="stat-box"><div class="stat-v">${gm}</div><div class="stat-l">Game mins</div></div>`;
+  const list=document.getElementById('prog-list');list.innerHTML='';
+  TYPES.forEach(t=>{
+    const val=s[t.key]||0;const p=cp[t.key]||0;
+    const maxGoal=t.isTime?t.per*4:t.per*5;
+    const pct=Math.min(100,Math.round((val/maxGoal)*100));
+    const d=document.createElement('div');d.className='prog-item';
+    d.innerHTML=`<div class="prog-top"><div class="prog-name">${t.icon} ${t.label}</div><div class="prog-right"><span style="color:var(--text3)">${val.toLocaleString()} ${t.isTime?'min':'shots'}</span> · <span class="prog-pts">${p}pts</span></div></div>
+    <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${t.color}"></div></div>`;
+    list.appendChild(d);
+  });
+}
+
+function renderLogGrid(){
+  const grid=document.getElementById('log-grid');grid.innerHTML='';
+  TYPES.forEach(t=>{
+    const v=logV[t.key]||0;const full=t.isTime;
+    const d=document.createElement('div');d.className='log-card'+(full?' log-full':'');
+    d.innerHTML=`<div class="log-accent" style="background:${t.color}"></div>
+      <div class="log-icon">${t.icon}</div>
+      <div class="log-name">${t.label}</div>
+      <div class="log-pts-hint">${t.isTime?`30 min = ${t.ppt}pts`:`per ${t.per} = ${t.ppt}pts`}</div>
+      <div class="cnt-row">
+        <button class="cnt-btn" onclick="adjLog('${t.key}',${t.isTime?-5:-10},event)">−</button>
+        <input class="cnt-inp" id="inp-${t.key}" type="number" inputmode="numeric" min="0" value="${v}" onchange="setLog('${t.key}',+this.value)">
+        <button class="cnt-btn" onclick="adjLog('${t.key}',${t.isTime?5:10},event)">+</button>
+      </div>
+      <div class="log-pts-today" id="lpt-${t.key}">= ${pts(t,v)} pts today</div>`;
+    d.onclick=e=>{if(!e.target.classList.contains('cnt-btn')&&!e.target.classList.contains('cnt-inp'))openModal(t);};
+    grid.appendChild(d);
+  });
+}
+
+function adjLog(key,delta,e){
+  e.stopPropagation();
+  logV[key]=Math.max(0,(logV[key]||0)+delta);
+  const inp=document.getElementById('inp-'+key);if(inp)inp.value=logV[key];
+  const t=TYPES.find(x=>x.key===key);
+  const lpt=document.getElementById('lpt-'+key);if(lpt)lpt.textContent=`= ${pts(t,logV[key])} pts today`;
+}
+function setLog(key,val){logV[key]=Math.max(0,isNaN(val)?0:Math.floor(val));}
+
+async function submitLog(){
+  const mk2=mk(me.id,curMonth);
+  if(!DB.logs[mk2])DB.logs[mk2]={};
+  const entry={ts:Date.now()};
+  TYPES.forEach(t=>entry[t.key]=logV[t.key]||0);
+  DB.logs[mk2][dk()]=entry;
+  await save();
+  showToast('Session logged! Keep grinding 🔥');
+  renderDash();renderLB();
+}
+
+// ── MODAL ────────────────────────────────────────────────────────────────────
+function openModal(type){
+  mType=type;mVal=logV[type.key]||0;
+  document.getElementById('m-title').textContent=type.icon+' '+type.label;
+  document.getElementById('m-sub').textContent=type.desc;
+  document.getElementById('m-unit').textContent=type.unit;
+  document.getElementById('m-num').textContent=mVal;
+  document.getElementById('m-pts').textContent=pts(type,mVal)+' pts';
+  document.getElementById('modal').style.display='flex';
+}
+function madj(d){
+  const step=mType.isTime?5:10;
+  mVal=Math.max(0,mVal+d*step);
+  document.getElementById('m-num').textContent=mVal;
+  document.getElementById('m-pts').textContent=pts(mType,mVal)+' pts';
+}
+function closeModal(e){if(e===null||e.target===document.getElementById('modal'))document.getElementById('modal').style.display='none';}
+function confirmModal(){
+  logV[mType.key]=mVal;
+  const inp=document.getElementById('inp-'+mType.key);if(inp)inp.value=mVal;
+  const lpt=document.getElementById('lpt-'+mType.key);if(lpt)lpt.textContent=`= ${pts(mType,mVal)} pts today`;
+  document.getElementById('modal').style.display='none';
+}
+
+// ── LEADERBOARD ────────────────────────────────────────────────────────────
+function renderLB(){
+  const flt=document.getElementById('lb-filter');
+  if(!flt.children.length){
+    LB_CATS.forEach(c=>{
+      const ch=document.createElement('div');ch.className='lb-chip'+(c.key==='all'?' active':'');
+      ch.textContent=c.label;
+      ch.onclick=()=>{lbCat=c.key;document.querySelectorAll('.lb-chip').forEach(x=>x.classList.remove('active'));ch.classList.add('active');renderLBList();};
+      flt.appendChild(ch);
+    });
+  }
+  renderLBList();
+}
+function renderLBList(){
+  const list=document.getElementById('lb-list');list.innerHTML='';
+  document.getElementById('lb-month-lbl').textContent=MONTHS[curMonth];
+  const players=Object.values(DB.players);
+  if(!players.length){
+    list.innerHTML=`<div class="lb-empty"><div class="lb-empty-icon">🏀</div><div class="lb-empty-t">No players yet</div><div class="lb-empty-s">Share the app link with teammates to see who's putting in work this summer</div></div>`;
+    return;
+  }
+  const scored=players.map(p=>{
+    let p2=0;
+    if(lbCat==='all'){p2=monthPts(p.id,curMonth);}
+    else{const s=monthStats(p.id,curMonth);const t=TYPES.find(x=>x.key===lbCat);if(t)p2=pts(t,s[lbCat]||0);}
+    return{p,p2};
+  }).sort((a,b)=>b.p2-a.p2);
+
+  scored.forEach(({p,p2},i)=>{
+    const rank=i+1;const isMe=me&&p.id===me.id;
+    const row=document.createElement('div');
+    row.className='lb-row'+(isMe?' me':'')+(rank===1?' top1':'');
+    const ri=rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':rank;
+    const s=monthStats(p.id,curMonth);
+    const t2=lbCat==='all'?null:TYPES.find(x=>x.key===lbCat);
+    const subText=lbCat==='all'
+      ?`${((s.short||0)+(s.medium||0)+(s.long||0)).toLocaleString()} shots · ${(s.ov1||0)+(s.ov3||0)+(s.ov5||0)} game mins`
+      :`${(s[lbCat]||0).toLocaleString()} ${t2?.isTime?'minutes':'shots made'}`;
+    const fire=p2>50?'🔥':'';
+    row.innerHTML=`<div class="lb-rank-col">${ri}</div>
+      <div class="lb-av" style="background:${AVBGS[i%AVBGS.length]}">${p.av}</div>
+      <div class="lb-info">
+        <div class="lb-pname">${p.name}${isMe?'<span class="you-pill">you</span>':''}${fire}</div>
+        <div class="lb-psub">${subText}</div>
+      </div>
+      <div class="lb-score"><div class="lb-pts">${p2}</div><div class="lb-pts-lbl">pts</div></div>`;
+    list.appendChild(row);
+  });
+}
+
+// ── SHARE ─────────────────────────────────────────────────────────────────
+function renderShare(){
+  const sm=document.getElementById('score-matrix');sm.innerHTML='';
+  TYPES.forEach(t=>{
+    const d=document.createElement('div');d.className='score-item';
+    d.innerHTML=`<div class="score-icon">${t.icon}</div>
+      <div class="score-info"><div class="score-name">${t.label}</div><div class="score-desc">${t.desc}</div></div>
+      <div class="score-pts"><div class="score-big">${t.ppt}pts</div><div class="score-small">per ${t.isTime?'30 min':t.per+' made'}</div></div>`;
+    sm.appendChild(d);
+  });
+  const so=document.getElementById('season-overview');so.innerHTML='';
+  [6,7,8].forEach(m=>{
+    const isA=m===curMonth;
+    const players=Object.values(DB.players);
+    const top=players.length?players.map(p=>({p,p2:monthPts(p.id,m)})).sort((a,b)=>b.p2-a.p2)[0]:null;
+    const d=document.createElement('div');
+    d.style.cssText=`background:${isA?'var(--navy)':'var(--card)'};border:${isA?'none':'0.5px solid var(--cardborder)'};border-radius:12px;padding:14px 16px`;
+    d.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between">
+      <div style="font-size:14px;font-weight:700;color:${isA?'var(--white)':'var(--text)'}">${MONTHS[m]} 2025${isA?'<span style="font-size:11px;opacity:.5;margin-left:8px;font-weight:400">Active now</span>':''}</div>
+      <div style="font-size:13px;color:${isA?'rgba(255,255,255,.6)':'var(--text2)'}">🏆 ${top&&top.p2>0?top.p.av+' '+top.p.name+' · '+top.p2+'pts':'No entries yet'}</div>
+    </div>`;
+    so.appendChild(d);
+  });
+  const apl=document.getElementById('all-players-list');apl.innerHTML='';
+  Object.values(DB.players).forEach((p,i)=>{
+    const d=document.createElement('div');
+    d.style.cssText='background:var(--card);border:0.5px solid var(--cardborder);border-radius:10px;padding:11px 14px;display:flex;align-items:center;gap:10px';
+    const totalAllMonths=[6,7,8].reduce((a,m)=>a+monthPts(p.id,m),0);
+    d.innerHTML=`<div style="width:36px;height:36px;border-radius:50%;background:${AVBGS[i%AVBGS.length]};display:flex;align-items:center;justify-content:center;font-size:18px">${p.av}</div>
+      <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">${p.name}</div><div style="font-size:11px;color:var(--text3)">Joined ${p.joined||'Summer 2025'}</div></div>
+      <div style="text-align:right"><div style="font-size:14px;font-weight:700;color:var(--navy)">${totalAllMonths}pts</div><div style="font-size:10px;color:var(--text3)">season total</div></div>`;
+    apl.appendChild(d);
+  });
+  if(!Object.keys(DB.players).length){apl.innerHTML='<div style="text-align:center;padding:20px;color:var(--text3);font-size:13px">No players yet — share the link to recruit!</div>';}
+}
+
+function copyLink(){
+  const url='https://basketballsims.github.io/basketballsimstrainer/scorecard.html';
+  const msg=`🏀 BForce Summer Scorecard 2025!\n\nTrack your shots, earn points, and see who's putting in work all summer.\n\n📲 Open on your phone:\n${url}\n\nLog short, medium & long shots + 1v1, 3v3 & 5v5 game time. Leaderboard updates live 🔥`;
+  navigator.clipboard?.writeText(msg).then(()=>showToast('Invite message copied! 📋')).catch(()=>showToast('Copy the link above 👆'));
+}
+function shareApp(){
+  const url='https://basketballsims.github.io/basketballsimstrainer/scorecard.html';
+  if(navigator.share){navigator.share({title:'BForce Summer Scorecard 2025',text:'Track your shots and climb the leaderboard all summer 🏀🔥',url}).catch(()=>{});}
+  else copyLink();
+}
+
+// ── TAB NAV ────────────────────────────────────────────────────────────────
+function showTab(t){
+  ['dash','lb','share'].forEach(x=>{
+    document.getElementById('tab-'+x).classList.toggle('active',x===t);
+    document.getElementById('bn-'+x).classList.toggle('active',x===t);
+  });
+  if(t==='lb')renderLB();
+  if(t==='share')renderShare();
+}
+
+// ── TOAST ──────────────────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ── INIT ────────────────────────────────────────────────────────────────────
+async function init(){
+  await load();
+  buildAvGrid();
+  const pid=localStorage.getItem('bfpid');
+  if(pid&&DB.players[pid])login(DB.players[pid]);
+  else{buildExisting();}
+  setInterval(async()=>{await load();if(me){renderLBList();}},20000);
+}
+init();
+</script>
+</body>
+</html>
