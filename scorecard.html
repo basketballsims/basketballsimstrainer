@@ -6,145 +6,150 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0D1F4E">
-<title>Burlington Force — Summer Scorecard 2025</title>
+<title>Burlington Force U15 — Summer Scorecard 2025</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --navy:#0D1F4E;--navy2:#162B68;--navy3:#1E3A8A;
+  --navy:#0D1F4E;--navy2:#162B68;
   --gold:#F5C842;--gold2:#E6B830;
   --white:#FFFFFF;--off:#F4F3EF;
   --green:#1DB954;--red:#E74C3C;--purple:#8B5CF6;--orange:#F97316;--blue:#3B82F6;
   --text:#0D1F4E;--text2:#4A5568;--text3:#9AA5B4;
-  --card:#FFFFFF;--cardborder:rgba(13,31,78,0.09);--bg:#EEF2F8;
-  --radius:14px;--rsm:10px;
-  --safe-top:env(safe-area-inset-top,0px);--safe-bot:env(safe-area-inset-bottom,0px);
+  --card:#FFFFFF;--cb:rgba(13,31,78,0.09);--bg:#EEF2F8;
+  --r:14px;--rsm:10px;
+  --st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);
 }
 html,body{height:100%;overflow:hidden}
-body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Helvetica,sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
 .screen{display:none;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .screen.active{display:flex;flex-direction:column}
 
-/* JOIN */
-.join-wrap{flex:1;background:var(--navy);display:flex;flex-direction:column;align-items:center;padding:calc(var(--safe-top)+20px) 16px calc(28px + var(--safe-bot));min-height:100%}
-.join-logo-area{text-align:center;margin-bottom:18px}
-.join-season{color:rgba(255,255,255,.5);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-top:8px}
+/* ── JOIN ── */
+.join-wrap{flex:1;background:var(--navy);display:flex;flex-direction:column;align-items:center;padding:calc(var(--st)+16px) 16px calc(24px + var(--sb));min-height:100%}
+
+/* Curved text header */
+.join-hero-text{text-align:center;margin-bottom:20px;width:100%;max-width:360px}
+
 .join-card{background:var(--white);border-radius:22px;padding:20px;width:100%;max-width:400px}
-.join-card-title{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:3px}
-.join-card-sub{font-size:12px;color:var(--text2);margin-bottom:16px;line-height:1.4}
-.jlabel{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px;letter-spacing:.07em;text-transform:uppercase}
-.jinput{width:100%;padding:12px 14px;border:1.5px solid var(--cardborder);border-radius:var(--rsm);font-size:16px;font-family:inherit;outline:none;color:var(--text);background:var(--off);-webkit-appearance:none}
+.join-card-title{font-size:16px;font-weight:800;color:var(--navy);margin-bottom:3px}
+.join-card-sub{font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.4}
+.jlabel{font-size:10px;font-weight:700;color:var(--text2);margin-bottom:5px;letter-spacing:.07em;text-transform:uppercase}
+.jinput{width:100%;padding:12px 14px;border:1.5px solid var(--cb);border-radius:var(--rsm);font-size:16px;font-family:inherit;outline:none;color:var(--text);background:var(--off);-webkit-appearance:none}
 .jinput:focus{border-color:var(--navy)}
 
-/* AVATAR GRID */
-.av-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:8px 0 16px}
-.av-opt{aspect-ratio:1;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2.5px solid transparent;background:var(--off);transition:all .12s;overflow:hidden}
-.av-opt:active{transform:scale(.94)}
-.av-opt.sel{border-color:var(--navy);box-shadow:0 0 0 3px rgba(13,31,78,.12);transform:scale(1.06)}
-.av-opt svg{width:100%;height:100%}
+/* AVATAR GRID — 4 cols on mobile, clean */
+.av-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 14px}
+.av-opt{aspect-ratio:1;border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2.5px solid transparent;background:var(--off);transition:all .14s;overflow:hidden;position:relative}
+.av-opt:active{transform:scale(.92)}
+.av-opt.sel{border-color:var(--navy);box-shadow:0 0 0 4px rgba(13,31,78,.13);transform:scale(1.05)}
+.av-opt svg{width:100%;height:100%;display:block}
+.av-name-tag{position:absolute;bottom:0;left:0;right:0;background:rgba(13,31,78,.72);color:white;font-size:7px;font-weight:700;text-align:center;padding:2px 2px 3px;letter-spacing:.04em;text-transform:uppercase}
+.av-opt.sel .av-name-tag{background:var(--navy)}
 
-/* SELECTED AVATAR PREVIEW */
-.av-preview{display:flex;flex-direction:column;align-items:center;gap:6px;margin:0 0 16px}
-.av-preview-circle{width:72px;height:72px;border-radius:50%;border:3px solid var(--gold);overflow:hidden;background:var(--off)}
+/* PREVIEW */
+.av-preview{display:flex;align-items:center;gap:12px;background:var(--off);border-radius:12px;padding:10px 14px;margin-bottom:14px}
+.av-preview-circle{width:52px;height:52px;border-radius:50%;border:2.5px solid var(--gold);overflow:hidden;background:var(--off);flex-shrink:0}
 .av-preview-circle svg{width:100%;height:100%}
-.av-preview-name{font-size:12px;font-weight:800;color:var(--navy);letter-spacing:.04em}
-.av-preview-num{font-size:11px;color:var(--text3);font-weight:700}
+.av-preview-info{flex:1}
+.av-preview-nick{font-size:13px;font-weight:800;color:var(--navy)}
+.av-preview-sub{font-size:11px;color:var(--text3);margin-top:1px}
 
-.join-btn{width:100%;padding:14px;background:var(--navy);color:var(--white);border:none;border-radius:var(--rsm);font-size:16px;font-weight:800;cursor:pointer;font-family:inherit}
+.join-btn{width:100%;padding:14px;background:var(--navy);color:var(--white);border:none;border-radius:var(--rsm);font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;margin-top:4px}
 .join-btn:active{background:var(--navy2)}
 .join-divider{display:flex;align-items:center;gap:10px;margin:14px 0 10px}
-.join-divider::before,.join-divider::after{content:'';flex:1;height:1px;background:var(--cardborder)}
-.join-divider span{font-size:11px;color:var(--text3);font-weight:600;letter-spacing:.04em}
+.join-divider::before,.join-divider::after{content:'';flex:1;height:1px;background:var(--cb)}
+.join-divider span{font-size:11px;color:var(--text3);font-weight:600}
 .join-locked{background:rgba(13,31,78,.06);border-radius:10px;padding:10px 13px;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:8px;margin-top:10px}
 
-/* TOPBAR */
-.topbar{background:var(--navy);flex-shrink:0;padding:calc(var(--safe-top)+8px) 16px 0}
+/* ── TOPBAR ── */
+.topbar{background:var(--navy);flex-shrink:0;padding:calc(var(--st)+8px) 16px 0}
 .topbar-inner{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.tb-brand{display:flex;align-items:center;gap:9px}
-.tb-brand-text{color:var(--white)}
-.tb-brand-name{font-size:15px;font-weight:800;letter-spacing:-.2px;line-height:1.2}
-.tb-brand-sub{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.04em}
-.player-pill{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border-radius:20px;padding:4px 12px 4px 4px;cursor:pointer;max-width:50%}
-.pp-av{width:26px;height:26px;border-radius:50%;overflow:hidden;background:var(--gold);flex-shrink:0}
+.tb-brand{display:flex;align-items:center;gap:8px}
+.tb-brand-text-wrap{line-height:1}
+.tb-brand-name{font-size:15px;font-weight:800;color:var(--white);letter-spacing:-.2px}
+.tb-brand-sub{font-size:10px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.04em}
+.player-pill{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border-radius:20px;padding:4px 12px 4px 4px;cursor:pointer;max-width:52%}
+.pp-av{width:26px;height:26px;border-radius:50%;overflow:hidden;flex-shrink:0}
 .pp-av svg{width:100%;height:100%}
 .pp-name{color:var(--white);font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .month-row{display:flex;gap:4px;background:rgba(255,255,255,.08);border-radius:10px;padding:3px;margin-bottom:11px}
-.mtab{flex:1;padding:8px 4px;text-align:center;color:rgba(255,255,255,.45);font-size:13px;font-weight:700;cursor:pointer;border-radius:7px;border:none;background:transparent;font-family:inherit;transition:all .15s}
+.mtab{flex:1;padding:7px 4px;text-align:center;color:rgba(255,255,255,.45);font-size:13px;font-weight:700;cursor:pointer;border-radius:7px;border:none;background:transparent;font-family:inherit;transition:all .15s}
 .mtab.active{background:var(--gold);color:var(--navy)}
 
-/* TABS */
-.tabs-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(76px + var(--safe-bot))}
+/* ── CONTENT ── */
+.tabs-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(76px + var(--sb))}
 .tab{display:none}.tab.active{display:block}
 
 /* DASH HERO */
 .dash-hero{background:var(--navy);padding:4px 16px 22px}
 .dh-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.dh-avatar{width:58px;height:58px;border-radius:50%;border:2.5px solid var(--gold);overflow:hidden;flex-shrink:0}
+.dh-avatar{width:56px;height:56px;border-radius:50%;border:2.5px solid var(--gold);overflow:hidden;flex-shrink:0}
 .dh-avatar svg{width:100%;height:100%}
 .dh-greet{color:rgba(255,255,255,.5);font-size:12px;font-weight:600;letter-spacing:.04em;margin-bottom:2px}
 .dh-name{color:var(--white);font-size:20px;font-weight:800;letter-spacing:-.3px}
-.dh-num{color:var(--gold);font-size:13px;font-weight:800;letter-spacing:2px;margin-top:1px}
-.dh-pts-band{background:rgba(255,255,255,.1);border-radius:16px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between}
-.dh-main{color:var(--gold);font-size:44px;font-weight:900;line-height:1;letter-spacing:-2px}
-.dh-mlabel{color:rgba(255,255,255,.5);font-size:11px;font-weight:600;letter-spacing:.04em;margin-top:4px;text-transform:uppercase}
-.dh-rank-num{color:var(--white);font-size:32px;font-weight:900;text-align:right;letter-spacing:-1px}
-.dh-rlabel{color:rgba(255,255,255,.45);font-size:11px;text-align:right;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.dh-num{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:1.5px;margin-top:1px}
+.dh-pts-band{background:rgba(255,255,255,.1);border-radius:16px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+.dh-main{color:var(--gold);font-size:42px;font-weight:900;line-height:1;letter-spacing:-2px}
+.dh-mlabel{color:rgba(255,255,255,.5);font-size:11px;font-weight:600;letter-spacing:.04em;margin-top:3px;text-transform:uppercase}
+.dh-rank-num{color:var(--white);font-size:30px;font-weight:900;text-align:right;letter-spacing:-1px}
+.dh-rlabel{color:rgba(255,255,255,.45);font-size:10px;text-align:right;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
 
-.section{padding:16px 16px 0}
-.sec-title{font-size:11px;font-weight:800;color:var(--text2);letter-spacing:.07em;text-transform:uppercase;margin-bottom:11px;display:flex;align-items:center;justify-content:space-between}
+.section{padding:14px 16px 0}
+.sec-title{font-size:11px;font-weight:800;color:var(--text2);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
 .sec-sub{font-size:12px;font-weight:400;color:var(--text3);text-transform:none;letter-spacing:0}
 
 /* STREAK */
-.streak-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.streak-row{display:flex;gap:5px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
 .streak-row::-webkit-scrollbar{display:none}
-.sday{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0}
-.sdot{width:32px;height:32px;border-radius:50%;border:2px solid var(--cardborder);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text3);background:var(--card)}
+.sday{display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0}
+.sdot{width:30px;height:30px;border-radius:50%;border:2px solid var(--cb);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--text3);background:var(--card)}
 .sdot.logged{background:var(--green);border-color:var(--green);color:#fff}
 .sdot.today{border-color:var(--navy);border-width:2.5px}
-.slbl{font-size:9px;color:var(--text3);font-weight:700;letter-spacing:.04em}
+.slbl{font-size:8px;color:var(--text3);font-weight:700;letter-spacing:.04em}
 
 /* STATS */
-.stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
-.stat-box{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--rsm);padding:12px 8px;text-align:center}
-.stat-v{font-size:22px;font-weight:800;color:var(--navy)}
-.stat-l{font-size:10px;color:var(--text3);margin-top:2px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
-.prog-list{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
-.prog-item{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--rsm);padding:12px 14px}
-.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.stat-box{background:var(--card);border:.5px solid var(--cb);border-radius:var(--rsm);padding:11px 8px;text-align:center}
+.stat-v{font-size:20px;font-weight:800;color:var(--navy)}
+.stat-l{font-size:9px;color:var(--text3);margin-top:2px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.prog-list{display:flex;flex-direction:column;gap:7px;margin-bottom:8px}
+.prog-item{background:var(--card);border:.5px solid var(--cb);border-radius:var(--rsm);padding:11px 13px}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .prog-name{font-size:13px;font-weight:700;color:var(--navy)}
-.prog-right{font-size:12px;color:var(--text2);text-align:right}
+.prog-right{font-size:11px;color:var(--text2);text-align:right}
 .prog-pts{font-weight:800;color:var(--navy)}
-.prog-bar{height:7px;background:var(--off);border-radius:4px;overflow:hidden}
-.prog-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.prog-bar{height:6px;background:var(--off);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1)}
 
 /* LOG */
-.log-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.log-card{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--radius);padding:13px;position:relative;overflow:hidden;transition:transform .1s}
+.log-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.log-card{background:var(--card);border:.5px solid var(--cb);border-radius:var(--r);padding:12px;position:relative;overflow:hidden;transition:transform .1s}
 .log-card:active{transform:scale(.97)}
 .log-accent{position:absolute;top:0;left:0;right:0;height:4px}
 .log-icon{font-size:20px;margin-bottom:4px;display:block}
 .log-name{font-size:12px;font-weight:800;color:var(--navy);margin-bottom:1px}
 .log-pts-hint{font-size:10px;color:var(--text2);margin-bottom:8px;font-weight:600}
-.cnt-row{display:flex;align-items:center;border:1px solid var(--cardborder);border-radius:8px;overflow:hidden;background:var(--off)}
+.cnt-row{display:flex;align-items:center;border:1px solid var(--cb);border-radius:8px;overflow:hidden;background:var(--off)}
 .cnt-btn{width:34px;height:34px;border:none;background:transparent;font-size:20px;line-height:1;cursor:pointer;color:var(--navy);flex-shrink:0}
-.cnt-btn:active{background:var(--cardborder)}
+.cnt-btn:active{background:var(--cb)}
 .cnt-inp{flex:1;border:none;background:transparent;text-align:center;font-size:15px;font-weight:800;font-family:inherit;color:var(--navy);outline:none;height:34px;min-width:0;padding:0}
-.log-pts-today{font-size:11px;font-weight:700;color:var(--text3);margin-top:5px}
+.log-pts-today{font-size:10px;font-weight:700;color:var(--text3);margin-top:5px}
 .log-full{grid-column:1/-1}
-.log-submit{width:100%;padding:15px;background:var(--navy);color:var(--white);border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;margin-top:12px;font-family:inherit}
+.log-submit{width:100%;padding:14px;background:var(--navy);color:var(--white);border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;margin-top:11px;font-family:inherit}
 .log-submit:active{background:var(--navy2)}
-.made-notice{font-size:12px;color:var(--text2);margin-bottom:12px;padding:8px 12px;background:rgba(13,31,78,.05);border-radius:8px;border-left:3px solid var(--gold);line-height:1.5}
+.made-notice{font-size:12px;color:var(--text2);margin-bottom:11px;padding:8px 12px;background:rgba(13,31,78,.05);border-radius:8px;border-left:3px solid var(--gold);line-height:1.5}
 
-/* LEADERBOARD */
+/* LB */
 .lb-filter{display:flex;gap:6px;overflow-x:auto;padding:12px 16px 4px;scrollbar-width:none}
 .lb-filter::-webkit-scrollbar{display:none}
-.lb-chip{padding:7px 13px;border-radius:20px;border:1.5px solid var(--cardborder);background:var(--card);font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer;color:var(--text2);flex-shrink:0;transition:all .15s}
+.lb-chip{padding:7px 13px;border-radius:20px;border:1.5px solid var(--cb);background:var(--card);font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer;color:var(--text2);flex-shrink:0;transition:all .15s}
 .lb-chip.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
 .lb-list{padding:0 16px 16px;display:flex;flex-direction:column;gap:8px}
-.lb-row{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--radius);padding:12px 13px;display:flex;align-items:center;gap:11px}
+.lb-row{background:var(--card);border:.5px solid var(--cb);border-radius:var(--r);padding:12px 13px;display:flex;align-items:center;gap:11px}
 .lb-row.me{border:2.5px solid var(--navy);background:rgba(13,31,78,.04)}
 .lb-row.top1{background:linear-gradient(135deg,#FFFBEB,#FFF5C0)}
 .lb-rank-col{font-size:14px;font-weight:900;color:var(--text3);min-width:24px;text-align:center}
-.lb-av{width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.lb-av{width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--off)}
 .lb-av svg{width:100%;height:100%}
 .lb-info{flex:1;min-width:0}
 .lb-pname{font-size:14px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
@@ -154,171 +159,160 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
 .lb-pts{font-size:20px;font-weight:900;color:var(--navy);letter-spacing:-.5px}
 .lb-pts-lbl{font-size:10px;color:var(--text3);font-weight:700;letter-spacing:.05em;text-transform:uppercase}
 .lb-empty{text-align:center;padding:48px 20px}
-.lb-empty-icon{font-size:48px;margin-bottom:12px}
-.lb-empty-t{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:6px}
-.lb-empty-s{font-size:14px;color:var(--text2);line-height:1.5}
 
 /* SHARE */
-.share-hero{background:var(--navy);margin:16px;border-radius:18px;padding:24px;text-align:center}
+.share-hero{background:var(--navy);margin:16px;border-radius:18px;padding:22px;text-align:center}
 .share-title{color:var(--white);font-size:16px;font-weight:800;margin-bottom:4px}
-.share-sub{color:rgba(255,255,255,.5);font-size:13px;margin-bottom:14px}
+.share-sub{color:rgba(255,255,255,.5);font-size:13px;margin-bottom:12px}
 .share-url{background:rgba(255,255,255,.1);border-radius:10px;padding:11px;margin-bottom:11px}
 .share-url-text{color:var(--gold);font-size:12px;font-weight:700;word-break:break-all;font-family:monospace}
 .share-btns{display:flex;gap:8px}
-.share-btn{flex:1;padding:12px 8px;border-radius:9px;border:none;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit}
+.share-btn{flex:1;padding:11px 8px;border-radius:9px;border:none;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit}
 .share-btn.p{background:var(--gold);color:var(--navy)}
 .share-btn.s{background:rgba(255,255,255,.12);color:var(--white)}
-.score-item{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--rsm);padding:12px 14px;display:flex;align-items:center;gap:12px}
+.score-item{background:var(--card);border:.5px solid var(--cb);border-radius:var(--rsm);padding:12px 14px;display:flex;align-items:center;gap:12px}
 .score-icon{font-size:22px;flex-shrink:0}
 .score-info{flex:1}
 .score-name{font-size:13px;font-weight:700;color:var(--navy)}
 .score-desc{font-size:11px;color:var(--text2);margin-top:2px}
 .score-pts{text-align:right}
 .score-big{font-size:18px;font-weight:900;color:var(--navy)}
-.score-small{font-size:10px;color:var(--text3);font-weight:700;letter-spacing:.04em}
+.score-small{font-size:10px;color:var(--text3);font-weight:700}
 
 /* ADMIN */
-.admin-wrap{padding:16px 16px calc(80px + var(--safe-bot))}
+.admin-wrap{padding:16px 16px calc(80px + var(--sb))}
 .admin-header{background:var(--navy);border-radius:16px;padding:20px;margin-bottom:16px;text-align:center}
 .admin-badge{display:inline-block;background:var(--gold);color:var(--navy);font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;letter-spacing:.06em;margin-bottom:10px}
-.admin-title{color:var(--white);font-size:18px;font-weight:800;margin-bottom:4px}
+.admin-title{color:var(--white);font-size:17px;font-weight:800;margin-bottom:4px}
 .admin-sub{color:rgba(255,255,255,.5);font-size:13px}
-.admin-player-row{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--radius);padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.admin-av{width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.admin-player-row{background:var(--card);border:.5px solid var(--cb);border-radius:var(--r);padding:12px 13px;display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.admin-av{width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--off)}
 .admin-av svg{width:100%;height:100%}
 .admin-player-info{flex:1}
-.admin-player-name{font-size:14px;font-weight:700;color:var(--navy)}
+.admin-player-name{font-size:13px;font-weight:700;color:var(--navy)}
 .admin-player-sub{font-size:11px;color:var(--text3);margin-top:2px}
 .admin-remove-btn{background:rgba(231,76,60,.12);color:var(--red);border:none;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0}
-.admin-section-title{font-size:11px;font-weight:800;color:var(--text2);letter-spacing:.07em;text-transform:uppercase;margin:20px 0 10px}
-.admin-stat-row{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--rsm);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.admin-section-title{font-size:11px;font-weight:800;color:var(--text2);letter-spacing:.07em;text-transform:uppercase;margin:18px 0 8px}
+.admin-stat-row{background:var(--card);border:.5px solid var(--cb);border-radius:var(--rsm);padding:11px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 
-/* MODAL */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
-.modal-sheet{background:var(--white);border-radius:22px 22px 0 0;padding:20px 22px calc(24px + var(--safe-bot));width:100%;max-width:480px;animation:slideUp .25s ease}
+/* MODALS */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}
+.modal-sheet{background:var(--white);border-radius:22px 22px 0 0;padding:20px 22px calc(24px + var(--sb));width:100%;max-width:480px;animation:slideUp .25s ease}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.modal-handle{width:38px;height:4px;background:var(--cardborder);border-radius:2px;margin:0 auto 18px}
+.modal-handle{width:38px;height:4px;background:var(--cb);border-radius:2px;margin:0 auto 18px}
 .modal-t{font-size:18px;font-weight:800;color:var(--navy);margin-bottom:3px}
-.modal-s{font-size:13px;color:var(--text2);margin-bottom:22px}
+.modal-s{font-size:13px;color:var(--text2);margin-bottom:20px}
 .big-counter{display:flex;align-items:center;justify-content:center;gap:16px;margin:4px 0}
-.big-btn{width:60px;height:60px;border-radius:50%;border:none;background:var(--off);font-size:32px;cursor:pointer;color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:300;-webkit-user-select:none;user-select:none}
+.big-btn{width:60px;height:60px;border-radius:50%;border:none;background:var(--off);font-size:32px;cursor:pointer;color:var(--navy);display:flex;align-items:center;justify-content:center;-webkit-user-select:none;user-select:none}
 .big-btn:active{background:#ddd}
 .big-num{font-size:56px;font-weight:900;color:var(--navy);min-width:110px;text-align:center;line-height:1;letter-spacing:-3px}
-.big-unit{text-align:center;font-size:13px;color:var(--text2);margin-bottom:16px;font-weight:600}
-.modal-preview{background:var(--off);border-radius:10px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.big-unit{text-align:center;font-size:13px;color:var(--text2);margin-bottom:14px;font-weight:600}
+.modal-preview{background:var(--off);border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .mp-label{font-size:13px;color:var(--text2);font-weight:600}
 .mp-val{font-size:20px;font-weight:900;color:var(--navy)}
-.modal-ok{width:100%;padding:15px;background:var(--navy);color:var(--white);border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit}
+.modal-ok{width:100%;padding:14px;background:var(--navy);color:var(--white);border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit}
 .modal-ok:active{background:var(--navy2)}
-.modal-cancel-btn{width:100%;padding:12px;background:transparent;color:var(--text2);border:none;font-size:15px;cursor:pointer;margin-top:6px;font-family:inherit}
+.modal-cancel-btn{width:100%;padding:12px;background:transparent;color:var(--text2);border:none;font-size:15px;cursor:pointer;margin-top:5px;font-family:inherit}
 
 /* BOTTOM NAV */
-.bottom-nav{background:var(--white);border-top:0.5px solid var(--cardborder);display:flex;padding:10px 0 calc(10px + var(--safe-bot));flex-shrink:0}
+.bottom-nav{background:var(--white);border-top:.5px solid var(--cb);display:flex;padding:10px 0 calc(10px + var(--sb));flex-shrink:0}
 .bnav{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:2px 0}
 .bnav-icon{font-size:22px;opacity:.3;transition:opacity .15s}
 .bnav-label{font-size:10px;color:var(--text2);font-weight:700;opacity:.4;transition:opacity .15s;letter-spacing:.03em;text-transform:uppercase}
 .bnav.active .bnav-icon,.bnav.active .bnav-label{opacity:1;color:var(--navy)}
 
 /* TOAST */
-.toast{position:fixed;bottom:calc(90px + var(--safe-bot));left:50%;transform:translateX(-50%) translateY(16px);background:var(--navy);color:var(--white);padding:11px 22px;border-radius:22px;font-size:14px;font-weight:700;opacity:0;transition:all .3s;z-index:600;white-space:nowrap;pointer-events:none;max-width:90vw;text-align:center}
+.toast{position:fixed;bottom:calc(88px + var(--sb));left:50%;transform:translateX(-50%) translateY(16px);background:var(--navy);color:var(--white);padding:11px 22px;border-radius:22px;font-size:14px;font-weight:700;opacity:0;transition:all .3s;z-index:600;pointer-events:none;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.gap16{margin-bottom:16px}
+.gap14{margin-bottom:14px}
 </style>
 </head>
 <body>
 
-<!-- JOIN -->
+<!-- ══ JOIN ══ -->
 <div class="screen active" id="s-join">
-  <div class="join-wrap">
-    <div class="join-logo-area">
-      <svg width="180" height="180" viewBox="0 0 680 520" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <path id="jat" d="M 130,310 A 210,210 0 0,1 550,310"/>
-          <path id="jab" d="M 175,370 A 175,175 0 0,0 505,370"/>
-        </defs>
-        <circle cx="340" cy="270" r="235" fill="#0D1F4E"/>
-        <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="88" letter-spacing="6" fill="none" stroke="#0D1F4E" stroke-width="14" stroke-linejoin="round"><textPath href="#jat" startOffset="50%" text-anchor="middle">FORCE</textPath></text>
-        <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="88" letter-spacing="6" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round"><textPath href="#jat" startOffset="50%" text-anchor="middle">FORCE</textPath></text>
-        <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="88" letter-spacing="6" fill="#FFFFFF"><textPath href="#jat" startOffset="50%" text-anchor="middle">FORCE</textPath></text>
-        <path d="M340,148 L440,148 L455,168 L455,295 Q455,355 340,395 Q225,355 225,295 L225,168 L240,148 Z" fill="#F5C842"/>
-        <path d="M340,158 L432,158 L445,175 L445,292 Q445,345 340,382 Q235,345 235,292 L235,175 L248,158 Z" fill="#0D1F4E"/>
-        <circle cx="340" cy="278" r="68" fill="none" stroke="#F5C842" stroke-width="3.5"/>
-        <path d="M340,210 Q362,245 362,278 Q362,311 340,346" fill="none" stroke="#F5C842" stroke-width="2"/>
-        <path d="M275,263 Q307,253 340,253 Q373,253 405,263" fill="none" stroke="#F5C842" stroke-width="2"/>
-        <path d="M278,295 Q308,304 340,304 Q372,304 402,295" fill="none" stroke="#F5C842" stroke-width="2"/>
-        <text x="333" y="316" font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="108" text-anchor="middle" fill="#0D1F4E" opacity="0.45">F</text>
-        <text x="333" y="316" font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="108" text-anchor="middle" fill="#F5C842">F</text>
-        <polygon points="340,372 344.5,384 357,384 347,391 350.5,403 340,396 329.5,403 333,391 323,384 335.5,384" fill="#F5C842"/>
-        <text x="215" y="260" font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="28" text-anchor="middle" fill="#F5C842" letter-spacing="2">19</text>
-        <text x="465" y="260" font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="28" text-anchor="middle" fill="#F5C842" letter-spacing="2">73</text>
-        <text font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="34" letter-spacing="8" fill="none" stroke="#0D1F4E" stroke-width="8" stroke-linejoin="round"><textPath href="#jab" startOffset="50%" text-anchor="middle">BURLINGTON</textPath></text>
-        <text font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="34" letter-spacing="8" fill="#FFFFFF"><textPath href="#jab" startOffset="50%" text-anchor="middle">BURLINGTON</textPath></text>
-        <path d="M195,388 A 160,160 0 0,0 485,388" fill="none" stroke="#F5C842" stroke-width="2" opacity="0.5"/>
-      </svg>
-      <div class="join-season">Summer Scorecard 2025</div>
+<div class="join-wrap">
+
+  <!-- Curved text header -->
+  <div class="join-hero-text">
+    <svg width="320" height="100" viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <path id="arc1" d="M 20,80 A 140,140 0 0,1 300,80"/>
+        <path id="arc2" d="M 55,95 A 105,105 0 0,1 265,95"/>
+      </defs>
+      <!-- FORCE U15 arc -->
+      <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="38" fill="none" stroke="#0D1F4E" stroke-width="10" stroke-linejoin="round">
+        <textPath href="#arc1" startOffset="50%" text-anchor="middle">FORCE U15</textPath>
+      </text>
+      <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="38" fill="none" stroke="#F5C842" stroke-width="5" stroke-linejoin="round">
+        <textPath href="#arc1" startOffset="50%" text-anchor="middle">FORCE U15</textPath>
+      </text>
+      <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="38" fill="#FFFFFF">
+        <textPath href="#arc1" startOffset="50%" text-anchor="middle">FORCE U15</textPath>
+      </text>
+      <!-- Summer Squad arc -->
+      <text font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="14" letter-spacing="3" fill="none" stroke="#0D1F4E" stroke-width="5" stroke-linejoin="round">
+        <textPath href="#arc2" startOffset="50%" text-anchor="middle">SUMMER SQUAD</textPath>
+      </text>
+      <text font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="14" letter-spacing="3" fill="#F5C842">
+        <textPath href="#arc2" startOffset="50%" text-anchor="middle">SUMMER SQUAD</textPath>
+      </text>
+    </svg>
+  </div>
+
+  <div class="join-card">
+    <div class="join-card-title">Join the squad</div>
+    <div class="join-card-sub">Pick your player, enter your last name and jersey number.</div>
+
+    <div class="jlabel">Choose your player</div>
+    <div class="av-grid" id="av-grid"></div>
+
+    <div class="av-preview">
+      <div class="av-preview-circle" id="av-preview-img"></div>
+      <div class="av-preview-info">
+        <div class="av-preview-nick" id="av-preview-nick">—</div>
+        <div class="av-preview-sub" id="av-preview-sub">Pick a player above</div>
+      </div>
     </div>
 
-    <div class="join-card">
-      <div class="join-card-title">Join the squad</div>
-      <div class="join-card-sub">Pick your avatar, then enter your name and number.</div>
-
-      <div class="jlabel">Choose your player avatar</div>
-      <div class="av-grid" id="av-grid"></div>
-
-      <div class="av-preview">
-        <div class="av-preview-circle" id="av-preview-img"></div>
-        <div class="av-preview-name" id="av-preview-name">—</div>
-        <div class="av-preview-num" id="av-preview-num">#—</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div>
+        <div class="jlabel">Last name</div>
+        <input class="jinput" id="jlast" placeholder="Thompson" maxlength="14" autocomplete="off" autocorrect="off" spellcheck="false" oninput="updatePreview()">
       </div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
-        <div>
-          <div class="jlabel">First name</div>
-          <input class="jinput" id="jfirst" placeholder="Marcus" maxlength="14" autocomplete="off" autocorrect="off" spellcheck="false" oninput="updatePreview()">
-        </div>
-        <div>
-          <div class="jlabel">Last name</div>
-          <input class="jinput" id="jlast" placeholder="Thompson" maxlength="14" autocomplete="off" autocorrect="off" spellcheck="false" oninput="updatePreview()">
-        </div>
+      <div>
+        <div class="jlabel">Jersey #</div>
+        <input class="jinput" id="jnum" placeholder="23" maxlength="2" type="number" inputmode="numeric"
+          style="text-align:center;font-size:24px;font-weight:900;letter-spacing:4px" oninput="updatePreview()">
       </div>
+    </div>
 
-      <div class="jlabel">Jersey number</div>
-      <input class="jinput" id="jnum" placeholder="23" maxlength="2" type="number" inputmode="numeric"
-        style="margin-bottom:16px;text-align:center;font-size:24px;font-weight:900;letter-spacing:4px" oninput="updatePreview()">
+    <button class="join-btn" onclick="joinTeam()">🏀 Join the Force</button>
 
-      <button class="join-btn" onclick="joinTeam()">🏀 Join the Force</button>
-
-      <div class="join-locked"><span style="font-size:15px">🔒</span><span>Each player joins once. Only your coach can remove players.</span></div>
-      <div class="join-divider"><span>Already on the squad?</span></div>
-      <select class="jinput" id="existing-sel" style="cursor:pointer">
-        <option value="">— Switch to my profile —</option>
-      </select>
-      <div style="text-align:center;margin-top:12px">
-        <span style="font-size:12px;color:var(--text3);cursor:pointer;text-decoration:underline" onclick="showAdminLogin()">Coach admin login</span>
-      </div>
+    <div class="join-locked"><span style="font-size:15px">🔒</span><span>One spot per player. Only your coach can remove players.</span></div>
+    <div class="join-divider"><span>Already on the squad?</span></div>
+    <select class="jinput" id="existing-sel" style="cursor:pointer">
+      <option value="">— Switch to my profile —</option>
+    </select>
+    <div style="text-align:center;margin-top:10px">
+      <span style="font-size:11px;color:var(--text3);cursor:pointer;text-decoration:underline" onclick="showAdminLogin()">Coach admin login</span>
     </div>
   </div>
 </div>
+</div>
 
-<!-- APP -->
+<!-- ══ APP ══ -->
 <div class="screen" id="s-app">
   <div class="topbar">
     <div class="topbar-inner">
       <div class="tb-brand">
-        <svg width="30" height="30" viewBox="0 0 680 520" xmlns="http://www.w3.org/2000/svg">
-          <defs><path id="tat" d="M 130,310 A 210,210 0 0,1 550,310"/><path id="tab" d="M 175,370 A 175,175 0 0,0 505,370"/></defs>
-          <circle cx="340" cy="270" r="235" fill="#0D1F4E"/>
-          <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="88" letter-spacing="6" fill="none" stroke="#0D1F4E" stroke-width="14" stroke-linejoin="round"><textPath href="#tat" startOffset="50%" text-anchor="middle">FORCE</textPath></text>
-          <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="88" letter-spacing="6" fill="#FFFFFF"><textPath href="#tat" startOffset="50%" text-anchor="middle">FORCE</textPath></text>
-          <path d="M340,148 L440,148 L455,168 L455,295 Q455,355 340,395 Q225,355 225,295 L225,168 L240,148 Z" fill="#F5C842"/>
-          <path d="M340,158 L432,158 L445,175 L445,292 Q445,345 340,382 Q235,345 235,292 L235,175 L248,158 Z" fill="#0D1F4E"/>
-          <text x="333" y="316" font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="108" text-anchor="middle" fill="#F5C842">F</text>
-          <polygon points="340,372 344.5,384 357,384 347,391 350.5,403 340,396 329.5,403 333,391 323,384 335.5,384" fill="#F5C842"/>
-          <text font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="34" letter-spacing="8" fill="none" stroke="#0D1F4E" stroke-width="8" stroke-linejoin="round"><textPath href="#tab" startOffset="50%" text-anchor="middle">BURLINGTON</textPath></text>
-          <text font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="34" letter-spacing="8" fill="#FFFFFF"><textPath href="#tab" startOffset="50%" text-anchor="middle">BURLINGTON</textPath></text>
+        <svg width="28" height="28" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="38" fill="#F5C842"/>
+          <circle cx="40" cy="40" r="34" fill="#0D1F4E"/>
+          <text x="40" y="53" text-anchor="middle" font-size="36" font-weight="900" fill="#F5C842" font-family="Arial Black,sans-serif">F</text>
         </svg>
-        <div class="tb-brand-text">
-          <div class="tb-brand-name">Burlington Force</div>
+        <div class="tb-brand-text-wrap">
+          <div class="tb-brand-name">Force U15</div>
           <div class="tb-brand-sub">Summer Scorecard 2025</div>
         </div>
       </div>
@@ -356,11 +350,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
           </div>
         </div>
       </div>
-      <div class="section gap16">
+      <div class="section gap14">
         <div class="sec-title">Activity streak — last 14 days</div>
         <div class="streak-row" id="streak-row"></div>
       </div>
-      <div class="section gap16">
+      <div class="section gap14">
         <div class="sec-title">Month stats <span class="sec-sub" id="stats-month-lbl"></span></div>
         <div class="stat-strip" id="stat-strip"></div>
         <div class="prog-list" id="prog-list"></div>
@@ -382,18 +376,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
     </div>
 
     <div class="tab" id="tab-share">
-      <div style="padding:16px 0 0">
+      <div style="padding:14px 0 0">
         <div class="share-hero">
-          <svg width="56" height="56" viewBox="0 0 680 520" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:10px">
-            <defs><path id="sat" d="M 130,310 A 210,210 0 0,1 550,310"/><path id="sab" d="M 175,370 A 175,175 0 0,0 505,370"/></defs>
-            <circle cx="340" cy="270" r="235" fill="rgba(255,255,255,.1)"/>
-            <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="88" letter-spacing="6" fill="#FFFFFF" opacity=".9"><textPath href="#sat" startOffset="50%" text-anchor="middle">FORCE</textPath></text>
-            <path d="M340,148 L440,148 L455,168 L455,295 Q455,355 340,395 Q225,355 225,295 L225,168 L240,148 Z" fill="#F5C842"/>
-            <path d="M340,158 L432,158 L445,175 L445,292 Q445,345 340,382 Q235,345 235,292 L235,175 L248,158 Z" fill="rgba(0,0,0,.3)"/>
-            <text x="333" y="316" font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="108" text-anchor="middle" fill="#F5C842">F</text>
-            <text font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="34" letter-spacing="8" fill="#FFFFFF"><textPath href="#sab" startOffset="50%" text-anchor="middle">BURLINGTON</textPath></text>
-          </svg>
-          <div class="share-title">Invite your teammates</div>
+          <div class="share-title">Invite your teammates 🏀</div>
           <div class="share-sub">Share this link — everyone joins the same live leaderboard</div>
           <div class="share-url"><div class="share-url-text">basketballsims.github.io/basketballsimstrainer/scorecard.html</div></div>
           <div class="share-btns">
@@ -401,11 +386,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
             <button class="share-btn s" onclick="shareApp()">📲 Share</button>
           </div>
         </div>
-        <div class="section gap16">
+        <div class="section gap14">
           <div class="sec-title">Scoring matrix</div>
           <div style="display:flex;flex-direction:column;gap:8px" id="score-matrix"></div>
         </div>
-        <div class="section gap16">
+        <div class="section gap14">
           <div class="sec-title">Season overview</div>
           <div style="display:flex;flex-direction:column;gap:8px" id="season-overview"></div>
         </div>
@@ -415,32 +400,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
 
   <div class="bottom-nav">
     <div class="bnav active" id="bn-dash" onclick="showTab('dash')">
-      <div class="bnav-icon">🏠</div>
-      <div class="bnav-label">Dashboard</div>
+      <div class="bnav-icon">🏠</div><div class="bnav-label">Dashboard</div>
     </div>
     <div class="bnav" id="bn-lb" onclick="showTab('lb')">
-      <div class="bnav-icon">🏆</div>
-      <div class="bnav-label">Leaderboard</div>
+      <div class="bnav-icon">🏆</div><div class="bnav-label">Leaderboard</div>
     </div>
     <div class="bnav" id="bn-share" onclick="showTab('share')">
-      <div class="bnav-icon">📲</div>
-      <div class="bnav-label">Info</div>
+      <div class="bnav-icon">📲</div><div class="bnav-label">Info</div>
     </div>
   </div>
 </div>
 
-<!-- ADMIN -->
+<!-- ══ ADMIN ══ -->
 <div class="screen" id="s-admin">
   <div class="topbar" style="padding-bottom:12px">
     <div class="topbar-inner" style="margin-bottom:0">
       <div class="tb-brand">
-        <svg width="26" height="26" viewBox="0 0 680 520" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="340" cy="270" r="235" fill="#0D1F4E"/>
-          <path d="M340,148 L440,148 L455,168 L455,295 Q455,355 340,395 Q225,355 225,295 L225,168 L240,148 Z" fill="#F5C842"/>
-          <path d="M340,158 L432,158 L445,175 L445,292 Q445,345 340,382 Q235,345 235,292 L235,175 L248,158 Z" fill="#0D1F4E"/>
-          <text x="333" y="316" font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="108" text-anchor="middle" fill="#F5C842">F</text>
+        <svg width="24" height="24" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="38" fill="#F5C842"/>
+          <circle cx="40" cy="40" r="34" fill="#0D1F4E"/>
+          <text x="40" y="53" text-anchor="middle" font-size="36" font-weight="900" fill="#F5C842" font-family="Arial Black,sans-serif">F</text>
         </svg>
-        <div class="tb-brand-text"><div class="tb-brand-name">Coach Admin</div><div class="tb-brand-sub">Player management</div></div>
+        <div class="tb-brand-text-wrap"><div class="tb-brand-name">Coach Admin</div><div class="tb-brand-sub">Player management</div></div>
       </div>
       <button onclick="exitAdmin()" style="background:rgba(255,255,255,.12);border:none;color:var(--white);border-radius:8px;padding:7px 13px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">Exit</button>
     </div>
@@ -476,7 +457,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
     <div class="modal-t">Coach login</div>
     <div class="modal-s">Enter your 4-digit coach PIN</div>
     <input type="password" inputmode="numeric" maxlength="4" id="pin-input" placeholder="••••"
-      style="width:100%;padding:16px;border:2px solid var(--cardborder);border-radius:10px;font-size:32px;font-weight:800;font-family:inherit;text-align:center;letter-spacing:10px;margin:12px 0 20px;color:var(--navy);background:var(--off);outline:none"
+      style="width:100%;padding:16px;border:2px solid var(--cb);border-radius:10px;font-size:32px;font-weight:800;font-family:inherit;text-align:center;letter-spacing:10px;margin:12px 0 20px;color:var(--navy);background:var(--off);outline:none"
       oninput="pinChanged(this)">
     <button class="modal-ok" onclick="submitPin()">Unlock admin panel 🔓</button>
     <button class="modal-cancel-btn" onclick="closeAdminModal(null)">Cancel</button>
@@ -492,248 +473,249 @@ const MONTHS={6:'June',7:'July',8:'August'};
 const YEAR=2025;
 const TODAY=new Date();
 
-// ── 20 BASKETBALL AVATARS (inline SVG strings) ──────────────────────────────
-// Each is a 100×100 viewBox fun illustrated character
-const AVATARS=[
-  // 1 — Ball on fire
-  {id:'fireball',label:'Fireball',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="55" r="32" fill="#E8742A"/>
-    <circle cx="50" cy="55" r="32" fill="none" stroke="#C45A10" stroke-width="2"/>
-    <path d="M50,23 Q56,30 50,36 Q44,30 50,23Z" fill="#F5C842"/>
-    <path d="M44,26 Q48,33 42,38 Q38,31 44,26Z" fill="#F97316"/>
-    <path d="M56,26 Q60,33 56,38 Q50,33 56,26Z" fill="#F97316"/>
-    <path d="M35,34 Q42,40 38,46 Q32,40 35,34Z" fill="#FBBF24"/>
-    <path d="M65,34 Q68,40 62,46 Q58,40 65,34Z" fill="#FBBF24"/>
-    <path d="M50,27 A28,28 0 0,1 78,55" fill="none" stroke="#92400E" stroke-width="2"/>
-    <path d="M50,27 Q50,55 50,83" fill="none" stroke="#92400E" stroke-width="2"/>
-    <path d="M26,48 A28,28 0 0,0 74,48" fill="none" stroke="#92400E" stroke-width="2"/>
-    <circle cx="50" cy="55" r="32" fill="none" stroke="#C45A10" stroke-width="2.5"/>
+// ── 20 NBA/ATHLETE THEMED AVATARS ─────────────────────────────────────────
+// Each has id, nickname, team color palette, and inline SVG
+const AVATARS = [
+
+  // 1 — Luka Dončić  (Mavericks — navy + royal blue)
+  {id:'luka', nick:'Luka 77', team:'Dallas Mavericks', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#00538C"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#B8C4CA" font-family="Arial Black,sans-serif" letter-spacing="1">DALLAS</text>
+    <!-- jersey shape -->
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#002B5E"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#B8C4CA" stroke-width="1.5"/>
+    <!-- number -->
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#00538C" font-family="Arial Black,sans-serif">77</text>
+    <!-- name arc -->
+    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#B8C4CA" font-family="Arial Black,sans-serif" letter-spacing=".5">DONČIĆ</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#B8C4CA" stroke-width="2"/>
   </svg>`},
-  // 2 — Lightning dunker
-  {id:'thunder',label:'Thunder',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#1E3A8A"/>
-    <text x="50" y="65" text-anchor="middle" font-size="54" font-family="Arial Black,sans-serif">⚡</text>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#F5C842" stroke-width="4"/>
-    <text x="50" y="90" text-anchor="middle" font-size="9" font-weight="700" fill="#F5C842" font-family="Arial,sans-serif" letter-spacing="2">FORCE</text>
+
+  // 2 — Nikola Jokić  (Nuggets — navy + gold + sky)
+  {id:'jokic', nick:'Joker 15', team:'Denver Nuggets', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#0E2240"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#FEC524" font-family="Arial Black,sans-serif" letter-spacing="1">DENVER</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#FEC524"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#8B2131" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#0E2240" font-family="Arial Black,sans-serif">15</text>
+    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#FEC524" font-family="Arial Black,sans-serif" letter-spacing=".5">JOKIĆ</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#FEC524" stroke-width="2"/>
   </svg>`},
-  // 3 — Sneaker
-  {id:'kicks',label:'Fresh Kicks',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#F5C842"/>
-    <path d="M15,62 Q20,52 35,52 L55,44 Q68,40 75,46 L82,60 Q84,66 78,68 L18,68 Q13,68 15,62Z" fill="white" stroke="#0D1F4E" stroke-width="2"/>
-    <path d="M35,52 L45,44" fill="none" stroke="#0D1F4E" stroke-width="2"/>
-    <path d="M22,62 L72,62" fill="none" stroke="#A8C8E8" stroke-width="2"/>
-    <path d="M55,44 Q65,46 68,56" fill="none" stroke="#E74C3C" stroke-width="2.5"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#0D1F4E" stroke-width="3"/>
+
+  // 3 — Shai Gilgeous-Alexander  (Thunder — navy + sky + orange)
+  {id:'sga', nick:'SGA 2', team:'OKC Thunder', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#007AC1"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#EF3B24" font-family="Arial Black,sans-serif" letter-spacing="1">OKC</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#002D62"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#EF3B24" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#007AC1" font-family="Arial Black,sans-serif">2</text>
+    <text x="50" y="84" text-anchor="middle" font-size="7.5" font-weight="800" fill="#F7F7F7" font-family="Arial Black,sans-serif" letter-spacing=".5">GILGEOUS</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#EF3B24" stroke-width="2"/>
   </svg>`},
-  // 4 — Trophy
-  {id:'trophy',label:'The Champ',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#0D1F4E"/>
-    <path d="M38,25 L62,25 L62,55 Q62,68 50,72 Q38,68 38,55Z" fill="#F5C842"/>
-    <path d="M38,30 Q30,30 30,38 Q30,46 38,48" fill="none" stroke="#F5C842" stroke-width="3" stroke-linecap="round"/>
-    <path d="M62,30 Q70,30 70,38 Q70,46 62,48" fill="none" stroke="#F5C842" stroke-width="3" stroke-linecap="round"/>
-    <rect x="44" y="72" width="12" height="8" fill="#E6B830"/>
-    <rect x="36" y="80" width="28" height="5" rx="2" fill="#F5C842"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#F5C842" stroke-width="3"/>
+
+  // 4 — Victor Wembanyama  (Spurs — silver + black)
+  {id:'wemby', nick:'Wemby 1', team:'San Antonio Spurs', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#C4CED4"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#000000" font-family="Arial Black,sans-serif" letter-spacing="1">S.A. SPURS</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#000000"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#C4CED4" stroke-width="1.5"/>
+    <!-- long arms indicator - slight modification -->
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#C4CED4" font-family="Arial Black,sans-serif">1</text>
+    <text x="50" y="84" text-anchor="middle" font-size="7.5" font-weight="800" fill="#000000" font-family="Arial Black,sans-serif" letter-spacing=".5">WEMBANYAMA</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#1D1D1D" stroke-width="2"/>
   </svg>`},
-  // 5 — Shark
-  {id:'shark',label:'The Shark',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#A8C8E8"/>
-    <ellipse cx="50" cy="56" rx="28" ry="20" fill="#2563EB"/>
-    <path d="M50,36 L46,56 L54,56Z" fill="#1E3A8A"/>
-    <path d="M22,56 L50,56 L22,68Z" fill="#3B82F6" opacity=".5"/>
-    <ellipse cx="42" cy="50" rx="3" ry="3.5" fill="#1E3A8A"/>
-    <ellipse cx="58" cy="50" rx="3" ry="3.5" fill="#1E3A8A"/>
-    <path d="M40,60 Q50,65 60,60" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/>
-    <path d="M44,62 L44,66 M50,63 L50,67 M56,62 L56,66" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#1E3A8A" stroke-width="3"/>
+
+  // 5 — Anthony Edwards  (Timberwolves — dark green + midnight navy)
+  {id:'ant', nick:'Ant 5', team:'Minnesota', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#236192"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#9EA2A2" font-family="Arial Black,sans-serif" letter-spacing="1">MINNESOTA</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#0C2340"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#78BE20" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#78BE20" font-family="Arial Black,sans-serif">5</text>
+    <text x="50" y="84" text-anchor="middle" font-size="7.5" font-weight="800" fill="#9EA2A2" font-family="Arial Black,sans-serif" letter-spacing=".5">EDWARDS</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#78BE20" stroke-width="2"/>
   </svg>`},
-  // 6 — Lion
-  {id:'lion',label:'The Lion',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#F5C842"/>
-    <circle cx="50" cy="52" r="22" fill="#C97B2F"/>
-    <circle cx="50" cy="48" r="18" fill="#E8A54A"/>
-    <ellipse cx="42" cy="45" rx="4" ry="5" fill="#0D1F4E"/>
-    <ellipse cx="58" cy="45" rx="4" ry="5" fill="#0D1F4E"/>
-    <ellipse cx="42" cy="44" rx="1.5" ry="2" fill="white"/>
-    <ellipse cx="58" cy="44" rx="1.5" ry="2" fill="white"/>
-    <ellipse cx="50" cy="55" rx="6" ry="4" fill="#D4834A"/>
-    <path d="M44,58 Q50,62 56,58" fill="none" stroke="#92400E" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="44" cy="55" r="1" fill="#92400E"/>
-    <circle cx="56" cy="55" r="1" fill="#92400E"/>
-    <path d="M28,30 Q36,24 44,30" fill="#C97B2F"/>
-    <path d="M56,30 Q64,24 72,30" fill="#C97B2F"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#92400E" stroke-width="3"/>
+
+  // 6 — Stephen Curry  (Warriors — royal blue + gold)
+  {id:'curry', nick:'Chef 30', team:'Golden State', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#FFC72C"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#1D428A" font-family="Arial Black,sans-serif" letter-spacing="1">GOLDEN STATE</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#1D428A"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#FFC72C" stroke-width="1.5"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#FFC72C" font-family="Arial Black,sans-serif">30</text>
+    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#1D428A" font-family="Arial Black,sans-serif" letter-spacing=".5">CURRY</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#1D428A" stroke-width="2"/>
   </svg>`},
-  // 7 — Rocket
-  {id:'rocket',label:'Rocket',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#1E3A8A"/>
-    <path d="M50,20 Q58,28 60,45 L60,62 L40,62 L40,45 Q42,28 50,20Z" fill="white"/>
-    <rect x="42" y="42" width="16" height="12" rx="2" fill="#A8C8E8"/>
-    <path d="M40,58 Q32,62 30,72 L40,68Z" fill="#E74C3C"/>
-    <path d="M60,58 Q68,62 70,72 L60,68Z" fill="#E74C3C"/>
-    <path d="M44,70 Q50,82 56,70" fill="none" stroke="#F97316" stroke-width="4" stroke-linecap="round"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#F5C842" stroke-width="3"/>
+
+  // 7 — LeBron James  (Lakers — purple + gold)
+  {id:'lebron', nick:'King 23', team:'LA Lakers', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#552583"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#FDB927" font-family="Arial Black,sans-serif" letter-spacing="1">LOS ANGELES</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#FDB927"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#552583" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#552583" font-family="Arial Black,sans-serif">23</text>
+    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#FDB927" font-family="Arial Black,sans-serif" letter-spacing=".5">JAMES</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#FDB927" stroke-width="2"/>
   </svg>`},
-  // 8 — Dragon
-  {id:'dragon',label:'Dragon',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#0D1F4E"/>
-    <ellipse cx="50" cy="55" rx="22" ry="20" fill="#166534"/>
-    <path d="M34,40 Q42,30 50,34 Q58,30 66,40 L64,46 Q58,36 50,40 Q42,36 36,46Z" fill="#15803D"/>
-    <path d="M38,34 L36,26 L42,30Z" fill="#F5C842"/>
-    <path d="M62,34 L64,26 L58,30Z" fill="#F5C842"/>
-    <ellipse cx="43" cy="50" rx="4" ry="4" fill="#F5C842"/>
-    <ellipse cx="57" cy="50" rx="4" ry="4" fill="#F5C842"/>
-    <ellipse cx="43" cy="50" rx="2" ry="2.5" fill="#0D1F4E"/>
-    <ellipse cx="57" cy="50" rx="2" ry="2.5" fill="#0D1F4E"/>
-    <path d="M42,62 Q50,68 58,62" fill="none" stroke="#F5C842" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M44,64 L44,70 M50,65 L50,72 M56,64 L56,70" stroke="#F5C842" stroke-width="1.5" stroke-linecap="round"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#15803D" stroke-width="3"/>
+
+  // 8 — Jayson Tatum  (Celtics — green + white + gold)
+  {id:'tatum', nick:'JT 0', team:'Boston Celtics', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#007A33"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#BA9653" font-family="Arial Black,sans-serif" letter-spacing="1">BOSTON</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#FFFFFF"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#007A33" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#007A33" font-family="Arial Black,sans-serif">0</text>
+    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#BA9653" font-family="Arial Black,sans-serif" letter-spacing=".5">TATUM</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#BA9653" stroke-width="2"/>
   </svg>`},
-  // 9 — Crown
-  {id:'king',label:'King',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#F5C842"/>
-    <path d="M24,68 L32,40 L50,56 L68,40 L76,68Z" fill="#0D1F4E"/>
-    <circle cx="32" cy="40" r="5" fill="#E74C3C"/>
-    <circle cx="50" cy="56" r="5" fill="#E74C3C"/>
-    <circle cx="68" cy="40" r="5" fill="#E74C3C"/>
-    <rect x="24" y="68" width="52" height="8" rx="2" fill="#0D1F4E"/>
-    <path d="M30,60 L70,60" stroke="#F5C842" stroke-width="1.5" opacity=".4"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#0D1F4E" stroke-width="3"/>
+
+  // 9 — Giannis Antetokounmpo  (Bucks — forest green + cream)
+  {id:'giannis', nick:'Greek Freak', team:'Milwaukee', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#00471B"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#EEE1C6" font-family="Arial Black,sans-serif" letter-spacing="1">MILWAUKEE</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#EEE1C6"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#00471B" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#00471B" font-family="Arial Black,sans-serif">34</text>
+    <text x="50" y="84" text-anchor="middle" font-size="7.5" font-weight="800" fill="#EEE1C6" font-family="Arial Black,sans-serif" letter-spacing=".3">GIANNIS</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#EEE1C6" stroke-width="2"/>
   </svg>`},
-  // 10 — Star player
-  {id:'star',label:'All-Star',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#0D1F4E"/>
-    <polygon points="50,20 56,38 76,38 60,50 66,68 50,56 34,68 40,50 24,38 44,38" fill="#F5C842"/>
-    <polygon points="50,28 54,40 68,40 57,48 61,61 50,53 39,61 43,48 32,40 46,40" fill="#E6B830" opacity=".5"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#F5C842" stroke-width="3"/>
+
+  // 10 — Kevin Durant  (Suns — purple + orange)
+  {id:'kd', nick:'KD 35', team:'Phoenix Suns', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#E56020"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#1D1160" font-family="Arial Black,sans-serif" letter-spacing="1">PHOENIX</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#1D1160"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#E56020" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#E56020" font-family="Arial Black,sans-serif">35</text>
+    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#1D1160" font-family="Arial Black,sans-serif" letter-spacing=".5">DURANT</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#1D1160" stroke-width="2"/>
   </svg>`},
-  // 11 — Sneaker high-top
-  {id:'hightop',label:'High-Top',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#A8C8E8"/>
-    <rect x="28" y="30" width="22" height="40" rx="4" fill="#0D1F4E"/>
-    <path d="M30,55 Q38,50 50,55 L72,62 Q76,66 72,70 L28,70 Q24,70 26,66Z" fill="white" stroke="#0D1F4E" stroke-width="1.5"/>
-    <line x1="36" y1="38" x2="44" y2="38" stroke="white" stroke-width="2" stroke-linecap="round"/>
-    <line x1="36" y1="44" x2="44" y2="44" stroke="white" stroke-width="2" stroke-linecap="round"/>
-    <line x1="36" y1="50" x2="44" y2="50" stroke="white" stroke-width="2" stroke-linecap="round"/>
-    <path d="M44,60 Q56,58 64,65" stroke="#F5C842" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#0D1F4E" stroke-width="3"/>
+
+  // 11 — Damian Lillard  (Bucks — forest green + cream)
+  {id:'dame', nick:'Dame 0', team:'Milwaukee', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#00471B"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#EEE1C6" font-family="Arial Black,sans-serif" letter-spacing="1">MILWAUKEE</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#00471B"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#EEE1C6" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#EEE1C6" font-family="Arial Black,sans-serif">0</text>
+    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#EEE1C6" font-family="Arial Black,sans-serif" letter-spacing=".5">LILLARD</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#EEE1C6" stroke-width="2"/>
   </svg>`},
-  // 12 — Basketball player silhouette dunking
-  {id:'dunk',label:'Dunker',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#F5C842"/>
-    <circle cx="58" cy="24" r="8" fill="#0D1F4E"/>
-    <path d="M58,32 L54,50 L46,65" stroke="#0D1F4E" stroke-width="4" fill="none" stroke-linecap="round"/>
-    <path d="M54,50 L68,42 L76,30" stroke="#0D1F4E" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-    <circle cx="76" cy="28" r="7" fill="#E74C3C" stroke="#0D1F4E" stroke-width="2"/>
-    <path d="M74,28 Q76,26 78,28" fill="none" stroke="#0D1F4E" stroke-width="1.5"/>
-    <path d="M72,32 Q76,34 80,32" fill="none" stroke="#0D1F4E" stroke-width="1.5"/>
-    <path d="M54,50 L44,44" stroke="#0D1F4E" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-    <path d="M46,65 L38,72 M46,65 L52,74" stroke="#0D1F4E" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#0D1F4E" stroke-width="3"/>
+
+  // 12 — Tyrese Haliburton  (Pacers — navy + gold + yellow)
+  {id:'hali', nick:'Hali 0', team:'Indiana Pacers', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#002D62"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#FDBB30" font-family="Arial Black,sans-serif" letter-spacing="1">INDIANA</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#FDBB30"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#002D62" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#002D62" font-family="Arial Black,sans-serif">0</text>
+    <text x="50" y="84" text-anchor="middle" font-size="7.5" font-weight="800" fill="#FDBB30" font-family="Arial Black,sans-serif" letter-spacing=".3">HALIBURTON</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#FDBB30" stroke-width="2"/>
   </svg>`},
-  // 13 — Ice cold
-  {id:'icecold',label:'Ice Cold',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#0D1F4E"/>
-    <circle cx="50" cy="48" r="22" fill="#A8C8E8"/>
-    <ellipse cx="43" cy="44" rx="4" ry="5" fill="#0D1F4E"/>
-    <ellipse cx="57" cy="44" rx="4" ry="5" fill="#0D1F4E"/>
-    <ellipse cx="43" cy="43" rx="1.5" ry="2" fill="white"/>
-    <ellipse cx="57" cy="43" rx="1.5" ry="2" fill="white"/>
-    <path d="M42,56 Q50,60 58,56" fill="none" stroke="#0D1F4E" stroke-width="2" stroke-linecap="round"/>
-    <path d="M46,32 L44,26 M50,30 L50,24 M54,32 L56,26" stroke="#A8C8E8" stroke-width="2" stroke-linecap="round"/>
-    <path d="M30,68 Q50,58 70,68" fill="none" stroke="#A8C8E8" stroke-width="2" opacity=".5"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#A8C8E8" stroke-width="3"/>
+
+  // 13 — Devin Booker  (Suns — purple)
+  {id:'book', nick:'Book 1', team:'Phoenix Suns', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#1D1160"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#E56020" font-family="Arial Black,sans-serif" letter-spacing="1">PHOENIX</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#E56020"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#1D1160" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#1D1160" font-family="Arial Black,sans-serif">1</text>
+    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#E56020" font-family="Arial Black,sans-serif" letter-spacing=".5">BOOKER</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#E56020" stroke-width="2"/>
   </svg>`},
-  // 14 — Muscle arm
-  {id:'muscle',label:'Buckets',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#E74C3C"/>
-    <path d="M34,60 Q28,52 30,42 Q32,30 42,28 Q56,26 62,36 Q70,46 66,58 Q60,68 50,70 Q38,70 34,60Z" fill="#FBBF24"/>
-    <ellipse cx="48" cy="46" rx="10" ry="14" fill="#F97316"/>
-    <path d="M40,42 Q48,36 56,42" fill="none" stroke="#C45A10" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#C45A10" stroke-width="3"/>
+
+  // 14 — Joel Embiid  (Sixers — red white blue)
+  {id:'embiid', nick:'Embiid 21', team:'Philadelphia', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#006BB6"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#ED174C" font-family="Arial Black,sans-serif" letter-spacing="1">PHILLY</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#ED174C"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#006BB6" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#006BB6" font-family="Arial Black,sans-serif">21</text>
+    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#FFFFFF" font-family="Arial Black,sans-serif" letter-spacing=".5">EMBIID</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#ED174C" stroke-width="2"/>
   </svg>`},
-  // 15 — Sweat drop hustle
-  {id:'hustle',label:'Hustle',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#1DB954"/>
-    <circle cx="50" cy="46" r="20" fill="#0D1F4E"/>
-    <ellipse cx="43" cy="43" rx="3.5" ry="4" fill="white"/>
-    <ellipse cx="57" cy="43" rx="3.5" ry="4" fill="white"/>
-    <ellipse cx="43" cy="42" rx="1.5" ry="2" fill="#0D1F4E"/>
-    <ellipse cx="57" cy="42" rx="1.5" ry="2" fill="#0D1F4E"/>
-    <path d="M42,54 Q50,60 58,54" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M70,30 Q72,24 68,22 Q66,28 70,30Z" fill="#A8C8E8"/>
-    <path d="M76,38 Q79,32 75,30 Q73,36 76,38Z" fill="#A8C8E8"/>
-    <path d="M72,46 Q76,40 72,38 Q70,44 72,46Z" fill="#A8C8E8"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#0D1F4E" stroke-width="3"/>
+
+  // 15 — Kawhi Leonard  (Clippers — red + blue + white)
+  {id:'kawhi', nick:'Kawhi 2', team:'LA Clippers', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#C8102E"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#1D428A" font-family="Arial Black,sans-serif" letter-spacing="1">LA CLIPPERS</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#1D428A"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#C8102E" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#FFFFFF" font-family="Arial Black,sans-serif">2</text>
+    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#1D428A" font-family="Arial Black,sans-serif" letter-spacing=".5">LEONARD</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#1D428A" stroke-width="2"/>
   </svg>`},
-  // 16 — Diamond
-  {id:'diamond',label:'Diamond',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#0D1F4E"/>
-    <path d="M50,22 L68,38 L50,78 L32,38Z" fill="#A8C8E8"/>
-    <path d="M32,38 L50,22 L68,38 L50,48Z" fill="#C5DAEA"/>
-    <path d="M32,38 L50,48 L68,38" fill="none" stroke="white" stroke-width="1"/>
-    <path d="M50,48 L50,78" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-    <path d="M32,38 L50,78 M68,38 L50,78" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#A8C8E8" stroke-width="3"/>
+
+  // 16 — De'Aaron Fox  (Kings — purple + silver)
+  {id:'fox', nick:'King Fox 5', team:'Sacramento', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#5A2D81"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#63727A" font-family="Arial Black,sans-serif" letter-spacing="1">SACRAMENTO</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#FFFFFF"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#5A2D81" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#5A2D81" font-family="Arial Black,sans-serif">5</text>
+    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#63727A" font-family="Arial Black,sans-serif" letter-spacing=".5">FOX</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#63727A" stroke-width="2"/>
   </svg>`},
-  // 17 — Wolf
-  {id:'wolf',label:'The Wolf',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#4A5568"/>
-    <path d="M30,36 L36,22 L44,36Z" fill="#718096"/>
-    <path d="M70,36 L64,22 L56,36Z" fill="#718096"/>
-    <ellipse cx="50" cy="55" rx="24" ry="20" fill="#A0AEC0"/>
-    <ellipse cx="50" cy="52" rx="20" ry="16" fill="#CBD5E0"/>
-    <ellipse cx="42" cy="47" rx="5" ry="6" fill="#1A202C"/>
-    <ellipse cx="58" cy="47" rx="5" ry="6" fill="#1A202C"/>
-    <ellipse cx="42" cy="46" rx="2" ry="2.5" fill="white"/>
-    <ellipse cx="58" cy="46" rx="2" ry="2.5" fill="white"/>
-    <ellipse cx="50" cy="57" rx="5" ry="3.5" fill="#A0AEC0"/>
-    <path d="M44,62 Q50,67 56,62" fill="none" stroke="#4A5568" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#718096" stroke-width="3"/>
+
+  // 17 — Trae Young  (Hawks — red + white + yellow)
+  {id:'trae', nick:'Ice Trae 11', team:'Atlanta Hawks', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#E03A3E"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#C1D32F" font-family="Arial Black,sans-serif" letter-spacing="1">ATLANTA</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#FFFFFF"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#E03A3E" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#E03A3E" font-family="Arial Black,sans-serif">11</text>
+    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#C1D32F" font-family="Arial Black,sans-serif" letter-spacing=".5">TRAE</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#C1D32F" stroke-width="2"/>
   </svg>`},
-  // 18 — Net splash
-  {id:'splash',label:'Splash',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#A8C8E8"/>
-    <rect x="30" y="22" width="40" height="3" rx="1.5" fill="#0D1F4E"/>
-    <path d="M32,25 L36,50 M40,25 L40,50 M48,25 L48,50 M56,25 L56,50 M64,25 L64,50 M68,25 L68,50" stroke="#0D1F4E" stroke-width="1.5"/>
-    <path d="M34,32 L66,32 M33,38 L67,38 M32,44 L68,44 M33,50 L67,50" stroke="#0D1F4E" stroke-width="1"/>
-    <path d="M36,50 Q40,58 44,56 Q48,54 50,60 Q52,54 56,56 Q60,58 64,50" fill="none" stroke="#0D1F4E" stroke-width="1.5"/>
-    <circle cx="50" cy="38" r="12" fill="#E8742A" opacity=".85"/>
-    <path d="M46,38 Q50,34 54,38" fill="none" stroke="#92400E" stroke-width="1.5"/>
-    <path d="M44,42 Q50,46 56,42" fill="none" stroke="#92400E" stroke-width="1.5"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#0D1F4E" stroke-width="3"/>
+
+  // 18 — Ja Morant  (Grizzlies — navy + light blue + gold)
+  {id:'ja', nick:'Ja 12', team:'Memphis', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#5D76A9"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#12173F" font-family="Arial Black,sans-serif" letter-spacing="1">MEMPHIS</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#12173F"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#F5B112" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#5D76A9" font-family="Arial Black,sans-serif">12</text>
+    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#F5B112" font-family="Arial Black,sans-serif" letter-spacing=".5">MORANT</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#F5B112" stroke-width="2"/>
   </svg>`},
-  // 19 — Shield warrior
-  {id:'warrior',label:'Warrior',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#0D1F4E"/>
-    <path d="M50,22 L70,30 L70,54 Q70,68 50,78 Q30,68 30,54 L30,30Z" fill="#F5C842"/>
-    <path d="M50,28 L66,35 L66,54 Q66,65 50,73 Q34,65 34,54 L34,35Z" fill="#0D1F4E"/>
-    <text x="50" y="62" text-anchor="middle" font-size="28" font-weight="900" fill="#F5C842" font-family="Arial Black,sans-serif">F</text>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#F5C842" stroke-width="3"/>
+
+  // 19 — Chet Holmgren  (Thunder — navy + sky + orange)
+  {id:'chet', nick:'Chet 7', team:'OKC Thunder', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#002D62"/>
+    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#007AC1" font-family="Arial Black,sans-serif" letter-spacing="1">OKC</text>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#007AC1"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#EF3B24" stroke-width="2"/>
+    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#002D62" font-family="Arial Black,sans-serif">7</text>
+    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#EF3B24" font-family="Arial Black,sans-serif" letter-spacing=".5">HOLMGREN</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#007AC1" stroke-width="2"/>
   </svg>`},
-  // 20 — Basketball face
-  {id:'bball',label:'Ball Head',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100" height="100" rx="50" fill="#F5C842"/>
-    <circle cx="50" cy="48" r="26" fill="#E8742A" stroke="#92400E" stroke-width="2"/>
-    <path d="M50,22 Q50,48 50,74" fill="none" stroke="#92400E" stroke-width="2"/>
-    <path d="M28,36 A26,26 0 0,0 72,36" fill="none" stroke="#92400E" stroke-width="2"/>
-    <path d="M26,54 A26,26 0 0,0 74,54" fill="none" stroke="#92400E" stroke-width="2"/>
-    <ellipse cx="42" cy="44" rx="3.5" ry="4" fill="white"/>
-    <ellipse cx="58" cy="44" rx="3.5" ry="4" fill="white"/>
-    <ellipse cx="42" cy="43" rx="1.5" ry="2" fill="#0D1F4E"/>
-    <ellipse cx="58" cy="43" rx="1.5" ry="2" fill="#0D1F4E"/>
-    <path d="M42,58 Q50,63 58,58" fill="none" stroke="#92400E" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="#92400E" stroke-width="3"/>
+
+  // 20 — NBA All-Star special (gold + navy)
+  {id:'allstar', nick:'All-Star', team:'NBA All-Star', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="#1D1160"/>
+    <!-- star field bg -->
+    <circle cx="20" cy="20" r="2" fill="#FFC72C" opacity=".6"/>
+    <circle cx="80" cy="18" r="1.5" fill="#FFC72C" opacity=".5"/>
+    <circle cx="15" cy="65" r="1.5" fill="#FFC72C" opacity=".4"/>
+    <circle cx="85" cy="70" r="2" fill="#FFC72C" opacity=".6"/>
+    <circle cx="50" cy="10" r="1.5" fill="#FFC72C" opacity=".5"/>
+    <!-- NBA All-Star jersey -->
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#C8102E"/>
+    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#FFC72C" stroke-width="2"/>
+    <!-- big star -->
+    <polygon points="50,44 52.5,51 60,51 54,55.5 56.5,62.5 50,58 43.5,62.5 46,55.5 40,51 47.5,51" fill="#FFC72C"/>
+    <text x="50" y="84" text-anchor="middle" font-size="7.5" font-weight="800" fill="#FFC72C" font-family="Arial Black,sans-serif" letter-spacing=".5">ALL-STAR</text>
+    <circle cx="50" cy="50" r="48" fill="none" stroke="#FFC72C" stroke-width="2"/>
   </svg>`},
 ];
 
 const TYPES=[
   {key:'short', label:'Short makes',  icon:'🎯',color:'#1DB954',desc:'Made shots inside the charge circle',            unit:'shots MADE',ppt:10, per:100,isTime:false,logPrompt:'How many short shots did you MAKE?'},
   {key:'medium',label:'Medium makes', icon:'🏀',color:'#3B82F6',desc:'Made shots outside charge circle, inside FT line',unit:'shots MADE',ppt:20, per:100,isTime:false,logPrompt:'How many mid-range shots did you MAKE?'},
-  {key:'long',  label:'Long makes',   icon:'💥',color:'#8B5CF6',desc:'Made shots past the free throw line — 3s count!', unit:'shots MADE',ppt:75, per:100,isTime:false,logPrompt:'How many long shots / 3-pointers did you MAKE?'},
-  {key:'ov1',   label:'1v1 game',     icon:'⚡',color:'#F97316',desc:'30 min of 1v1 play = 45 pts',                     unit:'minutes',   ppt:45, per:30, isTime:true, logPrompt:'Minutes of 1v1 game play'},
-  {key:'ov3',   label:'3v3 game',     icon:'🔥',color:'#E74C3C',desc:'30 min of 3v3 play = 35 pts',                     unit:'minutes',   ppt:35, per:30, isTime:true, logPrompt:'Minutes of 3v3 game play'},
-  {key:'ov5',   label:'5v5 game',     icon:'👑',color:'#F5C842',desc:'30 min of 5v5 play = 25 pts',                     unit:'minutes',   ppt:25, per:30, isTime:true, logPrompt:'Minutes of 5v5 game play'},
+  {key:'long',  label:'Long makes',   icon:'💥',color:'#8B5CF6',desc:'Made shots past free throw line — 3s count!',    unit:'shots MADE',ppt:75, per:100,isTime:false,logPrompt:'How many long shots / 3-pointers did you MAKE?'},
+  {key:'ov1',   label:'1v1 game',     icon:'⚡',color:'#F97316',desc:'30 min of 1v1 play = 45 pts',                    unit:'minutes',   ppt:45, per:30, isTime:true, logPrompt:'Minutes of 1v1 game play'},
+  {key:'ov3',   label:'3v3 game',     icon:'🔥',color:'#E74C3C',desc:'30 min of 3v3 play = 35 pts',                    unit:'minutes',   ppt:35, per:30, isTime:true, logPrompt:'Minutes of 3v3 game play'},
+  {key:'ov5',   label:'5v5 game',     icon:'👑',color:'#F5C842',desc:'30 min of 5v5 play = 25 pts',                    unit:'minutes',   ppt:25, per:30, isTime:true, logPrompt:'Minutes of 5v5 game play'},
 ];
 const LB_CATS=[
   {key:'all',   label:'🏆 Overall'},
@@ -748,12 +730,12 @@ const LB_CATS=[
 function calcPts(t,v){return Math.floor((v/t.per)*t.ppt);}
 
 let DB={players:{},logs:{}};
-let me=null,curMonth=Math.max(6,Math.min(8,TODAY.getMonth()+1));
-let lbCat='all',mType=null,mVal=0,logV={},selAvId=AVATARS[0].id;
+let me=null, curMonth=Math.max(6,Math.min(8,TODAY.getMonth()+1));
+let lbCat='all', mType=null, mVal=0, logV={}, selAvId=AVATARS[0].id;
 
-// ── STORAGE ──────────────────────────────────────────────────────────────────
-async function loadDB(){try{const r=await window.storage.get('bforce2025v3');if(r&&r.value)DB=JSON.parse(r.value);}catch(e){DB={players:{},logs:{}};}}
-async function saveDB(){try{await window.storage.set('bforce2025v3',JSON.stringify(DB));}catch(e){}}
+// ── STORAGE ────────────────────────────────────────────────────────────────
+async function loadDB(){try{const r=await window.storage.get('bforce2025v4');if(r&&r.value)DB=JSON.parse(r.value);}catch(e){DB={players:{},logs:{}};}}
+async function saveDB(){try{await window.storage.set('bforce2025v4',JSON.stringify(DB));}catch(e){}}
 function dk(){return `${TODAY.getFullYear()}-${String(TODAY.getMonth()+1).padStart(2,'0')}-${String(TODAY.getDate()).padStart(2,'0')}`;}
 function mk(pid,m){return `${pid}_${YEAR}_${m}`;}
 
@@ -763,19 +745,16 @@ function monthStats(pid,m){
 }
 function monthPts(pid,m){const s=monthStats(pid,m);let p=0;TYPES.forEach(t=>{p+=calcPts(t,s[t.key]||0);});return p;}
 function catPtsAll(pid,m){const s=monthStats(pid,m);const o={};TYPES.forEach(t=>{o[t.key]=calcPts(t,s[t.key]||0);});return o;}
+function avObj(id){return AVATARS.find(a=>a.id===id)||AVATARS[0];}
 
-function avSvg(id){return(AVATARS.find(a=>a.id===id)||AVATARS[0]).svg;}
-function avLabel(id){return(AVATARS.find(a=>a.id===id)||AVATARS[0]).label;}
-
-// ── JOIN ──────────────────────────────────────────────────────────────────────
+// ── JOIN ───────────────────────────────────────────────────────────────────
 function buildAvGrid(){
   const g=document.getElementById('av-grid');g.innerHTML='';
   AVATARS.forEach((a,i)=>{
     const d=document.createElement('div');
     d.className='av-opt'+(i===0?' sel':'');
     d.dataset.id=a.id;
-    d.innerHTML=a.svg;
-    d.title=a.label;
+    d.innerHTML=a.svg+`<div class="av-name-tag">${a.nick}</div>`;
     d.onclick=()=>{
       document.querySelectorAll('.av-opt').forEach(x=>x.classList.remove('sel'));
       d.classList.add('sel');selAvId=a.id;updatePreview();
@@ -786,13 +765,12 @@ function buildAvGrid(){
 }
 
 function updatePreview(){
-  const first=(document.getElementById('jfirst')?.value||'').trim();
   const last=(document.getElementById('jlast')?.value||'').trim();
   const num=(document.getElementById('jnum')?.value||'').trim();
-  const av=AVATARS.find(a=>a.id===selAvId)||AVATARS[0];
+  const av=avObj(selAvId);
   document.getElementById('av-preview-img').innerHTML=av.svg;
-  document.getElementById('av-preview-name').textContent=(last||first)?((last?last.toUpperCase():first.toUpperCase())):av.label;
-  document.getElementById('av-preview-num').textContent=num?`#${num}`:'#—';
+  document.getElementById('av-preview-nick').textContent=last?last.toUpperCase()+(num?' #'+num:''):av.nick;
+  document.getElementById('av-preview-sub').textContent=av.team+(num?' · #'+num:'');
 }
 
 function buildExisting(){
@@ -800,32 +778,29 @@ function buildExisting(){
   s.innerHTML='<option value="">— Switch to my profile —</option>';
   Object.values(DB.players).forEach(p=>{
     const o=document.createElement('option');o.value=p.id;
-    const disp=(p.last?p.last.toUpperCase():p.name)+(p.num?' #'+p.num:'');
-    o.textContent=disp+' — '+avLabel(p.avId||'bball');
+    const av=avObj(p.avId);
+    o.textContent=(p.last?p.last.toUpperCase():'Player')+(p.num?' #'+p.num:'')+' — '+av.nick;
     s.appendChild(o);
   });
   s.onchange=()=>{if(s.value&&DB.players[s.value])login(DB.players[s.value]);};
 }
 
 function joinTeam(){
-  const first=document.getElementById('jfirst').value.trim();
   const last=document.getElementById('jlast').value.trim();
-  if(!first){showToast('Enter your first name 👆');return;}
+  if(!last){showToast('Enter your last name 👆');return;}
   const num=document.getElementById('jnum').value.trim()||'';
-  const existing=Object.values(DB.players).find(p=>
-    p.name.toLowerCase()===first.toLowerCase()&&(p.last||'').toLowerCase()===(last||'').toLowerCase()
-  );
-  if(existing){showToast(`${first} ${last} is already on the squad — use Switch below`);return;}
+  const existing=Object.values(DB.players).find(p=>(p.last||'').toLowerCase()===last.toLowerCase());
+  if(existing){showToast(`${last} is already on the squad — use Switch below`);return;}
   const id='p'+Date.now();
-  DB.players[id]={id,name:first,last,num,avId:selAvId,joined:dk()};
+  DB.players[id]={id,last,num,avId:selAvId,joined:dk()};
   saveDB();login(DB.players[id]);
 }
 
 function login(p){
   me=p;localStorage.setItem('bfpid',p.id);
-  const navWrap=document.getElementById('nav-av-wrap');
-  navWrap.innerHTML=avSvg(p.avId||'bball');
-  document.getElementById('nav-name').textContent=(p.last?p.last:p.name)+(p.num?' #'+p.num:'');
+  const av=avObj(p.avId);
+  document.getElementById('nav-av-wrap').innerHTML=av.svg;
+  document.getElementById('nav-name').textContent=(p.last?p.last:av.nick)+(p.num?' #'+p.num:'');
   ['s-join','s-admin'].forEach(id=>document.getElementById(id).classList.remove('active'));
   document.getElementById('s-app').classList.add('active');
   initLogV();renderDash();renderLB();renderShare();showTab('dash');
@@ -849,19 +824,18 @@ function initLogV(){
   TYPES.forEach(t=>{logV[t.key]=day[t.key]||0;});
 }
 
-// ── DASHBOARD ──────────────────────────────────────────────────────────────
+// ── DASHBOARD ─────────────────────────────────────────────────────────────
 function renderDash(){
   if(!me)return;
   const h=TODAY.getHours();
+  const av=avObj(me.avId);
   document.getElementById('dh-greet').textContent=h<12?'Good morning ☀️':h<17?'Good afternoon ⚡':'Good evening 🌙';
-  const fullName=me.last?me.name+' '+me.last:me.name;
-  document.getElementById('dh-name').textContent=fullName;
-  document.getElementById('dh-num').textContent=(me.num?`#${me.num} · `:'')+'Burlington Force';
+  document.getElementById('dh-name').textContent=(me.last?me.last.toUpperCase():av.nick)+(me.num?' #'+me.num:'');
+  document.getElementById('dh-num').textContent=av.nick+' · Burlington Force';
   document.getElementById('stats-month-lbl').textContent=MONTHS[curMonth];
   document.getElementById('lb-month-lbl').textContent=MONTHS[curMonth];
   document.getElementById('today-lbl').textContent=TODAY.toLocaleDateString('en-CA',{month:'short',day:'numeric'});
-  const av=document.getElementById('dh-av');
-  av.innerHTML=avSvg(me.avId||'bball');
+  document.getElementById('dh-av').innerHTML=av.svg;
   const p=monthPts(me.id,curMonth);
   document.getElementById('dh-pts').textContent=p;
   const ranked=Object.values(DB.players).map(pl=>({pl,p:monthPts(pl.id,curMonth)})).sort((a,b)=>b.p-a.p);
@@ -913,7 +887,7 @@ function renderLogGrid(){
   TYPES.forEach(t=>{
     const v=logV[t.key]||0;
     const d=document.createElement('div');d.className='log-card'+(t.isTime?' log-full':'');
-    const hint=t.isTime?`30 min = ${t.ppt} pts`:`Every 100 <strong>makes</strong> = ${t.ppt} pts`;
+    const hint=t.isTime?`30 min = ${t.ppt} pts`:`Per 100 <strong>makes</strong> = ${t.ppt} pts`;
     d.innerHTML=`<div class="log-accent" style="background:${t.color}"></div>
       <div class="log-icon">${t.icon}</div>
       <div class="log-name">${t.label}</div>
@@ -945,7 +919,7 @@ async function submitLog(){
   renderDash();renderLB();
 }
 
-// ── MODAL ──────────────────────────────────────────────────────────────────
+// ── MODAL ─────────────────────────────────────────────────────────────────
 function openModal(type){
   mType=type;mVal=logV[type.key]||0;
   document.getElementById('m-title').textContent=type.icon+' '+type.label;
@@ -987,42 +961,42 @@ function renderLBList(){
   document.getElementById('lb-month-lbl').textContent=MONTHS[curMonth];
   const players=Object.values(DB.players);
   if(!players.length){
-    list.innerHTML=`<div class="lb-empty"><div class="lb-empty-icon">🏀</div><div class="lb-empty-t">No players yet</div><div class="lb-empty-s">Share the link with teammates to see who's putting in work this summer</div></div>`;
+    list.innerHTML=`<div class="lb-empty" style="text-align:center;padding:48px 20px"><div style="font-size:48px;margin-bottom:12px">🏀</div><div style="font-size:17px;font-weight:700;color:var(--navy);margin-bottom:6px">No players yet</div><div style="font-size:14px;color:var(--text2)">Share the link with teammates to see who's putting in work</div></div>`;
     return;
   }
   const scored=players.map(p=>{
     let p2=0;
-    if(lbCat==='all'){p2=monthPts(p.id,curMonth);}
+    if(lbCat==='all')p2=monthPts(p.id,curMonth);
     else{const s=monthStats(p.id,curMonth);const t=TYPES.find(x=>x.key===lbCat);if(t)p2=calcPts(t,s[lbCat]||0);}
     return{p,p2};
   }).sort((a,b)=>b.p2-a.p2);
 
   scored.forEach(({p,p2},i)=>{
     const rank=i+1;const isMe=me&&p.id===me.id;
+    const av=avObj(p.avId);
     const row=document.createElement('div');
     row.className='lb-row'+(isMe?' me':'')+(rank===1?' top1':'');
     const ri=rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':rank;
     const s=monthStats(p.id,curMonth);
     const t2=lbCat==='all'?null:TYPES.find(x=>x.key===lbCat);
     const subText=lbCat==='all'
-      ?`${((s.short||0)+(s.medium||0)+(s.long||0)).toLocaleString()} makes · ${(s.ov1||0)+(s.ov3||0)+(s.ov5||0)} game mins`
-      :`${(s[lbCat]||0).toLocaleString()} ${t2?.isTime?'minutes':'makes'}`;
+      ?`${((s.short||0)+(s.medium||0)+(s.long||0)).toLocaleString()} makes · ${(s.ov1||0)+(s.ov3||0)+(s.ov5||0)}m game`
+      :`${(s[lbCat]||0).toLocaleString()} ${t2?.isTime?'min':'makes'}`;
     const fire=p2>=50?'🔥':'';
-    const fullName=p.last?p.name+' '+p.last:p.name;
-    const numBadge=p.num?`<span style="color:var(--gold);font-size:11px;font-weight:800">#${p.num}</span> `:'';
+    const nameDisp=(p.last?p.last.toUpperCase():av.nick)+(p.num?' #'+p.num:'');
     row.innerHTML=`
       <div class="lb-rank-col">${ri}</div>
-      <div class="lb-av">${avSvg(p.avId||'bball')}</div>
+      <div class="lb-av">${av.svg}</div>
       <div class="lb-info">
-        <div class="lb-pname">${numBadge}${fullName}${isMe?'<span class="you-pill">you</span>':''}${fire}</div>
-        <div class="lb-psub">${avLabel(p.avId||'bball')} · ${subText}</div>
+        <div class="lb-pname">${nameDisp}${isMe?'<span class="you-pill">you</span>':''}${fire}</div>
+        <div class="lb-psub">${av.nick} · ${subText}</div>
       </div>
       <div class="lb-score"><div class="lb-pts">${p2}</div><div class="lb-pts-lbl">pts</div></div>`;
     list.appendChild(row);
   });
 }
 
-// ── SHARE ──────────────────────────────────────────────────────────────────
+// ── SHARE ─────────────────────────────────────────────────────────────────
 function renderShare(){
   const sm=document.getElementById('score-matrix');sm.innerHTML='';
   TYPES.forEach(t=>{
@@ -1038,8 +1012,8 @@ function renderShare(){
     const players=Object.values(DB.players);
     const top=players.length?players.map(p=>({p,p2:monthPts(p.id,m)})).sort((a,b)=>b.p2-a.p2)[0]:null;
     const d=document.createElement('div');
-    d.style.cssText=`background:${isA?'var(--navy)':'var(--card)'};border:${isA?'none':'0.5px solid var(--cardborder)'};border-radius:12px;padding:14px 16px`;
-    const leader=top&&top.p2>0?(top.p.last||top.p.name)+(top.p.num?' #'+top.p.num:'')+' · '+top.p2+'pts':'No entries yet';
+    d.style.cssText=`background:${isA?'var(--navy)':'var(--card)'};border:${isA?'none':'.5px solid var(--cb)'};border-radius:12px;padding:13px 16px`;
+    const leader=top&&top.p2>0?(top.p.last||avObj(top.p.avId).nick)+(top.p.num?' #'+top.p.num:'')+' · '+top.p2+'pts':'No entries yet';
     d.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between">
       <div style="font-size:14px;font-weight:800;color:${isA?'var(--white)':'var(--navy)'}">${MONTHS[m]} 2025${isA?'<span style="font-size:11px;opacity:.5;margin-left:8px;font-weight:400"> Active</span>':''}</div>
       <div style="font-size:12px;color:${isA?'rgba(255,255,255,.55)':'var(--text2)'}">🏆 ${leader}</div>
@@ -1050,16 +1024,16 @@ function renderShare(){
 
 function copyLink(){
   const url='https://basketballsims.github.io/basketballsimstrainer/scorecard.html';
-  const msg=`🏀 Burlington Force — Summer Scorecard 2025!\n\nTrack your makes and climb the leaderboard all summer.\n\n📲 Open on your phone:\n${url}\n\nPick your avatar, log short / medium / long makes + 1v1, 3v3 & 5v5 game time. One sign-up and you're on the board. 🔥\n\n– Coach Sims`;
+  const msg=`🏀 Burlington Force U15 — Summer Scorecard 2025!\n\nTrack your makes and climb the leaderboard all summer.\n\n📲 Open on your phone:\n${url}\n\nPick your NBA player avatar, log short / medium / long makes + 1v1, 3v3 & 5v5 game time. One sign-up per player. 🔥\n\n– Coach Sims`;
   navigator.clipboard?.writeText(msg).then(()=>showToast('Copied! Share with the squad 📋')).catch(()=>showToast('Copy the link above 👆'));
 }
 function shareApp(){
   const url='https://basketballsims.github.io/basketballsimstrainer/scorecard.html';
-  if(navigator.share){navigator.share({title:'Burlington Force — Summer Scorecard 2025',text:'Track your makes and climb the leaderboard 🏀🔥',url}).catch(()=>{});}
+  if(navigator.share)navigator.share({title:'Burlington Force U15 — Summer Scorecard 2025',text:'Track your makes and climb the leaderboard 🏀🔥',url}).catch(()=>{});
   else copyLink();
 }
 
-// ── ADMIN ──────────────────────────────────────────────────────────────────
+// ── ADMIN ─────────────────────────────────────────────────────────────────
 function showAdminLogin(){
   document.getElementById('pin-input').value='';
   document.getElementById('admin-modal').style.display='flex';
@@ -1090,52 +1064,54 @@ function renderAdmin(){
 
   let html=`<div class="admin-header">
     <div class="admin-badge">COACH ADMIN</div>
-    <div class="admin-title">Burlington Force</div>
+    <div class="admin-title">Burlington Force U15</div>
     <div class="admin-sub">Summer Scorecard 2025 — Player Management</div>
   </div>
   <div class="admin-section-title">Season overview</div>
   <div class="admin-stat-row"><span style="font-size:13px;font-weight:600;color:var(--text2)">Total players</span><span style="font-size:16px;font-weight:800;color:var(--navy)">${players.length}</span></div>
   <div class="admin-stat-row"><span style="font-size:13px;font-weight:600;color:var(--text2)">Sessions logged</span><span style="font-size:16px;font-weight:800;color:var(--navy)">${totalLogs}</span></div>
   <div class="admin-stat-row"><span style="font-size:13px;font-weight:600;color:var(--text2)">Total season points</span><span style="font-size:16px;font-weight:800;color:var(--navy)">${totalPtsAll}</span></div>
-  <div class="admin-section-title">Registered players (${players.length})</div>`;
+  <div class="admin-section-title">Players (${players.length})</div>`;
 
   if(!players.length){
     html+=`<div style="text-align:center;padding:32px;color:var(--text3);font-size:14px">No players yet</div>`;
   } else {
-    players.sort((a,b)=>(a.last||a.name).localeCompare(b.last||b.name)).forEach(p=>{
-      const fullName=p.last?p.name+' '+p.last:p.name;
+    players.sort((a,b)=>(a.last||'').localeCompare(b.last||'')).forEach(p=>{
+      const av=avObj(p.avId);
       const seasonPts=[6,7,8].reduce((a,m)=>a+monthPts(p.id,m),0);
       const logCount=[6,7,8].reduce((a,m)=>a+Object.keys(DB.logs[mk(p.id,m)]||{}).length,0);
+      const nameDisp=(p.last?p.last.toUpperCase():av.nick)+(p.num?' #'+p.num:'');
       html+=`<div class="admin-player-row">
-        <div class="admin-av">${avSvg(p.avId||'bball')}</div>
+        <div class="admin-av">${av.svg}</div>
         <div class="admin-player-info">
-          <div class="admin-player-name">${p.num?'#'+p.num+' ':''}${fullName}</div>
-          <div class="admin-player-sub">${avLabel(p.avId||'bball')} · ${seasonPts} season pts · ${logCount} sessions · joined ${p.joined||'2025'}</div>
+          <div class="admin-player-name">${nameDisp}</div>
+          <div class="admin-player-sub">${av.nick} · ${seasonPts} season pts · ${logCount} sessions · joined ${p.joined||'2025'}</div>
         </div>
         <button class="admin-remove-btn" onclick="removePlayer('${p.id}')">Remove</button>
       </div>`;
     });
   }
 
-  html+=`<div class="admin-section-title" style="margin-top:20px">Monthly top 3</div>`;
+  html+=`<div class="admin-section-title" style="margin-top:18px">Monthly top 3</div>`;
   [6,7,8].forEach(m=>{
     const ranked=players.map(p=>({p,pts:monthPts(p.id,m)})).sort((a,b)=>b.pts-a.pts).slice(0,3);
-    html+=`<div style="background:var(--card);border:0.5px solid var(--cardborder);border-radius:12px;padding:14px;margin-bottom:8px">
+    html+=`<div style="background:var(--card);border:.5px solid var(--cb);border-radius:12px;padding:13px;margin-bottom:8px">
       <div style="font-size:13px;font-weight:800;color:var(--navy);margin-bottom:10px">${MONTHS[m]} 2025</div>`;
     if(ranked.length&&ranked[0].pts>0){
       ranked.forEach(({p,pts},i)=>{
-        const fn=p.last?p.name+' '+p.last:p.name;
+        const av=avObj(p.avId);
+        const dn=(p.last?p.last.toUpperCase():av.nick)+(p.num?' #'+p.num:'');
         html+=`<div style="display:flex;align-items:center;gap:8px;padding:4px 0">
-          <div style="width:26px;height:26px;border-radius:50%;overflow:hidden;flex-shrink:0">${avSvg(p.avId||'bball')}</div>
+          <div style="width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0">${av.svg}</div>
           <div style="font-size:13px;min-width:20px">${i===0?'🥇':i===1?'🥈':'🥉'}</div>
-          <div style="flex:1;font-size:13px;font-weight:600;color:var(--navy)">${fn}${p.num?' #'+p.num:''}</div>
+          <div style="flex:1;font-size:13px;font-weight:600;color:var(--navy)">${dn}</div>
           <div style="font-size:14px;font-weight:800;color:var(--navy)">${pts}pts</div>
         </div>`;
       });
     } else html+=`<div style="font-size:13px;color:var(--text3)">No entries yet</div>`;
     html+=`</div>`;
   });
-  html+=`<div style="margin-top:20px;padding:14px;background:rgba(231,76,60,.08);border-radius:12px;border:0.5px solid rgba(231,76,60,.2)">
+  html+=`<div style="margin-top:18px;padding:14px;background:rgba(231,76,60,.08);border-radius:12px;border:.5px solid rgba(231,76,60,.2)">
     <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:5px">⚠️ Admin note</div>
     <div style="font-size:12px;color:var(--text2);line-height:1.5">Removing a player deletes their profile. Log data is retained. PIN: ${COACH_PIN}</div>
   </div>`;
@@ -1144,10 +1120,11 @@ function renderAdmin(){
 
 async function removePlayer(pid){
   const p=DB.players[pid];if(!p)return;
-  const fullName=p.last?p.name+' '+p.last:p.name;
-  if(!confirm(`Remove ${fullName} from the squad?\n\nThis deletes their profile. They can re-join with a new avatar.`))return;
+  const av=avObj(p.avId);
+  const nameDisp=(p.last?p.last.toUpperCase():av.nick)+(p.num?' #'+p.num:'');
+  if(!confirm(`Remove ${nameDisp} from the squad?\n\nThis deletes their profile. They can re-join with any avatar.`))return;
   delete DB.players[pid];await saveDB();
-  showToast(`${fullName} removed`);renderAdmin();
+  showToast(`${nameDisp} removed`);renderAdmin();
 }
 function exitAdmin(){
   document.getElementById('s-admin').classList.remove('active');
@@ -1155,7 +1132,7 @@ function exitAdmin(){
   buildExisting();
 }
 
-// ── NAV + TOAST ────────────────────────────────────────────────────────────
+// ── TABS + TOAST ────────────────────────────────────────────────────────────
 function showTab(t){
   ['dash','lb','share'].forEach(x=>{
     document.getElementById('tab-'+x).classList.toggle('active',x===t);
@@ -1169,7 +1146,7 @@ function showToast(msg){
   setTimeout(()=>t.classList.remove('show'),3000);
 }
 
-// ── INIT ───────────────────────────────────────────────────────────────────
+// ── INIT ─────────────────────────────────────────────────────────────────
 async function init(){
   await loadDB();
   buildAvGrid();
