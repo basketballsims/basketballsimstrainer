@@ -127,10 +127,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
 .log-icon{font-size:20px;margin-bottom:4px;display:block}
 .log-name{font-size:12px;font-weight:800;color:var(--navy);margin-bottom:1px}
 .log-pts-hint{font-size:10px;color:var(--text2);margin-bottom:8px;font-weight:600}
-.cnt-row{display:flex;align-items:center;border:1px solid var(--cb);border-radius:8px;overflow:hidden;background:var(--off)}
-.cnt-btn{width:34px;height:34px;border:none;background:transparent;font-size:20px;line-height:1;cursor:pointer;color:var(--navy);flex-shrink:0}
-.cnt-btn:active{background:var(--cb)}
-.cnt-inp{flex:1;border:none;background:transparent;text-align:center;font-size:15px;font-weight:800;font-family:inherit;color:var(--navy);outline:none;height:34px;min-width:0;padding:0}
+.cnt-row{display:flex;align-items:center;border:1.5px solid var(--cb);border-radius:12px;overflow:hidden;background:var(--off)}
+.cnt-btn{width:88px;height:88px;border:none;background:transparent;font-size:36px;line-height:1;cursor:pointer;color:var(--navy);flex-shrink:0;font-weight:300;-webkit-user-select:none;user-select:none}
+.cnt-btn:active{background:rgba(13,31,78,.08)}
+.cnt-inp{flex:1;border:none;background:transparent;text-align:center;font-size:28px;font-weight:900;font-family:inherit;color:var(--navy);outline:none;height:88px;min-width:0;padding:0}
 .log-pts-today{font-size:10px;font-weight:700;color:var(--text3);margin-top:5px}
 .log-full{grid-column:1/-1}
 .log-submit{width:100%;padding:14px;background:var(--navy);color:var(--white);border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;margin-top:11px;font-family:inherit}
@@ -231,38 +231,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
 <div class="screen active" id="s-join">
 <div class="join-wrap">
 
-  <!-- Curved text header -->
+  <!-- Clean text header -->
   <div class="join-hero-text">
-    <svg width="320" height="100" viewBox="0 0 320 100" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <path id="arc1" d="M 20,80 A 140,140 0 0,1 300,80"/>
-        <path id="arc2" d="M 55,95 A 105,105 0 0,1 265,95"/>
-      </defs>
-      <!-- FORCE U15 arc -->
-      <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="38" fill="none" stroke="#0D1F4E" stroke-width="10" stroke-linejoin="round">
-        <textPath href="#arc1" startOffset="50%" text-anchor="middle">FORCE U15</textPath>
-      </text>
-      <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="38" fill="none" stroke="#F5C842" stroke-width="5" stroke-linejoin="round">
-        <textPath href="#arc1" startOffset="50%" text-anchor="middle">FORCE U15</textPath>
-      </text>
-      <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="38" fill="#FFFFFF">
-        <textPath href="#arc1" startOffset="50%" text-anchor="middle">FORCE U15</textPath>
-      </text>
-      <!-- Summer Squad arc -->
-      <text font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="14" letter-spacing="3" fill="none" stroke="#0D1F4E" stroke-width="5" stroke-linejoin="round">
-        <textPath href="#arc2" startOffset="50%" text-anchor="middle">SUMMER SQUAD</textPath>
-      </text>
-      <text font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="14" letter-spacing="3" fill="#F5C842">
-        <textPath href="#arc2" startOffset="50%" text-anchor="middle">SUMMER SQUAD</textPath>
-      </text>
-    </svg>
+    <div style="color:#FFFFFF;font-size:32px;font-weight:900;letter-spacing:-.5px;line-height:1;margin-bottom:6px;font-family:-apple-system,'Arial Black',sans-serif">Burlington Force U15</div>
+    <div style="color:var(--gold);font-size:14px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;opacity:.9">Summer Squad</div>
+    <div style="width:48px;height:3px;background:var(--gold);border-radius:2px;margin:10px auto 0;opacity:.6"></div>
   </div>
 
   <div class="join-card">
     <div class="join-card-title">Join the squad</div>
-    <div class="join-card-sub">Pick your player, enter your last name and jersey number.</div>
+    <div class="join-card-sub">Pick your colour, then enter your last name and jersey number — your number fills the circle.</div>
 
-    <div class="jlabel">Choose your player</div>
+    <div class="jlabel">Pick your colour</div>
     <div class="av-grid" id="av-grid"></div>
 
     <div class="av-preview">
@@ -310,8 +290,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
           <text x="40" y="53" text-anchor="middle" font-size="36" font-weight="900" fill="#F5C842" font-family="Arial Black,sans-serif">F</text>
         </svg>
         <div class="tb-brand-text-wrap">
-          <div class="tb-brand-name">Force U15</div>
-          <div class="tb-brand-sub">Summer Scorecard 2025</div>
+          <div class="tb-brand-name">Burlington Force U15</div>
+          <div class="tb-brand-sub">Summer Squad · Scorecard 2025</div>
         </div>
       </div>
       <div class="player-pill" onclick="switchPlayer()">
@@ -496,36 +476,30 @@ const AVATARS=[
   {id:'allstar', nick:'All-Star',  team:'NBA All-Star', bg:'#1D1160', fg:'#FFC72C', ring:'#C8102E', label:'#FFC72C'},
 ];
 
-// Generate a clean circle SVG — shows last name (or nick) + number in team colors
-function makeAvSvg(avId, last, num){
+// Circle for the avatar picker grid — just the team color + player name tag underneath
+// The circle itself is pure color, identity comes from last name + number on signup
+function makeAvTileSvg(avId){
   const a = AVATARS.find(x=>x.id===avId)||AVATARS[0];
-  // Display text: up to 6 chars of last name on top, number below
-  const nameStr  = last ? last.toUpperCase().slice(0,7) : a.nick.toUpperCase();
-  const numStr   = num  ? '#'+num : '';
-  const hasNum   = !!numStr;
-  // Font size scales with name length
-  const nameSize = nameStr.length > 5 ? 13 : nameStr.length > 4 ? 15 : 17;
-  const nameY    = hasNum ? 47 : 55;
-  const numY     = 64;
   return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
     <circle cx="50" cy="50" r="50" fill="${a.bg}"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="${a.ring}" stroke-width="3" opacity=".6"/>
-    <text x="50" y="22" text-anchor="middle" font-size="8.5" font-weight="700" fill="${a.label}" font-family="Arial Black,Impact,sans-serif" letter-spacing="1.5" opacity=".85">${a.team.toUpperCase()}</text>
-    <text x="50" y="${nameY}" text-anchor="middle" font-size="${nameSize}" font-weight="900" fill="${a.fg}" font-family="Arial Black,Impact,sans-serif" letter-spacing="-.5">${nameStr}</text>
-    ${hasNum?`<text x="50" y="${numY}" text-anchor="middle" font-size="16" font-weight="900" fill="${a.ring}" font-family="Arial Black,Impact,sans-serif" letter-spacing="1">${numStr}</text>`:''}
+    <circle cx="50" cy="50" r="44" fill="none" stroke="${a.ring}" stroke-width="3.5" opacity=".5"/>
+    <circle cx="50" cy="50" r="36" fill="none" stroke="${a.ring}" stroke-width="1.5" opacity=".25"/>
   </svg>`;
 }
 
-// Small version for grid tiles — shows nick + team only (no player data yet)
-function makeAvTileSvg(avId){
+// Player avatar circle — shows jersey number big and centered.
+// If no number yet: shows first letter of last name. Nothing else in the circle.
+function makeAvSvg(avId, last, num){
   const a = AVATARS.find(x=>x.id===avId)||AVATARS[0];
-  const nick = a.nick.toUpperCase();
-  const nickSize = nick.length > 8 ? 9 : nick.length > 5 ? 11 : 13;
+  // What goes in the circle: number if available, else first letter of last name, else nothing
+  const inner = num ? num : (last ? last.trim().charAt(0).toUpperCase() : '');
+  const fontSize = num
+    ? (String(num).length > 1 ? 38 : 46)   // two-digit number slightly smaller
+    : 42;                                    // single letter
   return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
     <circle cx="50" cy="50" r="50" fill="${a.bg}"/>
-    <circle cx="50" cy="50" r="46" fill="none" stroke="${a.ring}" stroke-width="3" opacity=".55"/>
-    <text x="50" y="23" text-anchor="middle" font-size="8" font-weight="700" fill="${a.label}" font-family="Arial Black,Impact,sans-serif" letter-spacing="1.5" opacity=".8">${a.team.toUpperCase()}</text>
-    <text x="50" y="57" text-anchor="middle" font-size="${nickSize}" font-weight="900" fill="${a.fg}" font-family="Arial Black,Impact,sans-serif" letter-spacing="-.3">${nick}</text>
+    <circle cx="50" cy="50" r="44" fill="none" stroke="${a.ring}" stroke-width="3.5" opacity=".55"/>
+    ${inner ? `<text x="50" y="${50 + fontSize*0.36}" text-anchor="middle" font-size="${fontSize}" font-weight="900" fill="${a.fg}" font-family="-apple-system,'Arial Black',Impact,sans-serif">${inner}</text>` : ''}
   </svg>`;
 }
 
@@ -553,8 +527,8 @@ function updatePreview(){
   const num=(document.getElementById('jnum')?.value||'').trim();
   const av=avObj(selAvId);
   document.getElementById('av-preview-img').innerHTML=makeAvSvg(selAvId,last,num);
-  document.getElementById('av-preview-nick').textContent=last?last.toUpperCase()+(num?' #'+num:''):av.nick;
-  document.getElementById('av-preview-sub').textContent=av.team;
+  document.getElementById('av-preview-nick').textContent=last?last.toUpperCase()+(num?' · #'+num:''):'Your name + number';
+  document.getElementById('av-preview-sub').textContent=av.nick+' · '+av.team;
 }
 
 function buildExisting(){
@@ -766,13 +740,15 @@ function renderLBList(){
       ?`${((s.short||0)+(s.medium||0)+(s.long||0)).toLocaleString()} makes · ${(s.ov1||0)+(s.ov3||0)+(s.ov5||0)}m game`
       :`${(s[lbCat]||0).toLocaleString()} ${t2?.isTime?'min':'makes'}`;
     const fire=p2>=50?'🔥':'';
-    const nameDisp=(p.last?p.last.toUpperCase():av.nick)+(p.num?' #'+p.num:'');
+    // Last name shown in lb-pname, NOT inside circle
+    const lastName=p.last?p.last.toUpperCase():av.nick;
+    const numTag=p.num?`<span style="background:${av.bg};color:${av.fg};font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:.04em">#${p.num}</span>`:'';
     row.innerHTML=`
       <div class="lb-rank-col">${ri}</div>
       <div class="lb-av">${makeAvSvg(p.avId,p.last,p.num)}</div>
       <div class="lb-info">
-        <div class="lb-pname">${nameDisp}${isMe?'<span class="you-pill">you</span>':''}${fire}</div>
-        <div class="lb-psub">${av.nick} · ${subText}</div>
+        <div class="lb-pname">${lastName} ${numTag}${isMe?'<span class="you-pill">you</span>':''}${fire}</div>
+        <div class="lb-psub">${av.nick} · ${av.team} · ${subText}</div>
       </div>
       <div class="lb-score"><div class="lb-pts">${p2}</div><div class="lb-pts-lbl">pts</div></div>`;
     list.appendChild(row);
