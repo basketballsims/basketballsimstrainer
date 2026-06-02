@@ -37,14 +37,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
 .jinput{width:100%;padding:12px 14px;border:1.5px solid var(--cb);border-radius:var(--rsm);font-size:16px;font-family:inherit;outline:none;color:var(--text);background:var(--off);-webkit-appearance:none}
 .jinput:focus{border-color:var(--navy)}
 
-/* AVATAR GRID — 4 cols on mobile, clean */
-.av-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 14px}
-.av-opt{aspect-ratio:1;border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2.5px solid transparent;background:var(--off);transition:all .14s;overflow:hidden;position:relative}
-.av-opt:active{transform:scale(.92)}
-.av-opt.sel{border-color:var(--navy);box-shadow:0 0 0 4px rgba(13,31,78,.13);transform:scale(1.05)}
+/* AVATAR GRID */
+.av-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:8px 0 14px}
+.av-opt{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid transparent;transition:all .14s;overflow:hidden}
+.av-opt:active{transform:scale(.91)}
+.av-opt.sel{border-color:var(--navy);box-shadow:0 0 0 4px rgba(13,31,78,.15);transform:scale(1.08)}
 .av-opt svg{width:100%;height:100%;display:block}
-.av-name-tag{position:absolute;bottom:0;left:0;right:0;background:rgba(13,31,78,.72);color:white;font-size:7px;font-weight:700;text-align:center;padding:2px 2px 3px;letter-spacing:.04em;text-transform:uppercase}
-.av-opt.sel .av-name-tag{background:var(--navy)}
 
 /* PREVIEW */
 .av-preview{display:flex;align-items:center;gap:12px;background:var(--off);border-radius:12px;padding:10px 14px;margin-bottom:14px}
@@ -473,278 +471,64 @@ const MONTHS={6:'June',7:'July',8:'August'};
 const YEAR=2025;
 const TODAY=new Date();
 
-// ── 20 NBA/ATHLETE THEMED AVATARS ─────────────────────────────────────────
-// Each has id, nickname, team color palette, and inline SVG
-const AVATARS = [
-
-  // 1 — Luka Dončić  (Mavericks — navy + royal blue)
-  {id:'luka', nick:'Luka 77', team:'Dallas Mavericks', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#00538C"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#B8C4CA" font-family="Arial Black,sans-serif" letter-spacing="1">DALLAS</text>
-    <!-- jersey shape -->
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#002B5E"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#B8C4CA" stroke-width="1.5"/>
-    <!-- number -->
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#00538C" font-family="Arial Black,sans-serif">77</text>
-    <!-- name arc -->
-    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#B8C4CA" font-family="Arial Black,sans-serif" letter-spacing=".5">DONČIĆ</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#B8C4CA" stroke-width="2"/>
-  </svg>`},
-
-  // 2 — Nikola Jokić  (Nuggets — navy + gold + sky)
-  {id:'jokic', nick:'Joker 15', team:'Denver Nuggets', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#0E2240"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#FEC524" font-family="Arial Black,sans-serif" letter-spacing="1">DENVER</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#FEC524"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#8B2131" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#0E2240" font-family="Arial Black,sans-serif">15</text>
-    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#FEC524" font-family="Arial Black,sans-serif" letter-spacing=".5">JOKIĆ</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#FEC524" stroke-width="2"/>
-  </svg>`},
-
-  // 3 — Shai Gilgeous-Alexander  (Thunder — navy + sky + orange)
-  {id:'sga', nick:'SGA 2', team:'OKC Thunder', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#007AC1"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#EF3B24" font-family="Arial Black,sans-serif" letter-spacing="1">OKC</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#002D62"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#EF3B24" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#007AC1" font-family="Arial Black,sans-serif">2</text>
-    <text x="50" y="84" text-anchor="middle" font-size="7.5" font-weight="800" fill="#F7F7F7" font-family="Arial Black,sans-serif" letter-spacing=".5">GILGEOUS</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#EF3B24" stroke-width="2"/>
-  </svg>`},
-
-  // 4 — Victor Wembanyama  (Spurs — silver + black)
-  {id:'wemby', nick:'Wemby 1', team:'San Antonio Spurs', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#C4CED4"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#000000" font-family="Arial Black,sans-serif" letter-spacing="1">S.A. SPURS</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#000000"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#C4CED4" stroke-width="1.5"/>
-    <!-- long arms indicator - slight modification -->
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#C4CED4" font-family="Arial Black,sans-serif">1</text>
-    <text x="50" y="84" text-anchor="middle" font-size="7.5" font-weight="800" fill="#000000" font-family="Arial Black,sans-serif" letter-spacing=".5">WEMBANYAMA</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#1D1D1D" stroke-width="2"/>
-  </svg>`},
-
-  // 5 — Anthony Edwards  (Timberwolves — dark green + midnight navy)
-  {id:'ant', nick:'Ant 5', team:'Minnesota', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#236192"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#9EA2A2" font-family="Arial Black,sans-serif" letter-spacing="1">MINNESOTA</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#0C2340"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#78BE20" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#78BE20" font-family="Arial Black,sans-serif">5</text>
-    <text x="50" y="84" text-anchor="middle" font-size="7.5" font-weight="800" fill="#9EA2A2" font-family="Arial Black,sans-serif" letter-spacing=".5">EDWARDS</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#78BE20" stroke-width="2"/>
-  </svg>`},
-
-  // 6 — Stephen Curry  (Warriors — royal blue + gold)
-  {id:'curry', nick:'Chef 30', team:'Golden State', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#FFC72C"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#1D428A" font-family="Arial Black,sans-serif" letter-spacing="1">GOLDEN STATE</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#1D428A"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#FFC72C" stroke-width="1.5"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#FFC72C" font-family="Arial Black,sans-serif">30</text>
-    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#1D428A" font-family="Arial Black,sans-serif" letter-spacing=".5">CURRY</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#1D428A" stroke-width="2"/>
-  </svg>`},
-
-  // 7 — LeBron James  (Lakers — purple + gold)
-  {id:'lebron', nick:'King 23', team:'LA Lakers', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#552583"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#FDB927" font-family="Arial Black,sans-serif" letter-spacing="1">LOS ANGELES</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#FDB927"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#552583" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#552583" font-family="Arial Black,sans-serif">23</text>
-    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#FDB927" font-family="Arial Black,sans-serif" letter-spacing=".5">JAMES</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#FDB927" stroke-width="2"/>
-  </svg>`},
-
-  // 8 — Jayson Tatum  (Celtics — green + white + gold)
-  {id:'tatum', nick:'JT 0', team:'Boston Celtics', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#007A33"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#BA9653" font-family="Arial Black,sans-serif" letter-spacing="1">BOSTON</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#FFFFFF"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#007A33" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#007A33" font-family="Arial Black,sans-serif">0</text>
-    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#BA9653" font-family="Arial Black,sans-serif" letter-spacing=".5">TATUM</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#BA9653" stroke-width="2"/>
-  </svg>`},
-
-  // 9 — Giannis Antetokounmpo  (Bucks — forest green + cream)
-  {id:'giannis', nick:'Greek Freak', team:'Milwaukee', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#00471B"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#EEE1C6" font-family="Arial Black,sans-serif" letter-spacing="1">MILWAUKEE</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#EEE1C6"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#00471B" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#00471B" font-family="Arial Black,sans-serif">34</text>
-    <text x="50" y="84" text-anchor="middle" font-size="7.5" font-weight="800" fill="#EEE1C6" font-family="Arial Black,sans-serif" letter-spacing=".3">GIANNIS</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#EEE1C6" stroke-width="2"/>
-  </svg>`},
-
-  // 10 — Kevin Durant  (Suns — purple + orange)
-  {id:'kd', nick:'KD 35', team:'Phoenix Suns', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#E56020"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#1D1160" font-family="Arial Black,sans-serif" letter-spacing="1">PHOENIX</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#1D1160"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#E56020" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#E56020" font-family="Arial Black,sans-serif">35</text>
-    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#1D1160" font-family="Arial Black,sans-serif" letter-spacing=".5">DURANT</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#1D1160" stroke-width="2"/>
-  </svg>`},
-
-  // 11 — Damian Lillard  (Bucks — forest green + cream)
-  {id:'dame', nick:'Dame 0', team:'Milwaukee', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#00471B"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#EEE1C6" font-family="Arial Black,sans-serif" letter-spacing="1">MILWAUKEE</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#00471B"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#EEE1C6" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#EEE1C6" font-family="Arial Black,sans-serif">0</text>
-    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#EEE1C6" font-family="Arial Black,sans-serif" letter-spacing=".5">LILLARD</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#EEE1C6" stroke-width="2"/>
-  </svg>`},
-
-  // 12 — Tyrese Haliburton  (Pacers — navy + gold + yellow)
-  {id:'hali', nick:'Hali 0', team:'Indiana Pacers', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#002D62"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#FDBB30" font-family="Arial Black,sans-serif" letter-spacing="1">INDIANA</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#FDBB30"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#002D62" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#002D62" font-family="Arial Black,sans-serif">0</text>
-    <text x="50" y="84" text-anchor="middle" font-size="7.5" font-weight="800" fill="#FDBB30" font-family="Arial Black,sans-serif" letter-spacing=".3">HALIBURTON</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#FDBB30" stroke-width="2"/>
-  </svg>`},
-
-  // 13 — Devin Booker  (Suns — purple)
-  {id:'book', nick:'Book 1', team:'Phoenix Suns', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#1D1160"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#E56020" font-family="Arial Black,sans-serif" letter-spacing="1">PHOENIX</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#E56020"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#1D1160" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#1D1160" font-family="Arial Black,sans-serif">1</text>
-    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#E56020" font-family="Arial Black,sans-serif" letter-spacing=".5">BOOKER</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#E56020" stroke-width="2"/>
-  </svg>`},
-
-  // 14 — Joel Embiid  (Sixers — red white blue)
-  {id:'embiid', nick:'Embiid 21', team:'Philadelphia', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#006BB6"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#ED174C" font-family="Arial Black,sans-serif" letter-spacing="1">PHILLY</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#ED174C"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#006BB6" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#006BB6" font-family="Arial Black,sans-serif">21</text>
-    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#FFFFFF" font-family="Arial Black,sans-serif" letter-spacing=".5">EMBIID</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#ED174C" stroke-width="2"/>
-  </svg>`},
-
-  // 15 — Kawhi Leonard  (Clippers — red + blue + white)
-  {id:'kawhi', nick:'Kawhi 2', team:'LA Clippers', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#C8102E"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#1D428A" font-family="Arial Black,sans-serif" letter-spacing="1">LA CLIPPERS</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#1D428A"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#C8102E" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#FFFFFF" font-family="Arial Black,sans-serif">2</text>
-    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#1D428A" font-family="Arial Black,sans-serif" letter-spacing=".5">LEONARD</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#1D428A" stroke-width="2"/>
-  </svg>`},
-
-  // 16 — De'Aaron Fox  (Kings — purple + silver)
-  {id:'fox', nick:'King Fox 5', team:'Sacramento', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#5A2D81"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#63727A" font-family="Arial Black,sans-serif" letter-spacing="1">SACRAMENTO</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#FFFFFF"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#5A2D81" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#5A2D81" font-family="Arial Black,sans-serif">5</text>
-    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#63727A" font-family="Arial Black,sans-serif" letter-spacing=".5">FOX</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#63727A" stroke-width="2"/>
-  </svg>`},
-
-  // 17 — Trae Young  (Hawks — red + white + yellow)
-  {id:'trae', nick:'Ice Trae 11', team:'Atlanta Hawks', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#E03A3E"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#C1D32F" font-family="Arial Black,sans-serif" letter-spacing="1">ATLANTA</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#FFFFFF"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#E03A3E" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#E03A3E" font-family="Arial Black,sans-serif">11</text>
-    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#C1D32F" font-family="Arial Black,sans-serif" letter-spacing=".5">TRAE</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#C1D32F" stroke-width="2"/>
-  </svg>`},
-
-  // 18 — Ja Morant  (Grizzlies — navy + light blue + gold)
-  {id:'ja', nick:'Ja 12', team:'Memphis', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#5D76A9"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#12173F" font-family="Arial Black,sans-serif" letter-spacing="1">MEMPHIS</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#12173F"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#F5B112" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#5D76A9" font-family="Arial Black,sans-serif">12</text>
-    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#F5B112" font-family="Arial Black,sans-serif" letter-spacing=".5">MORANT</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#F5B112" stroke-width="2"/>
-  </svg>`},
-
-  // 19 — Chet Holmgren  (Thunder — navy + sky + orange)
-  {id:'chet', nick:'Chet 7', team:'OKC Thunder', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#002D62"/>
-    <text x="50" y="28" text-anchor="middle" font-size="9" font-weight="800" fill="#007AC1" font-family="Arial Black,sans-serif" letter-spacing="1">OKC</text>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#007AC1"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#EF3B24" stroke-width="2"/>
-    <text x="50" y="65" text-anchor="middle" font-size="22" font-weight="900" fill="#002D62" font-family="Arial Black,sans-serif">7</text>
-    <text x="50" y="84" text-anchor="middle" font-size="8" font-weight="800" fill="#EF3B24" font-family="Arial Black,sans-serif" letter-spacing=".5">HOLMGREN</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#007AC1" stroke-width="2"/>
-  </svg>`},
-
-  // 20 — NBA All-Star special (gold + navy)
-  {id:'allstar', nick:'All-Star', team:'NBA All-Star', svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="#1D1160"/>
-    <!-- star field bg -->
-    <circle cx="20" cy="20" r="2" fill="#FFC72C" opacity=".6"/>
-    <circle cx="80" cy="18" r="1.5" fill="#FFC72C" opacity=".5"/>
-    <circle cx="15" cy="65" r="1.5" fill="#FFC72C" opacity=".4"/>
-    <circle cx="85" cy="70" r="2" fill="#FFC72C" opacity=".6"/>
-    <circle cx="50" cy="10" r="1.5" fill="#FFC72C" opacity=".5"/>
-    <!-- NBA All-Star jersey -->
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="#C8102E"/>
-    <path d="M26,38 L34,32 L38,40 L62,40 L66,32 L74,38 L70,44 L66,44 L66,72 L34,72 L34,44 L30,44Z" fill="none" stroke="#FFC72C" stroke-width="2"/>
-    <!-- big star -->
-    <polygon points="50,44 52.5,51 60,51 54,55.5 56.5,62.5 50,58 43.5,62.5 46,55.5 40,51 47.5,51" fill="#FFC72C"/>
-    <text x="50" y="84" text-anchor="middle" font-size="7.5" font-weight="800" fill="#FFC72C" font-family="Arial Black,sans-serif" letter-spacing=".5">ALL-STAR</text>
-    <circle cx="50" cy="50" r="48" fill="none" stroke="#FFC72C" stroke-width="2"/>
-  </svg>`},
+// ── 20 NBA TEAM COLOR PALETTES ────────────────────────────────────────────
+// bg=circle fill, fg=text/num, ring=outer border, label=team name
+const AVATARS=[
+  {id:'luka',    nick:'Luka',      team:'Dallas',       bg:'#00538C', fg:'#FFFFFF', ring:'#B8C4CA', label:'#B8C4CA'},
+  {id:'jokic',   nick:'Joker',     team:'Denver',       bg:'#0E2240', fg:'#FEC524', ring:'#FEC524', label:'#FEC524'},
+  {id:'sga',     nick:'SGA',       team:'OKC',          bg:'#002D62', fg:'#EF3B24', ring:'#007AC1', label:'#007AC1'},
+  {id:'wemby',   nick:'Wemby',     team:'San Antonio',  bg:'#000000', fg:'#C4CED4', ring:'#C4CED4', label:'#C4CED4'},
+  {id:'ant',     nick:'Ant',       team:'Minnesota',    bg:'#0C2340', fg:'#78BE20', ring:'#236192', label:'#9EA2A2'},
+  {id:'curry',   nick:'Chef',      team:'Golden State', bg:'#1D428A', fg:'#FFC72C', ring:'#FFC72C', label:'#FFC72C'},
+  {id:'lebron',  nick:'King',      team:'LA Lakers',    bg:'#552583', fg:'#FDB927', ring:'#FDB927', label:'#FDB927'},
+  {id:'tatum',   nick:'JT',        team:'Boston',       bg:'#007A33', fg:'#FFFFFF', ring:'#BA9653', label:'#BA9653'},
+  {id:'giannis', nick:'Greek Freak',team:'Milwaukee',   bg:'#00471B', fg:'#EEE1C6', ring:'#EEE1C6', label:'#EEE1C6'},
+  {id:'kd',      nick:'KD',        team:'Phoenix',      bg:'#1D1160', fg:'#E56020', ring:'#E56020', label:'#E56020'},
+  {id:'dame',    nick:'Dame',      team:'Milwaukee',    bg:'#00471B', fg:'#EEE1C6', ring:'#EEE1C6', label:'#EEE1C6'},
+  {id:'hali',    nick:'Hali',      team:'Indiana',      bg:'#002D62', fg:'#FDBB30', ring:'#FDBB30', label:'#FDBB30'},
+  {id:'book',    nick:'Book',      team:'Phoenix',      bg:'#E56020', fg:'#FFFFFF', ring:'#1D1160', label:'#1D1160'},
+  {id:'embiid',  nick:'Embiid',    team:'Philly',       bg:'#006BB6', fg:'#FFFFFF', ring:'#ED174C', label:'#ED174C'},
+  {id:'kawhi',   nick:'Kawhi',     team:'LA Clippers',  bg:'#C8102E', fg:'#FFFFFF', ring:'#1D428A', label:'#1D428A'},
+  {id:'fox',     nick:'Fox',       team:'Sacramento',   bg:'#5A2D81', fg:'#FFFFFF', ring:'#63727A', label:'#63727A'},
+  {id:'trae',    nick:'Ice Trae',  team:'Atlanta',      bg:'#E03A3E', fg:'#FFFFFF', ring:'#C1D32F', label:'#C1D32F'},
+  {id:'ja',      nick:'Ja',        team:'Memphis',      bg:'#12173F', fg:'#F5B112', ring:'#5D76A9', label:'#F5B112'},
+  {id:'chet',    nick:'Chet',      team:'OKC',          bg:'#007AC1', fg:'#FFFFFF', ring:'#EF3B24', label:'#EF3B24'},
+  {id:'allstar', nick:'All-Star',  team:'NBA All-Star', bg:'#1D1160', fg:'#FFC72C', ring:'#C8102E', label:'#FFC72C'},
 ];
 
-const TYPES=[
-  {key:'short', label:'Short makes',  icon:'🎯',color:'#1DB954',desc:'Made shots inside the charge circle',            unit:'shots MADE',ppt:10, per:100,isTime:false,logPrompt:'How many short shots did you MAKE?'},
-  {key:'medium',label:'Medium makes', icon:'🏀',color:'#3B82F6',desc:'Made shots outside charge circle, inside FT line',unit:'shots MADE',ppt:20, per:100,isTime:false,logPrompt:'How many mid-range shots did you MAKE?'},
-  {key:'long',  label:'Long makes',   icon:'💥',color:'#8B5CF6',desc:'Made shots past free throw line — 3s count!',    unit:'shots MADE',ppt:75, per:100,isTime:false,logPrompt:'How many long shots / 3-pointers did you MAKE?'},
-  {key:'ov1',   label:'1v1 game',     icon:'⚡',color:'#F97316',desc:'30 min of 1v1 play = 45 pts',                    unit:'minutes',   ppt:45, per:30, isTime:true, logPrompt:'Minutes of 1v1 game play'},
-  {key:'ov3',   label:'3v3 game',     icon:'🔥',color:'#E74C3C',desc:'30 min of 3v3 play = 35 pts',                    unit:'minutes',   ppt:35, per:30, isTime:true, logPrompt:'Minutes of 3v3 game play'},
-  {key:'ov5',   label:'5v5 game',     icon:'👑',color:'#F5C842',desc:'30 min of 5v5 play = 25 pts',                    unit:'minutes',   ppt:25, per:30, isTime:true, logPrompt:'Minutes of 5v5 game play'},
-];
-const LB_CATS=[
-  {key:'all',   label:'🏆 Overall'},
-  {key:'short', label:'🎯 Short'},
-  {key:'medium',label:'🏀 Medium'},
-  {key:'long',  label:'💥 Long'},
-  {key:'ov1',   label:'⚡ 1v1'},
-  {key:'ov3',   label:'🔥 3v3'},
-  {key:'ov5',   label:'👑 5v5'},
-];
-
-function calcPts(t,v){return Math.floor((v/t.per)*t.ppt);}
-
-let DB={players:{},logs:{}};
-let me=null, curMonth=Math.max(6,Math.min(8,TODAY.getMonth()+1));
-let lbCat='all', mType=null, mVal=0, logV={}, selAvId=AVATARS[0].id;
-
-// ── STORAGE ────────────────────────────────────────────────────────────────
-async function loadDB(){try{const r=await window.storage.get('bforce2025v4');if(r&&r.value)DB=JSON.parse(r.value);}catch(e){DB={players:{},logs:{}};}}
-async function saveDB(){try{await window.storage.set('bforce2025v4',JSON.stringify(DB));}catch(e){}}
-function dk(){return `${TODAY.getFullYear()}-${String(TODAY.getMonth()+1).padStart(2,'0')}-${String(TODAY.getDate()).padStart(2,'0')}`;}
-function mk(pid,m){return `${pid}_${YEAR}_${m}`;}
-
-function monthStats(pid,m){
-  const t={};TYPES.forEach(x=>t[x.key]=0);
-  Object.values(DB.logs[mk(pid,m)]||{}).forEach(d=>{TYPES.forEach(x=>{t[x.key]+=(d[x.key]||0);});});return t;
+// Generate a clean circle SVG — shows last name (or nick) + number in team colors
+function makeAvSvg(avId, last, num){
+  const a = AVATARS.find(x=>x.id===avId)||AVATARS[0];
+  // Display text: up to 6 chars of last name on top, number below
+  const nameStr  = last ? last.toUpperCase().slice(0,7) : a.nick.toUpperCase();
+  const numStr   = num  ? '#'+num : '';
+  const hasNum   = !!numStr;
+  // Font size scales with name length
+  const nameSize = nameStr.length > 5 ? 13 : nameStr.length > 4 ? 15 : 17;
+  const nameY    = hasNum ? 47 : 55;
+  const numY     = 64;
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="${a.bg}"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="${a.ring}" stroke-width="3" opacity=".6"/>
+    <text x="50" y="22" text-anchor="middle" font-size="8.5" font-weight="700" fill="${a.label}" font-family="Arial Black,Impact,sans-serif" letter-spacing="1.5" opacity=".85">${a.team.toUpperCase()}</text>
+    <text x="50" y="${nameY}" text-anchor="middle" font-size="${nameSize}" font-weight="900" fill="${a.fg}" font-family="Arial Black,Impact,sans-serif" letter-spacing="-.5">${nameStr}</text>
+    ${hasNum?`<text x="50" y="${numY}" text-anchor="middle" font-size="16" font-weight="900" fill="${a.ring}" font-family="Arial Black,Impact,sans-serif" letter-spacing="1">${numStr}</text>`:''}
+  </svg>`;
 }
-function monthPts(pid,m){const s=monthStats(pid,m);let p=0;TYPES.forEach(t=>{p+=calcPts(t,s[t.key]||0);});return p;}
-function catPtsAll(pid,m){const s=monthStats(pid,m);const o={};TYPES.forEach(t=>{o[t.key]=calcPts(t,s[t.key]||0);});return o;}
+
+// Small version for grid tiles — shows nick + team only (no player data yet)
+function makeAvTileSvg(avId){
+  const a = AVATARS.find(x=>x.id===avId)||AVATARS[0];
+  const nick = a.nick.toUpperCase();
+  const nickSize = nick.length > 8 ? 9 : nick.length > 5 ? 11 : 13;
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="50" fill="${a.bg}"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="${a.ring}" stroke-width="3" opacity=".55"/>
+    <text x="50" y="23" text-anchor="middle" font-size="8" font-weight="700" fill="${a.label}" font-family="Arial Black,Impact,sans-serif" letter-spacing="1.5" opacity=".8">${a.team.toUpperCase()}</text>
+    <text x="50" y="57" text-anchor="middle" font-size="${nickSize}" font-weight="900" fill="${a.fg}" font-family="Arial Black,Impact,sans-serif" letter-spacing="-.3">${nick}</text>
+  </svg>`;
+}
+
 function avObj(id){return AVATARS.find(a=>a.id===id)||AVATARS[0];}
 
 // ── JOIN ───────────────────────────────────────────────────────────────────
@@ -754,7 +538,7 @@ function buildAvGrid(){
     const d=document.createElement('div');
     d.className='av-opt'+(i===0?' sel':'');
     d.dataset.id=a.id;
-    d.innerHTML=a.svg+`<div class="av-name-tag">${a.nick}</div>`;
+    d.innerHTML=makeAvTileSvg(a.id);
     d.onclick=()=>{
       document.querySelectorAll('.av-opt').forEach(x=>x.classList.remove('sel'));
       d.classList.add('sel');selAvId=a.id;updatePreview();
@@ -768,9 +552,9 @@ function updatePreview(){
   const last=(document.getElementById('jlast')?.value||'').trim();
   const num=(document.getElementById('jnum')?.value||'').trim();
   const av=avObj(selAvId);
-  document.getElementById('av-preview-img').innerHTML=av.svg;
+  document.getElementById('av-preview-img').innerHTML=makeAvSvg(selAvId,last,num);
   document.getElementById('av-preview-nick').textContent=last?last.toUpperCase()+(num?' #'+num:''):av.nick;
-  document.getElementById('av-preview-sub').textContent=av.team+(num?' · #'+num:'');
+  document.getElementById('av-preview-sub').textContent=av.team;
 }
 
 function buildExisting(){
@@ -779,7 +563,7 @@ function buildExisting(){
   Object.values(DB.players).forEach(p=>{
     const o=document.createElement('option');o.value=p.id;
     const av=avObj(p.avId);
-    o.textContent=(p.last?p.last.toUpperCase():'Player')+(p.num?' #'+p.num:'')+' — '+av.nick;
+    o.textContent=(p.last?p.last.toUpperCase():'Player')+(p.num?' #'+p.num:'')+' — '+av.nick+' ('+av.team+')';
     s.appendChild(o);
   });
   s.onchange=()=>{if(s.value&&DB.players[s.value])login(DB.players[s.value]);};
@@ -798,9 +582,8 @@ function joinTeam(){
 
 function login(p){
   me=p;localStorage.setItem('bfpid',p.id);
-  const av=avObj(p.avId);
-  document.getElementById('nav-av-wrap').innerHTML=av.svg;
-  document.getElementById('nav-name').textContent=(p.last?p.last:av.nick)+(p.num?' #'+p.num:'');
+  document.getElementById('nav-av-wrap').innerHTML=makeAvSvg(p.avId,p.last,p.num);
+  document.getElementById('nav-name').textContent=(p.last?p.last.toUpperCase():avObj(p.avId).nick)+(p.num?' #'+p.num:'');
   ['s-join','s-admin'].forEach(id=>document.getElementById(id).classList.remove('active'));
   document.getElementById('s-app').classList.add('active');
   initLogV();renderDash();renderLB();renderShare();showTab('dash');
@@ -831,11 +614,11 @@ function renderDash(){
   const av=avObj(me.avId);
   document.getElementById('dh-greet').textContent=h<12?'Good morning ☀️':h<17?'Good afternoon ⚡':'Good evening 🌙';
   document.getElementById('dh-name').textContent=(me.last?me.last.toUpperCase():av.nick)+(me.num?' #'+me.num:'');
-  document.getElementById('dh-num').textContent=av.nick+' · Burlington Force';
+  document.getElementById('dh-num').textContent=av.nick+' · '+av.team+' · Burlington Force';
   document.getElementById('stats-month-lbl').textContent=MONTHS[curMonth];
   document.getElementById('lb-month-lbl').textContent=MONTHS[curMonth];
   document.getElementById('today-lbl').textContent=TODAY.toLocaleDateString('en-CA',{month:'short',day:'numeric'});
-  document.getElementById('dh-av').innerHTML=av.svg;
+  document.getElementById('dh-av').innerHTML=makeAvSvg(me.avId,me.last,me.num);
   const p=monthPts(me.id,curMonth);
   document.getElementById('dh-pts').textContent=p;
   const ranked=Object.values(DB.players).map(pl=>({pl,p:monthPts(pl.id,curMonth)})).sort((a,b)=>b.p-a.p);
@@ -986,7 +769,7 @@ function renderLBList(){
     const nameDisp=(p.last?p.last.toUpperCase():av.nick)+(p.num?' #'+p.num:'');
     row.innerHTML=`
       <div class="lb-rank-col">${ri}</div>
-      <div class="lb-av">${av.svg}</div>
+      <div class="lb-av">${makeAvSvg(p.avId,p.last,p.num)}</div>
       <div class="lb-info">
         <div class="lb-pname">${nameDisp}${isMe?'<span class="you-pill">you</span>':''}${fire}</div>
         <div class="lb-psub">${av.nick} · ${subText}</div>
@@ -1082,7 +865,7 @@ function renderAdmin(){
       const logCount=[6,7,8].reduce((a,m)=>a+Object.keys(DB.logs[mk(p.id,m)]||{}).length,0);
       const nameDisp=(p.last?p.last.toUpperCase():av.nick)+(p.num?' #'+p.num:'');
       html+=`<div class="admin-player-row">
-        <div class="admin-av">${av.svg}</div>
+        <div class="admin-av">${makeAvSvg(p.avId,p.last,p.num)}</div>
         <div class="admin-player-info">
           <div class="admin-player-name">${nameDisp}</div>
           <div class="admin-player-sub">${av.nick} · ${seasonPts} season pts · ${logCount} sessions · joined ${p.joined||'2025'}</div>
@@ -1102,7 +885,7 @@ function renderAdmin(){
         const av=avObj(p.avId);
         const dn=(p.last?p.last.toUpperCase():av.nick)+(p.num?' #'+p.num:'');
         html+=`<div style="display:flex;align-items:center;gap:8px;padding:4px 0">
-          <div style="width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0">${av.svg}</div>
+          <div style="width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0">${makeAvSvg(p.avId,p.last,p.num)}</div>
           <div style="font-size:13px;min-width:20px">${i===0?'🥇':i===1?'🥈':'🥉'}</div>
           <div style="flex:1;font-size:13px;font-weight:600;color:var(--navy)">${dn}</div>
           <div style="font-size:14px;font-weight:800;color:var(--navy)">${pts}pts</div>
