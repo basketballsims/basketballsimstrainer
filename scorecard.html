@@ -15,7 +15,7 @@
   --white:#FFFFFF;--off:#F4F3EF;
   --green:#1DB954;--red:#E74C3C;--purple:#8B5CF6;--orange:#F97316;--blue:#3B82F6;
   --text:#0D1F4E;--text2:#4A5568;--text3:#9AA5B4;
-  --card:#FFFFFF;--cb:rgba(13,31,78,0.09);--bg:#EEF2F8;
+  --card:#FFFFFF;--cb:rgba(13,31,78,0.09);--bg:#E8EDF5;
   --r:14px;--rsm:10px;
   --st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);
 }
@@ -25,7 +25,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
 .screen.active{display:flex;flex-direction:column}
 
 /* ── JOIN ── */
-.join-wrap{flex:1;background:var(--navy);display:flex;flex-direction:column;align-items:center;padding:calc(var(--st)+20px) 16px calc(28px + var(--sb));min-height:100%}
+.join-wrap{flex:1;background:#1A2E5A;display:flex;flex-direction:column;align-items:center;padding:calc(var(--st)+20px) 16px calc(28px + var(--sb));min-height:100%}
 
 /* HERO HEADER */
 .join-hero-text{text-align:center;margin-bottom:20px;width:100%;max-width:400px;padding:0 8px}
@@ -67,18 +67,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
 .color-input::-webkit-color-swatch-wrapper{padding:0;border-radius:50%}
 .color-input::-webkit-color-swatch{border:none;border-radius:50%}
 
-/* PREVIEW — live circle + name beside it */
-.av-preview{display:flex;align-items:center;gap:16px;background:var(--navy);border-radius:16px;padding:16px 18px;margin-bottom:16px}
-.av-preview-circle-wrap{flex-shrink:0}
-.av-preview-circle{width:72px;height:72px;border-radius:50%;overflow:hidden;flex-shrink:0}
-.av-preview-circle svg{width:100%;height:100%}
+/* PREVIEW — muted, secondary importance */
+.av-preview{display:flex;align-items:center;gap:12px;background:rgba(13,31,78,.12);border:1px solid rgba(13,31,78,.12);border-radius:12px;padding:12px 14px;margin:14px 0 16px}
+.av-preview-circle{width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;opacity:.9}
 .av-preview-name-col{flex:1;min-width:0}
-.av-preview-lastname{font-size:22px;font-weight:900;color:#FFFFFF;letter-spacing:-.3px;line-height:1.1;word-break:break-all}
-.av-preview-numtag{display:inline-block;margin-top:5px;font-size:13px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.04em}
-.av-preview-hint{font-size:11px;color:rgba(255,255,255,.35);margin-top:3px;font-style:italic}
+.av-preview-lastname{font-size:16px;font-weight:800;color:var(--navy);letter-spacing:-.2px;line-height:1.1;word-break:break-all}
+.av-preview-numtag{display:inline-block;margin-top:3px;font-size:12px;font-weight:600;color:var(--text2)}
+.av-preview-hint{font-size:11px;color:var(--text3);margin-top:3px;font-style:italic}
 
-.join-btn{width:100%;padding:14px;background:var(--navy);color:var(--white);border:none;border-radius:var(--rsm);font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;margin-top:4px}
-.join-btn:active{background:var(--navy2)}
+.join-btn{width:100%;padding:16px;background:#E8A020;color:#FFFFFF;border:none;border-radius:var(--rsm);font-size:17px;font-weight:900;cursor:pointer;font-family:inherit;margin-top:4px;letter-spacing:.01em;box-shadow:0 4px 16px rgba(232,160,32,.35);transition:background .15s,transform .1s}
+.join-btn:active{background:#CC8A10;transform:scale(.98)}
 .join-divider{display:flex;align-items:center;gap:10px;margin:14px 0 10px}
 .join-divider::before,.join-divider::after{content:'';flex:1;height:1px;background:var(--cb)}
 .join-divider span{font-size:11px;color:var(--text3);font-weight:600}
@@ -501,6 +499,49 @@ const MONTHS={6:'June',7:'July',8:'August'};
 const YEAR=2025;
 const TODAY=new Date();
 
+// ── STATE ────────────────────────────────────────────────────────────────
+let DB={players:{},logs:{}};
+let me=null, curMonth=Math.max(6,Math.min(8,TODAY.getMonth()+1));
+let lbCat='all', mType=null, mVal=0, logV={};
+
+// ── STORAGE ───────────────────────────────────────────────────────────────
+async function loadDB(){
+  try{const r=await window.storage.get('bforce2025v5');if(r&&r.value)DB=JSON.parse(r.value);}
+  catch(e){DB={players:{},logs:{}};}
+}
+async function saveDB(){
+  try{await window.storage.set('bforce2025v5',JSON.stringify(DB));}catch(e){}
+}
+function dk(){return `${TODAY.getFullYear()}-${String(TODAY.getMonth()+1).padStart(2,'0')}-${String(TODAY.getDate()).padStart(2,'0')}`;}
+function mk(pid,m){return `${pid}_${YEAR}_${m}`;}
+
+function monthStats(pid,m){
+  const t={};TYPES.forEach(x=>t[x.key]=0);
+  Object.values(DB.logs[mk(pid,m)]||{}).forEach(d=>{TYPES.forEach(x=>{t[x.key]+=(d[x.key]||0);});});return t;
+}
+function monthPts(pid,m){const s=monthStats(pid,m);let p=0;TYPES.forEach(t=>{p+=calcPts(t,s[t.key]||0);});return p;}
+function catPtsAll(pid,m){const s=monthStats(pid,m);const o={};TYPES.forEach(t=>{o[t.key]=calcPts(t,s[t.key]||0);});return o;}
+
+// ── DRILL TYPES & SCORING ─────────────────────────────────────────────────
+const TYPES=[
+  {key:'short', label:'Short makes',  icon:'🎯',color:'#1DB954',desc:'Made shots inside the charge circle',            unit:'shots MADE',ppt:10, per:100,isTime:false,logPrompt:'How many short shots did you MAKE?'},
+  {key:'medium',label:'Medium makes', icon:'🏀',color:'#3B82F6',desc:'Made shots outside charge circle, inside FT line',unit:'shots MADE',ppt:20, per:100,isTime:false,logPrompt:'How many mid-range shots did you MAKE?'},
+  {key:'long',  label:'Long makes',   icon:'💥',color:'#8B5CF6',desc:'Made shots past the free throw line — 3s count!', unit:'shots MADE',ppt:75, per:100,isTime:false,logPrompt:'How many long shots / 3-pointers did you MAKE?'},
+  {key:'ov1',   label:'1v1 game',     icon:'⚡',color:'#F97316',desc:'30 min of 1v1 play = 45 pts',                     unit:'minutes',   ppt:45, per:30, isTime:true, logPrompt:'Minutes of 1v1 game play'},
+  {key:'ov3',   label:'3v3 game',     icon:'🔥',color:'#E74C3C',desc:'30 min of 3v3 play = 35 pts',                     unit:'minutes',   ppt:35, per:30, isTime:true, logPrompt:'Minutes of 3v3 game play'},
+  {key:'ov5',   label:'5v5 game',     icon:'👑',color:'#F5C842',desc:'30 min of 5v5 play = 25 pts',                     unit:'minutes',   ppt:25, per:30, isTime:true, logPrompt:'Minutes of 5v5 game play'},
+];
+const LB_CATS=[
+  {key:'all',   label:'🏆 Overall'},
+  {key:'short', label:'🎯 Short'},
+  {key:'medium',label:'🏀 Medium'},
+  {key:'long',  label:'💥 Long'},
+  {key:'ov1',   label:'⚡ 1v1'},
+  {key:'ov3',   label:'🔥 3v3'},
+  {key:'ov5',   label:'👑 5v5'},
+];
+function calcPts(t,v){return Math.floor((v/t.per)*t.ppt);}
+
 // ── COLOR PALETTE — 20 preset swatches ───────────────────────────────────
 const PRESET_COLORS = [
   '#E74C3C', // red
@@ -634,7 +675,7 @@ function updatePreview(){
   const num  = (document.getElementById('jnum')?.value||'').trim();
 
   // Circle: color filled, number inside if available
-  document.getElementById('av-preview-circle').innerHTML = makeAvSvg(selColor, num, 72);
+  document.getElementById('av-preview-circle').innerHTML = makeAvSvg(selColor, num, 52);
 
   // Last name beside the circle
   const lastEl = document.getElementById('av-preview-lastname');
@@ -643,11 +684,11 @@ function updatePreview(){
 
   if(last){
     lastEl.textContent = last.toUpperCase();
-    lastEl.style.color = '#FFFFFF';
+    lastEl.style.color = 'var(--navy)';
     hintEl.style.display = 'none';
   } else {
     lastEl.textContent = '—';
-    lastEl.style.color = 'rgba(255,255,255,.3)';
+    lastEl.style.color = 'var(--text3)';
     hintEl.style.display = 'block';
   }
 
