@@ -154,11 +154,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
 .cnt-btn{width:88px;height:88px;border:none;background:transparent;font-size:36px;line-height:1;cursor:pointer;color:var(--navy);flex-shrink:0;font-weight:300;-webkit-user-select:none;user-select:none}
 .cnt-btn:active{background:rgba(13,31,78,.08)}
 .cnt-inp{flex:1;border:none;background:transparent;text-align:center;font-size:28px;font-weight:900;font-family:inherit;color:var(--navy);outline:none;height:88px;min-width:0;padding:0}
-.log-pts-today{font-size:10px;font-weight:700;color:var(--text3);margin-top:5px}
+/* BIG prominent pts calculator */
+.log-pts-today{font-size:22px;font-weight:900;color:var(--navy);margin-top:8px;letter-spacing:-.5px;line-height:1}
+.log-pts-today-label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;margin-top:1px}
 .log-full{grid-column:1/-1}
-.log-submit{width:100%;padding:14px;background:var(--navy);color:var(--white);border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;margin-top:11px;font-family:inherit}
+.log-submit{width:100%;padding:15px;background:var(--navy);color:var(--white);border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;margin-top:12px;font-family:inherit}
 .log-submit:active{background:var(--navy2)}
 .made-notice{font-size:12px;color:var(--text2);margin-bottom:11px;padding:8px 12px;background:rgba(13,31,78,.05);border-radius:8px;border-left:3px solid var(--gold);line-height:1.5}
+
+/* SAVE REMINDER BANNER — shown when log has unsaved changes */
+.save-reminder{display:none;align-items:center;gap:10px;background:#E8A020;padding:12px 16px;cursor:pointer;position:sticky;top:0;z-index:50}
+.save-reminder.visible{display:flex}
+.save-reminder-icon{font-size:20px;flex-shrink:0}
+.save-reminder-text{flex:1;font-size:13px;font-weight:700;color:#FFFFFF;line-height:1.35}
+.save-reminder-text span{font-size:11px;font-weight:500;opacity:.85;display:block;margin-top:1px}
+.save-reminder-btn{background:#FFFFFF;color:#E8A020;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0}
+
+/* UNSAVED NAVIGATION MODAL */
+.unsaved-modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:700;display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.unsaved-modal-box{background:#FFFFFF;border-radius:22px;padding:30px 24px 24px;max-width:320px;width:100%;text-align:center;animation:popIn .22s cubic-bezier(.34,1.4,.64,1)}
+@keyframes popIn{from{transform:scale(.84);opacity:0}to{transform:scale(1);opacity:1}}
+.unsaved-modal-icon{font-size:44px;margin-bottom:14px;line-height:1}
+.unsaved-modal-title{font-size:20px;font-weight:900;color:var(--navy);margin-bottom:8px;letter-spacing:-.3px}
+.unsaved-modal-sub{font-size:14px;color:var(--text2);line-height:1.55;margin-bottom:24px}
+.unsaved-save-btn{width:100%;padding:16px;background:#E8A020;color:#FFFFFF;border:none;border-radius:12px;font-size:16px;font-weight:900;cursor:pointer;font-family:inherit;margin-bottom:10px;box-shadow:0 4px 16px rgba(232,160,32,.4);letter-spacing:.01em}
+.unsaved-save-btn:active{background:#CC8A10}
+.unsaved-cancel-btn{width:100%;padding:13px;background:transparent;color:var(--text2);border:1.5px solid var(--cb);border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.unsaved-cancel-btn:active{background:var(--off)}
 
 /* LB */
 .lb-filter{display:flex;gap:6px;overflow-x:auto;padding:12px 16px 4px;scrollbar-width:none}
@@ -356,6 +378,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
 
   <div class="tabs-content">
     <div class="tab active" id="tab-dash">
+      <!-- Sticky save reminder — shown when there are unsaved changes -->
+      <div class="save-reminder" id="save-reminder" onclick="submitLog()">
+        <div class="save-reminder-icon">💾</div>
+        <div class="save-reminder-text">
+          You have unsaved activity
+          <span>Tap here or scroll down to Save session</span>
+        </div>
+        <button class="save-reminder-btn">Save now</button>
+      </div>
       <div class="dash-hero">
         <div class="dh-top">
           <div class="dh-avatar" id="dh-av"></div>
@@ -453,6 +484,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
     </div>
   </div>
   <div class="admin-wrap" id="admin-content"></div>
+</div>
+
+<!-- UNSAVED CHANGES MODAL -->
+<div class="unsaved-modal-bg" id="unsaved-modal" style="display:none">
+  <div class="unsaved-modal-box">
+    <div class="unsaved-modal-icon">⚠️</div>
+    <div class="unsaved-modal-title">Save your session?</div>
+    <div class="unsaved-modal-sub">You have activity logged today that hasn't been saved yet. Save it before you leave so it counts!</div>
+    <button class="unsaved-save-btn" onclick="saveAndNav()">💾 Save session</button>
+    <button class="unsaved-cancel-btn" onclick="discardAndNav()">Leave without saving</button>
+  </div>
 </div>
 
 <!-- LOG MODAL -->
@@ -782,6 +824,7 @@ function initLogV(){
   TYPES.forEach(t=>logV[t.key]=0);
   const day=(DB.logs[mk(me.id,curMonth)]||{})[dk()]||{};
   TYPES.forEach(t=>{logV[t.key]=day[t.key]||0;});
+  clearDirty(); // reset unsaved state on month switch or fresh login
 }
 
 // ── DASHBOARD ─────────────────────────────────────────────────────────────
@@ -857,7 +900,8 @@ function renderLogGrid(){
         <input class="cnt-inp" id="inp-${t.key}" type="number" inputmode="numeric" min="0" value="${v}" onchange="setLog('${t.key}',+this.value)">
         <button class="cnt-btn" onclick="adjLog('${t.key}',${t.isTime?5:10},event)">+</button>
       </div>
-      <div class="log-pts-today" id="lpt-${t.key}">= ${calcPts(t,v)} pts today</div>`;
+      <div class="log-pts-today" id="lpt-${t.key}">${calcPts(t,v)}</div>
+      <div class="log-pts-today-label">pts earned today</div>`;
     d.onclick=e=>{if(!e.target.classList.contains('cnt-btn')&&!e.target.classList.contains('cnt-inp'))openModal(t);};
     grid.appendChild(d);
   });
@@ -867,16 +911,76 @@ function adjLog(key,delta,e){
   e.stopPropagation();logV[key]=Math.max(0,(logV[key]||0)+delta);
   const inp=document.getElementById('inp-'+key);if(inp)inp.value=logV[key];
   const t=TYPES.find(x=>x.key===key);
-  const lpt=document.getElementById('lpt-'+key);if(lpt)lpt.textContent=`= ${calcPts(t,logV[key])} pts today`;
+  const lpt=document.getElementById('lpt-'+key);if(lpt)lpt.textContent=calcPts(t,logV[key]);
+  markDirty();
 }
-function setLog(key,val){logV[key]=Math.max(0,isNaN(val)?0:Math.floor(val));}
+function setLog(key,val){
+  logV[key]=Math.max(0,isNaN(val)?0:Math.floor(val));
+  markDirty();
+}
 
 async function submitLog(){
   const m2=mk(me.id,curMonth);if(!DB.logs[m2])DB.logs[m2]={};
   const entry={ts:Date.now()};TYPES.forEach(t=>entry[t.key]=logV[t.key]||0);
   DB.logs[m2][dk()]=entry;
-  await saveDB();showToast('Session logged! Keep grinding 🔥');
+  await saveDB();
+  clearDirty();
+  showToast('Session saved! Keep grinding 🔥');
   renderDash();renderLB();
+}
+
+// ── UNSAVED CHANGES TRACKING ───────────────────────────────────────────────
+let isDirty=false;
+let pendingTab=null;
+
+function markDirty(){
+  isDirty=true;
+  const banner=document.getElementById('save-reminder');
+  if(banner)banner.classList.add('visible');
+}
+
+function clearDirty(){
+  isDirty=false;
+  const banner=document.getElementById('save-reminder');
+  if(banner)banner.classList.remove('visible');
+}
+
+function hasUnsavedWork(){
+  // Returns true only if player has actually entered something non-zero
+  return isDirty && TYPES.some(t=>(logV[t.key]||0)>0);
+}
+
+async function saveAndNav(){
+  document.getElementById('unsaved-modal').style.display='none';
+  await submitLog();
+  if(pendingTab){const t=pendingTab;pendingTab=null;_doShowTab(t);}
+}
+
+function discardAndNav(){
+  document.getElementById('unsaved-modal').style.display='none';
+  clearDirty();
+  if(pendingTab){const t=pendingTab;pendingTab=null;_doShowTab(t);}
+}
+
+function _doShowTab(t){
+  ['dash','lb','share'].forEach(x=>{
+    document.getElementById('tab-'+x).classList.toggle('active',x===t);
+    document.getElementById('bn-'+x).classList.toggle('active',x===t);
+  });
+  if(t==='lb')renderLB();
+  if(t==='share')renderShare();
+}
+
+// ── TABS ────────────────────────────────────────────────────────────────────
+function showTab(t){
+  // If navigating away from dash with unsaved entries, intercept
+  const currentTab=document.querySelector('.tab.active')?.id?.replace('tab-','');
+  if(t!=='dash' && currentTab==='dash' && hasUnsavedWork()){
+    pendingTab=t;
+    document.getElementById('unsaved-modal').style.display='flex';
+    return;
+  }
+  _doShowTab(t);
 }
 
 // ── MODAL ─────────────────────────────────────────────────────────────────
@@ -898,8 +1002,9 @@ function closeModal(e){if(e===null||e.target===document.getElementById('modal'))
 function confirmModal(){
   logV[mType.key]=mVal;
   const inp=document.getElementById('inp-'+mType.key);if(inp)inp.value=mVal;
-  const lpt=document.getElementById('lpt-'+mType.key);if(lpt)lpt.textContent=`= ${calcPts(mType,mVal)} pts today`;
+  const lpt=document.getElementById('lpt-'+mType.key);if(lpt)lpt.textContent=calcPts(mType,mVal);
   document.getElementById('modal').style.display='none';
+  markDirty();
 }
 
 // ── LEADERBOARD ────────────────────────────────────────────────────────────
@@ -1093,15 +1198,7 @@ function exitAdmin(){
   buildExisting();
 }
 
-// ── TABS + TOAST ────────────────────────────────────────────────────────────
-function showTab(t){
-  ['dash','lb','share'].forEach(x=>{
-    document.getElementById('tab-'+x).classList.toggle('active',x===t);
-    document.getElementById('bn-'+x).classList.toggle('active',x===t);
-  });
-  if(t==='lb')renderLB();
-  if(t==='share')renderShare();
-}
+// ── TOAST ────────────────────────────────────────────────────────────────────
 function showToast(msg){
   const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),3000);
