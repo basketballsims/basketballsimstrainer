@@ -10,92 +10,79 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --navy:#0D1F4E;
-  --navy2:#162B68;
-  --navy3:#1E3A8A;
-  --sky:#A8C8E8;
-  --sky2:#C5DAEA;
-  --gold:#F5C842;
-  --gold2:#E6B830;
-  --gold3:#C99B10;
-  --white:#FFFFFF;
-  --off:#F5F4F0;
-  --green:#1DB954;
-  --red:#E74C3C;
-  --purple:#8B5CF6;
-  --orange:#F97316;
-  --blue:#3B82F6;
-  --text:#0D1F4E;
-  --text2:#4A5568;
-  --text3:#9AA5B4;
-  --card:#FFFFFF;
-  --cardborder:rgba(13,31,78,0.10);
-  --bg:#EEF2F8;
-  --radius:14px;
-  --rsm:10px;
-  --safe-top:env(safe-area-inset-top,0px);
-  --safe-bot:env(safe-area-inset-bottom,0px);
+  --navy:#0D1F4E;--navy2:#162B68;--navy3:#1E3A8A;
+  --gold:#F5C842;--gold2:#E6B830;
+  --white:#FFFFFF;--off:#F4F3EF;
+  --green:#1DB954;--red:#E74C3C;--purple:#8B5CF6;--orange:#F97316;--blue:#3B82F6;
+  --text:#0D1F4E;--text2:#4A5568;--text3:#9AA5B4;
+  --card:#FFFFFF;--cardborder:rgba(13,31,78,0.09);--bg:#EEF2F8;
+  --radius:14px;--rsm:10px;
+  --safe-top:env(safe-area-inset-top,0px);--safe-bot:env(safe-area-inset-bottom,0px);
 }
 html,body{height:100%;overflow:hidden}
 body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Helvetica,sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column}
 .screen{display:none;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .screen.active{display:flex;flex-direction:column}
 
-/* ── FORCE SHIELD SVG ── */
-.force-shield{display:block}
-
-/* ── JOIN SCREEN ── */
-.join-wrap{flex:1;background:var(--navy);display:flex;flex-direction:column;align-items:center;padding:calc(var(--safe-top)+28px) 20px calc(32px + var(--safe-bot));min-height:100%}
-.join-logo-area{text-align:center;margin-bottom:24px}
-.join-season{color:rgba(255,255,255,.55);font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-top:10px}
-.join-card{background:var(--white);border-radius:22px;padding:22px;width:100%;max-width:390px}
-.join-card-title{font-size:18px;font-weight:800;color:var(--navy);margin-bottom:4px;letter-spacing:-.3px}
-.join-card-sub{font-size:13px;color:var(--text2);margin-bottom:18px;line-height:1.4}
-.jlabel{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:7px;text-align:left;letter-spacing:.07em;text-transform:uppercase}
-.jinput{width:100%;padding:13px 15px;border:1.5px solid var(--cardborder);border-radius:var(--rsm);font-size:16px;font-family:inherit;outline:none;color:var(--text);background:var(--off);-webkit-appearance:none}
+/* JOIN */
+.join-wrap{flex:1;background:var(--navy);display:flex;flex-direction:column;align-items:center;padding:calc(var(--safe-top)+20px) 16px calc(28px + var(--safe-bot));min-height:100%}
+.join-logo-area{text-align:center;margin-bottom:18px}
+.join-season{color:rgba(255,255,255,.5);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-top:8px}
+.join-card{background:var(--white);border-radius:22px;padding:20px;width:100%;max-width:400px}
+.join-card-title{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:3px}
+.join-card-sub{font-size:12px;color:var(--text2);margin-bottom:16px;line-height:1.4}
+.jlabel{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px;letter-spacing:.07em;text-transform:uppercase}
+.jinput{width:100%;padding:12px 14px;border:1.5px solid var(--cardborder);border-radius:var(--rsm);font-size:16px;font-family:inherit;outline:none;color:var(--text);background:var(--off);-webkit-appearance:none}
 .jinput:focus{border-color:var(--navy)}
-.jersey-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0 16px}
-.jersey-opt{aspect-ratio:1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:2.5px solid transparent;background:var(--off);transition:all .15s;gap:2px;padding:6px 4px}
-.jersey-opt.sel{border-color:var(--navy);background:#EEF2F8;transform:scale(1.06)}
-.jersey-opt svg{width:34px;height:34px}
-.jersey-lbl{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.04em}
-.jersey-opt.sel .jersey-lbl{color:var(--navy)}
-.join-number-row{display:flex;gap:8px;margin-bottom:16px}
-.join-number-row .jinput{text-align:center;font-size:20px;font-weight:800;letter-spacing:2px}
-.join-btn{width:100%;padding:15px;background:var(--navy);color:var(--white);border:none;border-radius:var(--rsm);font-size:16px;font-weight:800;cursor:pointer;letter-spacing:-.1px;font-family:inherit}
+
+/* AVATAR GRID */
+.av-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:8px 0 16px}
+.av-opt{aspect-ratio:1;border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2.5px solid transparent;background:var(--off);transition:all .12s;overflow:hidden}
+.av-opt:active{transform:scale(.94)}
+.av-opt.sel{border-color:var(--navy);box-shadow:0 0 0 3px rgba(13,31,78,.12);transform:scale(1.06)}
+.av-opt svg{width:100%;height:100%}
+
+/* SELECTED AVATAR PREVIEW */
+.av-preview{display:flex;flex-direction:column;align-items:center;gap:6px;margin:0 0 16px}
+.av-preview-circle{width:72px;height:72px;border-radius:50%;border:3px solid var(--gold);overflow:hidden;background:var(--off)}
+.av-preview-circle svg{width:100%;height:100%}
+.av-preview-name{font-size:12px;font-weight:800;color:var(--navy);letter-spacing:.04em}
+.av-preview-num{font-size:11px;color:var(--text3);font-weight:700}
+
+.join-btn{width:100%;padding:14px;background:var(--navy);color:var(--white);border:none;border-radius:var(--rsm);font-size:16px;font-weight:800;cursor:pointer;font-family:inherit}
 .join-btn:active{background:var(--navy2)}
-.join-divider{display:flex;align-items:center;gap:10px;margin:16px 0 12px}
+.join-divider{display:flex;align-items:center;gap:10px;margin:14px 0 10px}
 .join-divider::before,.join-divider::after{content:'';flex:1;height:1px;background:var(--cardborder)}
 .join-divider span{font-size:11px;color:var(--text3);font-weight:600;letter-spacing:.04em}
-.join-locked{background:rgba(13,31,78,.06);border-radius:10px;padding:11px 14px;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:8px;margin-top:12px}
-.join-locked-icon{font-size:16px;flex-shrink:0}
+.join-locked{background:rgba(13,31,78,.06);border-radius:10px;padding:10px 13px;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:8px;margin-top:10px}
 
-/* ── TOPBAR ── */
+/* TOPBAR */
 .topbar{background:var(--navy);flex-shrink:0;padding:calc(var(--safe-top)+8px) 16px 0}
 .topbar-inner{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.tb-brand{display:flex;align-items:center;gap:10px}
+.tb-brand{display:flex;align-items:center;gap:9px}
 .tb-brand-text{color:var(--white)}
-.tb-brand-name{font-size:16px;font-weight:800;letter-spacing:-.3px;line-height:1.2}
+.tb-brand-name{font-size:15px;font-weight:800;letter-spacing:-.2px;line-height:1.2}
 .tb-brand-sub{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;letter-spacing:.04em}
-.player-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.13);border-radius:20px;padding:5px 12px 5px 6px;cursor:pointer}
-.pp-jersey{width:28px;height:28px;flex-shrink:0}
-.pp-name{color:var(--white);font-size:12px;font-weight:700}
+.player-pill{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border-radius:20px;padding:4px 12px 4px 4px;cursor:pointer;max-width:50%}
+.pp-av{width:26px;height:26px;border-radius:50%;overflow:hidden;background:var(--gold);flex-shrink:0}
+.pp-av svg{width:100%;height:100%}
+.pp-name{color:var(--white);font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .month-row{display:flex;gap:4px;background:rgba(255,255,255,.08);border-radius:10px;padding:3px;margin-bottom:11px}
 .mtab{flex:1;padding:8px 4px;text-align:center;color:rgba(255,255,255,.45);font-size:13px;font-weight:700;cursor:pointer;border-radius:7px;border:none;background:transparent;font-family:inherit;transition:all .15s}
 .mtab.active{background:var(--gold);color:var(--navy)}
 
-/* ── TABS ── */
+/* TABS */
 .tabs-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(76px + var(--safe-bot))}
 .tab{display:none}.tab.active{display:block}
 
-/* ── DASH HERO ── */
+/* DASH HERO */
 .dash-hero{background:var(--navy);padding:4px 16px 22px}
 .dh-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.dh-jersey-wrap{flex-shrink:0}
-.dh-info{flex:1}
+.dh-avatar{width:58px;height:58px;border-radius:50%;border:2.5px solid var(--gold);overflow:hidden;flex-shrink:0}
+.dh-avatar svg{width:100%;height:100%}
 .dh-greet{color:rgba(255,255,255,.5);font-size:12px;font-weight:600;letter-spacing:.04em;margin-bottom:2px}
-.dh-name{color:var(--white);font-size:22px;font-weight:800;letter-spacing:-.3px}
-.dh-num{color:var(--gold);font-size:14px;font-weight:800;letter-spacing:2px}
+.dh-name{color:var(--white);font-size:20px;font-weight:800;letter-spacing:-.3px}
+.dh-num{color:var(--gold);font-size:13px;font-weight:800;letter-spacing:2px;margin-top:1px}
 .dh-pts-band{background:rgba(255,255,255,.1);border-radius:16px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between}
 .dh-main{color:var(--gold);font-size:44px;font-weight:900;line-height:1;letter-spacing:-2px}
 .dh-mlabel{color:rgba(255,255,255,.5);font-size:11px;font-weight:600;letter-spacing:.04em;margin-top:4px;text-transform:uppercase}
@@ -106,21 +93,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
 .sec-title{font-size:11px;font-weight:800;color:var(--text2);letter-spacing:.07em;text-transform:uppercase;margin-bottom:11px;display:flex;align-items:center;justify-content:space-between}
 .sec-sub{font-size:12px;font-weight:400;color:var(--text3);text-transform:none;letter-spacing:0}
 
-/* ── STREAK ── */
+/* STREAK */
 .streak-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
 .streak-row::-webkit-scrollbar{display:none}
 .sday{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0}
-.sdot{width:34px;height:34px;border-radius:50%;border:2px solid var(--cardborder);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text3);background:var(--card)}
+.sdot{width:32px;height:32px;border-radius:50%;border:2px solid var(--cardborder);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text3);background:var(--card)}
 .sdot.logged{background:var(--green);border-color:var(--green);color:#fff}
 .sdot.today{border-color:var(--navy);border-width:2.5px}
 .slbl{font-size:9px;color:var(--text3);font-weight:700;letter-spacing:.04em}
 
-/* ── STATS ── */
+/* STATS */
 .stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
 .stat-box{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--rsm);padding:12px 8px;text-align:center}
 .stat-v{font-size:22px;font-weight:800;color:var(--navy)}
 .stat-l{font-size:10px;color:var(--text3);margin-top:2px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
-
 .prog-list{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
 .prog-item{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--rsm);padding:12px 14px}
 .prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
@@ -130,36 +116,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
 .prog-bar{height:7px;background:var(--off);border-radius:4px;overflow:hidden}
 .prog-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1)}
 
-/* ── LOG ── */
+/* LOG */
 .log-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.log-card{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--radius);padding:14px 13px;position:relative;overflow:hidden;transition:transform .1s}
+.log-card{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--radius);padding:13px;position:relative;overflow:hidden;transition:transform .1s}
 .log-card:active{transform:scale(.97)}
 .log-accent{position:absolute;top:0;left:0;right:0;height:4px}
-.log-icon{font-size:22px;margin-bottom:5px;display:block}
-.log-name{font-size:12px;font-weight:800;color:var(--navy);margin-bottom:1px;letter-spacing:-.1px}
-.log-pts-hint{font-size:10px;color:var(--text2);margin-bottom:9px;font-weight:600}
+.log-icon{font-size:20px;margin-bottom:4px;display:block}
+.log-name{font-size:12px;font-weight:800;color:var(--navy);margin-bottom:1px}
+.log-pts-hint{font-size:10px;color:var(--text2);margin-bottom:8px;font-weight:600}
 .cnt-row{display:flex;align-items:center;border:1px solid var(--cardborder);border-radius:8px;overflow:hidden;background:var(--off)}
-.cnt-btn{width:36px;height:36px;border:none;background:transparent;font-size:20px;line-height:1;cursor:pointer;color:var(--navy);flex-shrink:0;font-weight:400}
+.cnt-btn{width:34px;height:34px;border:none;background:transparent;font-size:20px;line-height:1;cursor:pointer;color:var(--navy);flex-shrink:0}
 .cnt-btn:active{background:var(--cardborder)}
-.cnt-inp{flex:1;border:none;background:transparent;text-align:center;font-size:16px;font-weight:800;font-family:inherit;color:var(--navy);outline:none;height:36px;min-width:0;padding:0}
-.log-pts-today{font-size:11px;font-weight:700;color:var(--text3);margin-top:6px}
+.cnt-inp{flex:1;border:none;background:transparent;text-align:center;font-size:15px;font-weight:800;font-family:inherit;color:var(--navy);outline:none;height:34px;min-width:0;padding:0}
+.log-pts-today{font-size:11px;font-weight:700;color:var(--text3);margin-top:5px}
 .log-full{grid-column:1/-1}
-.log-submit{width:100%;padding:16px;background:var(--navy);color:var(--white);border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;margin-top:12px;font-family:inherit;letter-spacing:-.1px}
+.log-submit{width:100%;padding:15px;background:var(--navy);color:var(--white);border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;margin-top:12px;font-family:inherit}
 .log-submit:active{background:var(--navy2)}
+.made-notice{font-size:12px;color:var(--text2);margin-bottom:12px;padding:8px 12px;background:rgba(13,31,78,.05);border-radius:8px;border-left:3px solid var(--gold);line-height:1.5}
 
-/* ── LEADERBOARD ── */
+/* LEADERBOARD */
 .lb-filter{display:flex;gap:6px;overflow-x:auto;padding:12px 16px 4px;scrollbar-width:none}
 .lb-filter::-webkit-scrollbar{display:none}
-.lb-chip{padding:8px 14px;border-radius:20px;border:1.5px solid var(--cardborder);background:var(--card);font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer;color:var(--text2);flex-shrink:0;transition:all .15s}
+.lb-chip{padding:7px 13px;border-radius:20px;border:1.5px solid var(--cardborder);background:var(--card);font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer;color:var(--text2);flex-shrink:0;transition:all .15s}
 .lb-chip.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
 .lb-list{padding:0 16px 16px;display:flex;flex-direction:column;gap:8px}
-.lb-row{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--radius);padding:12px 14px;display:flex;align-items:center;gap:11px}
+.lb-row{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--radius);padding:12px 13px;display:flex;align-items:center;gap:11px}
 .lb-row.me{border:2.5px solid var(--navy);background:rgba(13,31,78,.04)}
 .lb-row.top1{background:linear-gradient(135deg,#FFFBEB,#FFF5C0)}
-.lb-rank-col{font-size:15px;font-weight:900;color:var(--text3);min-width:26px;text-align:center}
-.lb-jersey{width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.lb-rank-col{font-size:14px;font-weight:900;color:var(--text3);min-width:24px;text-align:center}
+.lb-av{width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.lb-av svg{width:100%;height:100%}
 .lb-info{flex:1;min-width:0}
-.lb-pname{font-size:14px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:6px;flex-wrap:wrap;letter-spacing:-.2px}
+.lb-pname{font-size:14px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .you-pill{font-size:10px;background:var(--navy);color:var(--white);padding:2px 7px;border-radius:10px;font-weight:700}
 .lb-psub{font-size:11px;color:var(--text3);margin-top:2px;font-weight:600}
 .lb-score{text-align:right;flex-shrink:0}
@@ -170,18 +158,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
 .lb-empty-t{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:6px}
 .lb-empty-s{font-size:14px;color:var(--text2);line-height:1.5}
 
-/* ── SHARE / INFO ── */
+/* SHARE */
 .share-hero{background:var(--navy);margin:16px;border-radius:18px;padding:24px;text-align:center}
-.share-title{color:var(--white);font-size:16px;font-weight:800;margin-bottom:4px;letter-spacing:-.2px}
-.share-sub{color:rgba(255,255,255,.5);font-size:13px;margin-bottom:16px}
-.share-url{background:rgba(255,255,255,.1);border-radius:10px;padding:11px;margin-bottom:12px}
-.share-url-text{color:var(--gold);font-size:13px;font-weight:700;word-break:break-all;font-family:monospace;letter-spacing:.03em}
+.share-title{color:var(--white);font-size:16px;font-weight:800;margin-bottom:4px}
+.share-sub{color:rgba(255,255,255,.5);font-size:13px;margin-bottom:14px}
+.share-url{background:rgba(255,255,255,.1);border-radius:10px;padding:11px;margin-bottom:11px}
+.share-url-text{color:var(--gold);font-size:12px;font-weight:700;word-break:break-all;font-family:monospace}
 .share-btns{display:flex;gap:8px}
 .share-btn{flex:1;padding:12px 8px;border-radius:9px;border:none;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit}
-.share-btn.primary{background:var(--gold);color:var(--navy)}
-.share-btn.secondary{background:rgba(255,255,255,.12);color:var(--white)}
-.score-item{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--rsm);padding:13px 14px;display:flex;align-items:center;gap:12px}
-.score-icon{font-size:24px;flex-shrink:0}
+.share-btn.p{background:var(--gold);color:var(--navy)}
+.share-btn.s{background:rgba(255,255,255,.12);color:var(--white)}
+.score-item{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--rsm);padding:12px 14px;display:flex;align-items:center;gap:12px}
+.score-icon{font-size:22px;flex-shrink:0}
 .score-info{flex:1}
 .score-name{font-size:13px;font-weight:700;color:var(--navy)}
 .score-desc{font-size:11px;color:var(--text2);margin-top:2px}
@@ -189,31 +177,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
 .score-big{font-size:18px;font-weight:900;color:var(--navy)}
 .score-small{font-size:10px;color:var(--text3);font-weight:700;letter-spacing:.04em}
 
-/* ── ADMIN ── */
+/* ADMIN */
 .admin-wrap{padding:16px 16px calc(80px + var(--safe-bot))}
 .admin-header{background:var(--navy);border-radius:16px;padding:20px;margin-bottom:16px;text-align:center}
 .admin-badge{display:inline-block;background:var(--gold);color:var(--navy);font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;letter-spacing:.06em;margin-bottom:10px}
 .admin-title{color:var(--white);font-size:18px;font-weight:800;margin-bottom:4px}
 .admin-sub{color:rgba(255,255,255,.5);font-size:13px}
-.admin-player-row{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--radius);padding:13px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.admin-jersey{width:36px;height:36px;flex-shrink:0}
+.admin-player-row{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--radius);padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.admin-av{width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.admin-av svg{width:100%;height:100%}
 .admin-player-info{flex:1}
 .admin-player-name{font-size:14px;font-weight:700;color:var(--navy)}
 .admin-player-sub{font-size:11px;color:var(--text3);margin-top:2px}
 .admin-remove-btn{background:rgba(231,76,60,.12);color:var(--red);border:none;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0}
-.admin-remove-btn:active{background:rgba(231,76,60,.25)}
 .admin-section-title{font-size:11px;font-weight:800;color:var(--text2);letter-spacing:.07em;text-transform:uppercase;margin:20px 0 10px}
 .admin-stat-row{background:var(--card);border:0.5px solid var(--cardborder);border-radius:var(--rsm);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.admin-pin-input{display:flex;gap:8px;margin-bottom:16px}
-.admin-pin-d{width:48px;height:56px;border:2px solid var(--cardborder);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:var(--navy);background:var(--off)}
-.admin-pin-d.filled{border-color:var(--navy)}
 
-/* ── MODAL ── */
+/* MODAL */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
 .modal-sheet{background:var(--white);border-radius:22px 22px 0 0;padding:20px 22px calc(24px + var(--safe-bot));width:100%;max-width:480px;animation:slideUp .25s ease}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .modal-handle{width:38px;height:4px;background:var(--cardborder);border-radius:2px;margin:0 auto 18px}
-.modal-t{font-size:18px;font-weight:800;color:var(--navy);margin-bottom:3px;letter-spacing:-.2px}
+.modal-t{font-size:18px;font-weight:800;color:var(--navy);margin-bottom:3px}
 .modal-s{font-size:13px;color:var(--text2);margin-bottom:22px}
 .big-counter{display:flex;align-items:center;justify-content:center;gap:16px;margin:4px 0}
 .big-btn{width:60px;height:60px;border-radius:50%;border:none;background:var(--off);font-size:32px;cursor:pointer;color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:300;-webkit-user-select:none;user-select:none}
@@ -223,88 +208,91 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
 .modal-preview{background:var(--off);border-radius:10px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
 .mp-label{font-size:13px;color:var(--text2);font-weight:600}
 .mp-val{font-size:20px;font-weight:900;color:var(--navy)}
-.modal-ok{width:100%;padding:16px;background:var(--navy);color:var(--white);border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit}
+.modal-ok{width:100%;padding:15px;background:var(--navy);color:var(--white);border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit}
 .modal-ok:active{background:var(--navy2)}
-.modal-cancel-btn{width:100%;padding:13px;background:transparent;color:var(--text2);border:none;font-size:15px;cursor:pointer;margin-top:6px;font-family:inherit}
+.modal-cancel-btn{width:100%;padding:12px;background:transparent;color:var(--text2);border:none;font-size:15px;cursor:pointer;margin-top:6px;font-family:inherit}
 
-/* ── BOTTOM NAV ── */
+/* BOTTOM NAV */
 .bottom-nav{background:var(--white);border-top:0.5px solid var(--cardborder);display:flex;padding:10px 0 calc(10px + var(--safe-bot));flex-shrink:0}
 .bnav{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:2px 0}
 .bnav-icon{font-size:22px;opacity:.3;transition:opacity .15s}
 .bnav-label{font-size:10px;color:var(--text2);font-weight:700;opacity:.4;transition:opacity .15s;letter-spacing:.03em;text-transform:uppercase}
 .bnav.active .bnav-icon,.bnav.active .bnav-label{opacity:1;color:var(--navy)}
 
-/* ── TOAST ── */
+/* TOAST */
 .toast{position:fixed;bottom:calc(90px + var(--safe-bot));left:50%;transform:translateX(-50%) translateY(16px);background:var(--navy);color:var(--white);padding:11px 22px;border-radius:22px;font-size:14px;font-weight:700;opacity:0;transition:all .3s;z-index:600;white-space:nowrap;pointer-events:none;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
 .gap16{margin-bottom:16px}
 </style>
 </head>
 <body>
 
-<!-- ══════════ JOIN SCREEN ══════════ -->
+<!-- JOIN -->
 <div class="screen active" id="s-join">
   <div class="join-wrap">
     <div class="join-logo-area">
-      <!-- Burlington Force Shield SVG -->
-      <svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="10" y="8" width="70" height="72" rx="14" fill="#F5C842"/>
-        <rect x="10" y="8" width="70" height="72" rx="14" fill="#F5C842"/>
-        <path d="M45 76C45 76 14 62 14 36V14h62v22c0 26-31 40-31 40z" fill="#0D1F4E"/>
-        <path d="M45 70C45 70 18 58 18 36V18h54v18c0 22-27 34-27 34z" fill="#162B68"/>
-        <text x="45" y="52" text-anchor="middle" font-size="28" font-weight="900" fill="#F5C842" font-family="-apple-system,BlinkMacSystemFont,sans-serif" letter-spacing="-1">F</text>
-        <circle cx="45" cy="36" r="10" fill="none" stroke="#F5C842" stroke-width="2"/>
-        <line x1="45" y1="26" x2="45" y2="46" stroke="#F5C842" stroke-width="1.5"/>
-        <line x1="35" y1="36" x2="55" y2="36" stroke="#F5C842" stroke-width="1.5"/>
-        <circle cx="45" cy="70" r="3" fill="#F5C842"/>
-        <text x="28" y="31" font-size="9" fill="#F5C842" font-family="-apple-system,sans-serif" font-weight="700" opacity=".8">19</text>
-        <text x="54" y="31" font-size="9" fill="#F5C842" font-family="-apple-system,sans-serif" font-weight="700" opacity=".8">73</text>
+      <svg width="180" height="180" viewBox="0 0 680 520" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <path id="jat" d="M 130,310 A 210,210 0 0,1 550,310"/>
+          <path id="jab" d="M 175,370 A 175,175 0 0,0 505,370"/>
+        </defs>
+        <circle cx="340" cy="270" r="235" fill="#0D1F4E"/>
+        <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="88" letter-spacing="6" fill="none" stroke="#0D1F4E" stroke-width="14" stroke-linejoin="round"><textPath href="#jat" startOffset="50%" text-anchor="middle">FORCE</textPath></text>
+        <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="88" letter-spacing="6" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round"><textPath href="#jat" startOffset="50%" text-anchor="middle">FORCE</textPath></text>
+        <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="88" letter-spacing="6" fill="#FFFFFF"><textPath href="#jat" startOffset="50%" text-anchor="middle">FORCE</textPath></text>
+        <path d="M340,148 L440,148 L455,168 L455,295 Q455,355 340,395 Q225,355 225,295 L225,168 L240,148 Z" fill="#F5C842"/>
+        <path d="M340,158 L432,158 L445,175 L445,292 Q445,345 340,382 Q235,345 235,292 L235,175 L248,158 Z" fill="#0D1F4E"/>
+        <circle cx="340" cy="278" r="68" fill="none" stroke="#F5C842" stroke-width="3.5"/>
+        <path d="M340,210 Q362,245 362,278 Q362,311 340,346" fill="none" stroke="#F5C842" stroke-width="2"/>
+        <path d="M275,263 Q307,253 340,253 Q373,253 405,263" fill="none" stroke="#F5C842" stroke-width="2"/>
+        <path d="M278,295 Q308,304 340,304 Q372,304 402,295" fill="none" stroke="#F5C842" stroke-width="2"/>
+        <text x="333" y="316" font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="108" text-anchor="middle" fill="#0D1F4E" opacity="0.45">F</text>
+        <text x="333" y="316" font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="108" text-anchor="middle" fill="#F5C842">F</text>
+        <polygon points="340,372 344.5,384 357,384 347,391 350.5,403 340,396 329.5,403 333,391 323,384 335.5,384" fill="#F5C842"/>
+        <text x="215" y="260" font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="28" text-anchor="middle" fill="#F5C842" letter-spacing="2">19</text>
+        <text x="465" y="260" font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="28" text-anchor="middle" fill="#F5C842" letter-spacing="2">73</text>
+        <text font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="34" letter-spacing="8" fill="none" stroke="#0D1F4E" stroke-width="8" stroke-linejoin="round"><textPath href="#jab" startOffset="50%" text-anchor="middle">BURLINGTON</textPath></text>
+        <text font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="34" letter-spacing="8" fill="#FFFFFF"><textPath href="#jab" startOffset="50%" text-anchor="middle">BURLINGTON</textPath></text>
+        <path d="M195,388 A 160,160 0 0,0 485,388" fill="none" stroke="#F5C842" stroke-width="2" opacity="0.5"/>
       </svg>
-      <div style="color:var(--gold);font-size:22px;font-weight:900;letter-spacing:3px;margin-top:8px;text-transform:uppercase">Force</div>
-      <div style="color:rgba(255,255,255,.6);font-size:12px;font-weight:700;letter-spacing:.12em">Burlington Basketball</div>
       <div class="join-season">Summer Scorecard 2025</div>
     </div>
 
     <div class="join-card">
       <div class="join-card-title">Join the squad</div>
-      <div class="join-card-sub">Build your jersey, then enter your info to get started.</div>
+      <div class="join-card-sub">Pick your avatar, then enter your name and number.</div>
 
-      <!-- Live jersey preview -->
-      <div id="jersey-preview-wrap" style="display:flex;flex-direction:column;align-items:center;margin:4px 0 18px;gap:6px">
-        <div id="jersey-preview-svg" style="filter:drop-shadow(0 4px 12px rgba(13,31,78,.18))"></div>
-        <div id="jersey-preview-label" style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.06em;text-transform:uppercase">Light blue · #— · —</div>
+      <div class="jlabel">Choose your player avatar</div>
+      <div class="av-grid" id="av-grid"></div>
+
+      <div class="av-preview">
+        <div class="av-preview-circle" id="av-preview-img"></div>
+        <div class="av-preview-name" id="av-preview-name">—</div>
+        <div class="av-preview-num" id="av-preview-num">#—</div>
       </div>
-
-      <div class="jlabel">Jersey colour</div>
-      <div class="jersey-grid" id="jersey-grid"></div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
         <div>
           <div class="jlabel">First name</div>
-          <input class="jinput" id="jfirst" placeholder="e.g. Marcus" maxlength="14" autocomplete="off" autocorrect="off" spellcheck="false" oninput="updatePreview()">
+          <input class="jinput" id="jfirst" placeholder="Marcus" maxlength="14" autocomplete="off" autocorrect="off" spellcheck="false" oninput="updatePreview()">
         </div>
         <div>
           <div class="jlabel">Last name</div>
-          <input class="jinput" id="jlast" placeholder="e.g. Thompson" maxlength="14" autocomplete="off" autocorrect="off" spellcheck="false" oninput="updatePreview()">
+          <input class="jinput" id="jlast" placeholder="Thompson" maxlength="14" autocomplete="off" autocorrect="off" spellcheck="false" oninput="updatePreview()">
         </div>
       </div>
 
       <div class="jlabel">Jersey number</div>
-      <input class="jinput" id="jnum" placeholder="e.g. 23" maxlength="2" type="number" inputmode="numeric" style="margin-bottom:16px;text-align:center;font-size:22px;font-weight:800;letter-spacing:3px" oninput="updatePreview()">
+      <input class="jinput" id="jnum" placeholder="23" maxlength="2" type="number" inputmode="numeric"
+        style="margin-bottom:16px;text-align:center;font-size:24px;font-weight:900;letter-spacing:4px" oninput="updatePreview()">
 
-      <button class="join-btn" onclick="joinTeam()">Join the Force 🏀</button>
+      <button class="join-btn" onclick="joinTeam()">🏀 Join the Force</button>
 
-      <div class="join-locked">
-        <span class="join-locked-icon">🔒</span>
-        <span>Each player joins once. Only your coach can remove players.</span>
-      </div>
-
+      <div class="join-locked"><span style="font-size:15px">🔒</span><span>Each player joins once. Only your coach can remove players.</span></div>
       <div class="join-divider"><span>Already on the squad?</span></div>
       <select class="jinput" id="existing-sel" style="cursor:pointer">
         <option value="">— Switch to my profile —</option>
       </select>
-
       <div style="text-align:center;margin-top:12px">
         <span style="font-size:12px;color:var(--text3);cursor:pointer;text-decoration:underline" onclick="showAdminLogin()">Coach admin login</span>
       </div>
@@ -312,16 +300,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
   </div>
 </div>
 
-<!-- ══════════ APP ══════════ -->
+<!-- APP -->
 <div class="screen" id="s-app">
   <div class="topbar">
     <div class="topbar-inner">
       <div class="tb-brand">
-        <!-- mini shield -->
-        <svg width="32" height="32" viewBox="0 0 90 90" fill="none">
-          <path d="M45 76C45 76 14 62 14 36V14h62v22c0 26-31 40-31 40z" fill="#162B68"/>
-          <path d="M45 70C45 70 18 58 18 36V18h54v18c0 22-27 34-27 34z" fill="#1E3A8A"/>
-          <text x="45" y="52" text-anchor="middle" font-size="30" font-weight="900" fill="#F5C842" font-family="-apple-system,sans-serif">F</text>
+        <svg width="30" height="30" viewBox="0 0 680 520" xmlns="http://www.w3.org/2000/svg">
+          <defs><path id="tat" d="M 130,310 A 210,210 0 0,1 550,310"/><path id="tab" d="M 175,370 A 175,175 0 0,0 505,370"/></defs>
+          <circle cx="340" cy="270" r="235" fill="#0D1F4E"/>
+          <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="88" letter-spacing="6" fill="none" stroke="#0D1F4E" stroke-width="14" stroke-linejoin="round"><textPath href="#tat" startOffset="50%" text-anchor="middle">FORCE</textPath></text>
+          <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="88" letter-spacing="6" fill="#FFFFFF"><textPath href="#tat" startOffset="50%" text-anchor="middle">FORCE</textPath></text>
+          <path d="M340,148 L440,148 L455,168 L455,295 Q455,355 340,395 Q225,355 225,295 L225,168 L240,148 Z" fill="#F5C842"/>
+          <path d="M340,158 L432,158 L445,175 L445,292 Q445,345 340,382 Q235,345 235,292 L235,175 L248,158 Z" fill="#0D1F4E"/>
+          <text x="333" y="316" font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="108" text-anchor="middle" fill="#F5C842">F</text>
+          <polygon points="340,372 344.5,384 357,384 347,391 350.5,403 340,396 329.5,403 333,391 323,384 335.5,384" fill="#F5C842"/>
+          <text font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="34" letter-spacing="8" fill="none" stroke="#0D1F4E" stroke-width="8" stroke-linejoin="round"><textPath href="#tab" startOffset="50%" text-anchor="middle">BURLINGTON</textPath></text>
+          <text font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="34" letter-spacing="8" fill="#FFFFFF"><textPath href="#tab" startOffset="50%" text-anchor="middle">BURLINGTON</textPath></text>
         </svg>
         <div class="tb-brand-text">
           <div class="tb-brand-name">Burlington Force</div>
@@ -329,7 +323,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
         </div>
       </div>
       <div class="player-pill" onclick="switchPlayer()">
-        <svg class="pp-jersey" id="nav-jersey-svg" viewBox="0 0 40 40"></svg>
+        <div class="pp-av" id="nav-av-wrap"></div>
         <div class="pp-name" id="nav-name">—</div>
       </div>
     </div>
@@ -341,14 +335,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
   </div>
 
   <div class="tabs-content">
-    <!-- DASHBOARD -->
     <div class="tab active" id="tab-dash">
       <div class="dash-hero">
         <div class="dh-top">
-          <div class="dh-jersey-wrap">
-            <svg id="dh-jersey-svg" width="60" height="60" viewBox="0 0 60 60"></svg>
-          </div>
-          <div class="dh-info">
+          <div class="dh-avatar" id="dh-av"></div>
+          <div>
             <div class="dh-greet" id="dh-greet"></div>
             <div class="dh-name" id="dh-name"></div>
             <div class="dh-num" id="dh-num"></div>
@@ -365,27 +356,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
           </div>
         </div>
       </div>
-
       <div class="section gap16">
         <div class="sec-title">Activity streak — last 14 days</div>
         <div class="streak-row" id="streak-row"></div>
       </div>
-
       <div class="section gap16">
         <div class="sec-title">Month stats <span class="sec-sub" id="stats-month-lbl"></span></div>
         <div class="stat-strip" id="stat-strip"></div>
         <div class="prog-list" id="prog-list"></div>
       </div>
-
       <div class="section" style="padding-bottom:16px">
         <div class="sec-title">Log today's makes <span class="sec-sub" id="today-lbl"></span></div>
-        <div style="font-size:12px;color:var(--text2);margin-bottom:12px;padding:8px 12px;background:rgba(13,31,78,.05);border-radius:8px;border-left:3px solid var(--gold)">🎯 <strong>Shots MADE only</strong> — don't log misses. Count every basket that goes in.</div>
+        <div class="made-notice">🎯 <strong>Made shots only</strong> — count every basket that goes in. Don't log misses.</div>
         <div class="log-grid" id="log-grid"></div>
         <button class="log-submit" onclick="submitLog()">💪 Save today's session</button>
       </div>
     </div>
 
-    <!-- LEADERBOARD -->
     <div class="tab" id="tab-lb">
       <div class="section" style="padding-bottom:0;padding-top:14px">
         <div class="sec-title">Leaderboard <span class="sec-sub" id="lb-month-lbl"></span></div>
@@ -394,31 +381,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
       <div class="lb-list" id="lb-list"></div>
     </div>
 
-    <!-- SHARE / INFO -->
     <div class="tab" id="tab-share">
       <div style="padding:16px 0 0">
         <div class="share-hero">
-          <svg width="48" height="48" viewBox="0 0 90 90" fill="none" style="margin-bottom:10px">
-            <path d="M45 76C45 76 14 62 14 36V14h62v22c0 26-31 40-31 40z" fill="rgba(255,255,255,.15)"/>
-            <path d="M45 70C45 70 18 58 18 36V18h54v18c0 22-27 34-27 34z" fill="rgba(255,255,255,.12)"/>
-            <text x="45" y="52" text-anchor="middle" font-size="30" font-weight="900" fill="#F5C842" font-family="-apple-system,sans-serif">F</text>
+          <svg width="56" height="56" viewBox="0 0 680 520" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:10px">
+            <defs><path id="sat" d="M 130,310 A 210,210 0 0,1 550,310"/><path id="sab" d="M 175,370 A 175,175 0 0,0 505,370"/></defs>
+            <circle cx="340" cy="270" r="235" fill="rgba(255,255,255,.1)"/>
+            <text font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="88" letter-spacing="6" fill="#FFFFFF" opacity=".9"><textPath href="#sat" startOffset="50%" text-anchor="middle">FORCE</textPath></text>
+            <path d="M340,148 L440,148 L455,168 L455,295 Q455,355 340,395 Q225,355 225,295 L225,168 L240,148 Z" fill="#F5C842"/>
+            <path d="M340,158 L432,158 L445,175 L445,292 Q445,345 340,382 Q235,345 235,292 L235,175 L248,158 Z" fill="rgba(0,0,0,.3)"/>
+            <text x="333" y="316" font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="108" text-anchor="middle" fill="#F5C842">F</text>
+            <text font-family="'Arial Black',Impact,sans-serif" font-weight="700" font-size="34" letter-spacing="8" fill="#FFFFFF"><textPath href="#sab" startOffset="50%" text-anchor="middle">BURLINGTON</textPath></text>
           </svg>
           <div class="share-title">Invite your teammates</div>
           <div class="share-sub">Share this link — everyone joins the same live leaderboard</div>
-          <div class="share-url">
-            <div class="share-url-text">basketballsims.github.io/basketballsimstrainer/scorecard.html</div>
-          </div>
+          <div class="share-url"><div class="share-url-text">basketballsims.github.io/basketballsimstrainer/scorecard.html</div></div>
           <div class="share-btns">
-            <button class="share-btn primary" onclick="copyLink()">📋 Copy link</button>
-            <button class="share-btn secondary" onclick="shareApp()">📲 Share</button>
+            <button class="share-btn p" onclick="copyLink()">📋 Copy link</button>
+            <button class="share-btn s" onclick="shareApp()">📲 Share</button>
           </div>
         </div>
-
         <div class="section gap16">
           <div class="sec-title">Scoring matrix</div>
           <div style="display:flex;flex-direction:column;gap:8px" id="score-matrix"></div>
         </div>
-
         <div class="section gap16">
           <div class="sec-title">Season overview</div>
           <div style="display:flex;flex-direction:column;gap:8px" id="season-overview"></div>
@@ -443,19 +429,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
   </div>
 </div>
 
-<!-- ══════════ ADMIN SCREEN ══════════ -->
+<!-- ADMIN -->
 <div class="screen" id="s-admin">
   <div class="topbar" style="padding-bottom:12px">
     <div class="topbar-inner" style="margin-bottom:0">
       <div class="tb-brand">
-        <svg width="28" height="28" viewBox="0 0 90 90" fill="none">
-          <path d="M45 76C45 76 14 62 14 36V14h62v22c0 26-31 40-31 40z" fill="#162B68"/>
-          <text x="45" y="52" text-anchor="middle" font-size="30" font-weight="900" fill="#F5C842" font-family="-apple-system,sans-serif">F</text>
+        <svg width="26" height="26" viewBox="0 0 680 520" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="340" cy="270" r="235" fill="#0D1F4E"/>
+          <path d="M340,148 L440,148 L455,168 L455,295 Q455,355 340,395 Q225,355 225,295 L225,168 L240,148 Z" fill="#F5C842"/>
+          <path d="M340,158 L432,158 L445,175 L445,292 Q445,345 340,382 Q235,345 235,292 L235,175 L248,158 Z" fill="#0D1F4E"/>
+          <text x="333" y="316" font-family="'Arial Black',Impact,sans-serif" font-weight="900" font-size="108" text-anchor="middle" fill="#F5C842">F</text>
         </svg>
-        <div class="tb-brand-text">
-          <div class="tb-brand-name">Coach Admin</div>
-          <div class="tb-brand-sub">Player management</div>
-        </div>
+        <div class="tb-brand-text"><div class="tb-brand-name">Coach Admin</div><div class="tb-brand-sub">Player management</div></div>
       </div>
       <button onclick="exitAdmin()" style="background:rgba(255,255,255,.12);border:none;color:var(--white);border-radius:8px;padding:7px 13px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">Exit</button>
     </div>
@@ -463,7 +448,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
   <div class="admin-wrap" id="admin-content"></div>
 </div>
 
-<!-- MODAL -->
+<!-- LOG MODAL -->
 <div class="modal-bg" id="modal" style="display:none" onclick="closeModal(event)">
   <div class="modal-sheet" onclick="event.stopPropagation()">
     <div class="modal-handle"></div>
@@ -489,8 +474,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
   <div class="modal-sheet" onclick="event.stopPropagation()">
     <div class="modal-handle"></div>
     <div class="modal-t">Coach login</div>
-    <div class="modal-s">Enter your 4-digit coach PIN to manage players</div>
-    <input type="password" inputmode="numeric" maxlength="4" id="pin-input" placeholder="PIN" style="width:100%;padding:16px;border:2px solid var(--cardborder);border-radius:10px;font-size:28px;font-weight:800;font-family:inherit;text-align:center;letter-spacing:8px;margin:12px 0 20px;color:var(--navy);background:var(--off);outline:none" oninput="pinChanged(this)">
+    <div class="modal-s">Enter your 4-digit coach PIN</div>
+    <input type="password" inputmode="numeric" maxlength="4" id="pin-input" placeholder="••••"
+      style="width:100%;padding:16px;border:2px solid var(--cardborder);border-radius:10px;font-size:32px;font-weight:800;font-family:inherit;text-align:center;letter-spacing:10px;margin:12px 0 20px;color:var(--navy);background:var(--off);outline:none"
+      oninput="pinChanged(this)">
     <button class="modal-ok" onclick="submitPin()">Unlock admin panel 🔓</button>
     <button class="modal-cancel-btn" onclick="closeAdminModal(null)">Cancel</button>
   </div>
@@ -500,103 +487,298 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',He
 
 <script>
 'use strict';
+const COACH_PIN='1973';
+const MONTHS={6:'June',7:'July',8:'August'};
+const YEAR=2025;
+const TODAY=new Date();
 
-// ── CONSTANTS ──────────────────────────────────────────────────────────────
-const COACH_PIN = '1973'; // Change this to your preferred PIN
-const MONTHS = {6:'June', 7:'July', 8:'August'};
-const YEAR = 2025;
-const TODAY = new Date();
-
-// Jersey styles matching the actual Force jerseys
-const JERSEY_STYLES = [
-  {id:'sky',   label:'Light blue', primary:'#A8C8E8', secondary:'#0D1F4E', accent:'#F5C842'},
-  {id:'white', label:'White',      primary:'#FFFFFF',  secondary:'#0D1F4E', accent:'#F5C842'},
-  {id:'navy',  label:'Navy',       primary:'#0D1F4E',  secondary:'#FFFFFF',  accent:'#F5C842'},
-  {id:'gold',  label:'Gold',       primary:'#F5C842',  secondary:'#0D1F4E', accent:'#FFFFFF'},
+// ── 20 BASKETBALL AVATARS (inline SVG strings) ──────────────────────────────
+// Each is a 100×100 viewBox fun illustrated character
+const AVATARS=[
+  // 1 — Ball on fire
+  {id:'fireball',label:'Fireball',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="55" r="32" fill="#E8742A"/>
+    <circle cx="50" cy="55" r="32" fill="none" stroke="#C45A10" stroke-width="2"/>
+    <path d="M50,23 Q56,30 50,36 Q44,30 50,23Z" fill="#F5C842"/>
+    <path d="M44,26 Q48,33 42,38 Q38,31 44,26Z" fill="#F97316"/>
+    <path d="M56,26 Q60,33 56,38 Q50,33 56,26Z" fill="#F97316"/>
+    <path d="M35,34 Q42,40 38,46 Q32,40 35,34Z" fill="#FBBF24"/>
+    <path d="M65,34 Q68,40 62,46 Q58,40 65,34Z" fill="#FBBF24"/>
+    <path d="M50,27 A28,28 0 0,1 78,55" fill="none" stroke="#92400E" stroke-width="2"/>
+    <path d="M50,27 Q50,55 50,83" fill="none" stroke="#92400E" stroke-width="2"/>
+    <path d="M26,48 A28,28 0 0,0 74,48" fill="none" stroke="#92400E" stroke-width="2"/>
+    <circle cx="50" cy="55" r="32" fill="none" stroke="#C45A10" stroke-width="2.5"/>
+  </svg>`},
+  // 2 — Lightning dunker
+  {id:'thunder',label:'Thunder',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#1E3A8A"/>
+    <text x="50" y="65" text-anchor="middle" font-size="54" font-family="Arial Black,sans-serif">⚡</text>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#F5C842" stroke-width="4"/>
+    <text x="50" y="90" text-anchor="middle" font-size="9" font-weight="700" fill="#F5C842" font-family="Arial,sans-serif" letter-spacing="2">FORCE</text>
+  </svg>`},
+  // 3 — Sneaker
+  {id:'kicks',label:'Fresh Kicks',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#F5C842"/>
+    <path d="M15,62 Q20,52 35,52 L55,44 Q68,40 75,46 L82,60 Q84,66 78,68 L18,68 Q13,68 15,62Z" fill="white" stroke="#0D1F4E" stroke-width="2"/>
+    <path d="M35,52 L45,44" fill="none" stroke="#0D1F4E" stroke-width="2"/>
+    <path d="M22,62 L72,62" fill="none" stroke="#A8C8E8" stroke-width="2"/>
+    <path d="M55,44 Q65,46 68,56" fill="none" stroke="#E74C3C" stroke-width="2.5"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#0D1F4E" stroke-width="3"/>
+  </svg>`},
+  // 4 — Trophy
+  {id:'trophy',label:'The Champ',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#0D1F4E"/>
+    <path d="M38,25 L62,25 L62,55 Q62,68 50,72 Q38,68 38,55Z" fill="#F5C842"/>
+    <path d="M38,30 Q30,30 30,38 Q30,46 38,48" fill="none" stroke="#F5C842" stroke-width="3" stroke-linecap="round"/>
+    <path d="M62,30 Q70,30 70,38 Q70,46 62,48" fill="none" stroke="#F5C842" stroke-width="3" stroke-linecap="round"/>
+    <rect x="44" y="72" width="12" height="8" fill="#E6B830"/>
+    <rect x="36" y="80" width="28" height="5" rx="2" fill="#F5C842"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#F5C842" stroke-width="3"/>
+  </svg>`},
+  // 5 — Shark
+  {id:'shark',label:'The Shark',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#A8C8E8"/>
+    <ellipse cx="50" cy="56" rx="28" ry="20" fill="#2563EB"/>
+    <path d="M50,36 L46,56 L54,56Z" fill="#1E3A8A"/>
+    <path d="M22,56 L50,56 L22,68Z" fill="#3B82F6" opacity=".5"/>
+    <ellipse cx="42" cy="50" rx="3" ry="3.5" fill="#1E3A8A"/>
+    <ellipse cx="58" cy="50" rx="3" ry="3.5" fill="#1E3A8A"/>
+    <path d="M40,60 Q50,65 60,60" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    <path d="M44,62 L44,66 M50,63 L50,67 M56,62 L56,66" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#1E3A8A" stroke-width="3"/>
+  </svg>`},
+  // 6 — Lion
+  {id:'lion',label:'The Lion',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#F5C842"/>
+    <circle cx="50" cy="52" r="22" fill="#C97B2F"/>
+    <circle cx="50" cy="48" r="18" fill="#E8A54A"/>
+    <ellipse cx="42" cy="45" rx="4" ry="5" fill="#0D1F4E"/>
+    <ellipse cx="58" cy="45" rx="4" ry="5" fill="#0D1F4E"/>
+    <ellipse cx="42" cy="44" rx="1.5" ry="2" fill="white"/>
+    <ellipse cx="58" cy="44" rx="1.5" ry="2" fill="white"/>
+    <ellipse cx="50" cy="55" rx="6" ry="4" fill="#D4834A"/>
+    <path d="M44,58 Q50,62 56,58" fill="none" stroke="#92400E" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="44" cy="55" r="1" fill="#92400E"/>
+    <circle cx="56" cy="55" r="1" fill="#92400E"/>
+    <path d="M28,30 Q36,24 44,30" fill="#C97B2F"/>
+    <path d="M56,30 Q64,24 72,30" fill="#C97B2F"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#92400E" stroke-width="3"/>
+  </svg>`},
+  // 7 — Rocket
+  {id:'rocket',label:'Rocket',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#1E3A8A"/>
+    <path d="M50,20 Q58,28 60,45 L60,62 L40,62 L40,45 Q42,28 50,20Z" fill="white"/>
+    <rect x="42" y="42" width="16" height="12" rx="2" fill="#A8C8E8"/>
+    <path d="M40,58 Q32,62 30,72 L40,68Z" fill="#E74C3C"/>
+    <path d="M60,58 Q68,62 70,72 L60,68Z" fill="#E74C3C"/>
+    <path d="M44,70 Q50,82 56,70" fill="none" stroke="#F97316" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#F5C842" stroke-width="3"/>
+  </svg>`},
+  // 8 — Dragon
+  {id:'dragon',label:'Dragon',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#0D1F4E"/>
+    <ellipse cx="50" cy="55" rx="22" ry="20" fill="#166534"/>
+    <path d="M34,40 Q42,30 50,34 Q58,30 66,40 L64,46 Q58,36 50,40 Q42,36 36,46Z" fill="#15803D"/>
+    <path d="M38,34 L36,26 L42,30Z" fill="#F5C842"/>
+    <path d="M62,34 L64,26 L58,30Z" fill="#F5C842"/>
+    <ellipse cx="43" cy="50" rx="4" ry="4" fill="#F5C842"/>
+    <ellipse cx="57" cy="50" rx="4" ry="4" fill="#F5C842"/>
+    <ellipse cx="43" cy="50" rx="2" ry="2.5" fill="#0D1F4E"/>
+    <ellipse cx="57" cy="50" rx="2" ry="2.5" fill="#0D1F4E"/>
+    <path d="M42,62 Q50,68 58,62" fill="none" stroke="#F5C842" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M44,64 L44,70 M50,65 L50,72 M56,64 L56,70" stroke="#F5C842" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#15803D" stroke-width="3"/>
+  </svg>`},
+  // 9 — Crown
+  {id:'king',label:'King',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#F5C842"/>
+    <path d="M24,68 L32,40 L50,56 L68,40 L76,68Z" fill="#0D1F4E"/>
+    <circle cx="32" cy="40" r="5" fill="#E74C3C"/>
+    <circle cx="50" cy="56" r="5" fill="#E74C3C"/>
+    <circle cx="68" cy="40" r="5" fill="#E74C3C"/>
+    <rect x="24" y="68" width="52" height="8" rx="2" fill="#0D1F4E"/>
+    <path d="M30,60 L70,60" stroke="#F5C842" stroke-width="1.5" opacity=".4"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#0D1F4E" stroke-width="3"/>
+  </svg>`},
+  // 10 — Star player
+  {id:'star',label:'All-Star',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#0D1F4E"/>
+    <polygon points="50,20 56,38 76,38 60,50 66,68 50,56 34,68 40,50 24,38 44,38" fill="#F5C842"/>
+    <polygon points="50,28 54,40 68,40 57,48 61,61 50,53 39,61 43,48 32,40 46,40" fill="#E6B830" opacity=".5"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#F5C842" stroke-width="3"/>
+  </svg>`},
+  // 11 — Sneaker high-top
+  {id:'hightop',label:'High-Top',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#A8C8E8"/>
+    <rect x="28" y="30" width="22" height="40" rx="4" fill="#0D1F4E"/>
+    <path d="M30,55 Q38,50 50,55 L72,62 Q76,66 72,70 L28,70 Q24,70 26,66Z" fill="white" stroke="#0D1F4E" stroke-width="1.5"/>
+    <line x1="36" y1="38" x2="44" y2="38" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    <line x1="36" y1="44" x2="44" y2="44" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    <line x1="36" y1="50" x2="44" y2="50" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    <path d="M44,60 Q56,58 64,65" stroke="#F5C842" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#0D1F4E" stroke-width="3"/>
+  </svg>`},
+  // 12 — Basketball player silhouette dunking
+  {id:'dunk',label:'Dunker',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#F5C842"/>
+    <circle cx="58" cy="24" r="8" fill="#0D1F4E"/>
+    <path d="M58,32 L54,50 L46,65" stroke="#0D1F4E" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M54,50 L68,42 L76,30" stroke="#0D1F4E" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <circle cx="76" cy="28" r="7" fill="#E74C3C" stroke="#0D1F4E" stroke-width="2"/>
+    <path d="M74,28 Q76,26 78,28" fill="none" stroke="#0D1F4E" stroke-width="1.5"/>
+    <path d="M72,32 Q76,34 80,32" fill="none" stroke="#0D1F4E" stroke-width="1.5"/>
+    <path d="M54,50 L44,44" stroke="#0D1F4E" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M46,65 L38,72 M46,65 L52,74" stroke="#0D1F4E" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#0D1F4E" stroke-width="3"/>
+  </svg>`},
+  // 13 — Ice cold
+  {id:'icecold',label:'Ice Cold',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#0D1F4E"/>
+    <circle cx="50" cy="48" r="22" fill="#A8C8E8"/>
+    <ellipse cx="43" cy="44" rx="4" ry="5" fill="#0D1F4E"/>
+    <ellipse cx="57" cy="44" rx="4" ry="5" fill="#0D1F4E"/>
+    <ellipse cx="43" cy="43" rx="1.5" ry="2" fill="white"/>
+    <ellipse cx="57" cy="43" rx="1.5" ry="2" fill="white"/>
+    <path d="M42,56 Q50,60 58,56" fill="none" stroke="#0D1F4E" stroke-width="2" stroke-linecap="round"/>
+    <path d="M46,32 L44,26 M50,30 L50,24 M54,32 L56,26" stroke="#A8C8E8" stroke-width="2" stroke-linecap="round"/>
+    <path d="M30,68 Q50,58 70,68" fill="none" stroke="#A8C8E8" stroke-width="2" opacity=".5"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#A8C8E8" stroke-width="3"/>
+  </svg>`},
+  // 14 — Muscle arm
+  {id:'muscle',label:'Buckets',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#E74C3C"/>
+    <path d="M34,60 Q28,52 30,42 Q32,30 42,28 Q56,26 62,36 Q70,46 66,58 Q60,68 50,70 Q38,70 34,60Z" fill="#FBBF24"/>
+    <ellipse cx="48" cy="46" rx="10" ry="14" fill="#F97316"/>
+    <path d="M40,42 Q48,36 56,42" fill="none" stroke="#C45A10" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#C45A10" stroke-width="3"/>
+  </svg>`},
+  // 15 — Sweat drop hustle
+  {id:'hustle',label:'Hustle',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#1DB954"/>
+    <circle cx="50" cy="46" r="20" fill="#0D1F4E"/>
+    <ellipse cx="43" cy="43" rx="3.5" ry="4" fill="white"/>
+    <ellipse cx="57" cy="43" rx="3.5" ry="4" fill="white"/>
+    <ellipse cx="43" cy="42" rx="1.5" ry="2" fill="#0D1F4E"/>
+    <ellipse cx="57" cy="42" rx="1.5" ry="2" fill="#0D1F4E"/>
+    <path d="M42,54 Q50,60 58,54" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M70,30 Q72,24 68,22 Q66,28 70,30Z" fill="#A8C8E8"/>
+    <path d="M76,38 Q79,32 75,30 Q73,36 76,38Z" fill="#A8C8E8"/>
+    <path d="M72,46 Q76,40 72,38 Q70,44 72,46Z" fill="#A8C8E8"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#0D1F4E" stroke-width="3"/>
+  </svg>`},
+  // 16 — Diamond
+  {id:'diamond',label:'Diamond',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#0D1F4E"/>
+    <path d="M50,22 L68,38 L50,78 L32,38Z" fill="#A8C8E8"/>
+    <path d="M32,38 L50,22 L68,38 L50,48Z" fill="#C5DAEA"/>
+    <path d="M32,38 L50,48 L68,38" fill="none" stroke="white" stroke-width="1"/>
+    <path d="M50,48 L50,78" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+    <path d="M32,38 L50,78 M68,38 L50,78" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#A8C8E8" stroke-width="3"/>
+  </svg>`},
+  // 17 — Wolf
+  {id:'wolf',label:'The Wolf',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#4A5568"/>
+    <path d="M30,36 L36,22 L44,36Z" fill="#718096"/>
+    <path d="M70,36 L64,22 L56,36Z" fill="#718096"/>
+    <ellipse cx="50" cy="55" rx="24" ry="20" fill="#A0AEC0"/>
+    <ellipse cx="50" cy="52" rx="20" ry="16" fill="#CBD5E0"/>
+    <ellipse cx="42" cy="47" rx="5" ry="6" fill="#1A202C"/>
+    <ellipse cx="58" cy="47" rx="5" ry="6" fill="#1A202C"/>
+    <ellipse cx="42" cy="46" rx="2" ry="2.5" fill="white"/>
+    <ellipse cx="58" cy="46" rx="2" ry="2.5" fill="white"/>
+    <ellipse cx="50" cy="57" rx="5" ry="3.5" fill="#A0AEC0"/>
+    <path d="M44,62 Q50,67 56,62" fill="none" stroke="#4A5568" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#718096" stroke-width="3"/>
+  </svg>`},
+  // 18 — Net splash
+  {id:'splash',label:'Splash',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#A8C8E8"/>
+    <rect x="30" y="22" width="40" height="3" rx="1.5" fill="#0D1F4E"/>
+    <path d="M32,25 L36,50 M40,25 L40,50 M48,25 L48,50 M56,25 L56,50 M64,25 L64,50 M68,25 L68,50" stroke="#0D1F4E" stroke-width="1.5"/>
+    <path d="M34,32 L66,32 M33,38 L67,38 M32,44 L68,44 M33,50 L67,50" stroke="#0D1F4E" stroke-width="1"/>
+    <path d="M36,50 Q40,58 44,56 Q48,54 50,60 Q52,54 56,56 Q60,58 64,50" fill="none" stroke="#0D1F4E" stroke-width="1.5"/>
+    <circle cx="50" cy="38" r="12" fill="#E8742A" opacity=".85"/>
+    <path d="M46,38 Q50,34 54,38" fill="none" stroke="#92400E" stroke-width="1.5"/>
+    <path d="M44,42 Q50,46 56,42" fill="none" stroke="#92400E" stroke-width="1.5"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#0D1F4E" stroke-width="3"/>
+  </svg>`},
+  // 19 — Shield warrior
+  {id:'warrior',label:'Warrior',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#0D1F4E"/>
+    <path d="M50,22 L70,30 L70,54 Q70,68 50,78 Q30,68 30,54 L30,30Z" fill="#F5C842"/>
+    <path d="M50,28 L66,35 L66,54 Q66,65 50,73 Q34,65 34,54 L34,35Z" fill="#0D1F4E"/>
+    <text x="50" y="62" text-anchor="middle" font-size="28" font-weight="900" fill="#F5C842" font-family="Arial Black,sans-serif">F</text>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#F5C842" stroke-width="3"/>
+  </svg>`},
+  // 20 — Basketball face
+  {id:'bball',label:'Ball Head',svg:`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="50" fill="#F5C842"/>
+    <circle cx="50" cy="48" r="26" fill="#E8742A" stroke="#92400E" stroke-width="2"/>
+    <path d="M50,22 Q50,48 50,74" fill="none" stroke="#92400E" stroke-width="2"/>
+    <path d="M28,36 A26,26 0 0,0 72,36" fill="none" stroke="#92400E" stroke-width="2"/>
+    <path d="M26,54 A26,26 0 0,0 74,54" fill="none" stroke="#92400E" stroke-width="2"/>
+    <ellipse cx="42" cy="44" rx="3.5" ry="4" fill="white"/>
+    <ellipse cx="58" cy="44" rx="3.5" ry="4" fill="white"/>
+    <ellipse cx="42" cy="43" rx="1.5" ry="2" fill="#0D1F4E"/>
+    <ellipse cx="58" cy="43" rx="1.5" ry="2" fill="#0D1F4E"/>
+    <path d="M42,58 Q50,63 58,58" fill="none" stroke="#92400E" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="50" cy="50" r="46" fill="none" stroke="#92400E" stroke-width="3"/>
+  </svg>`},
 ];
 
-const TYPES = [
-  {key:'short',  label:'Short makes',   sublabel:'Close range makes', icon:'🎯', color:'#1DB954', desc:'Made shots inside the charge circle — layups, close finishes',    unit:'shots MADE', ppt:10,  per:100, isTime:false, logPrompt:'How many short shots did you MAKE?'},
-  {key:'medium', label:'Medium makes',  sublabel:'Mid-range makes',   icon:'🏀', color:'#3B82F6', desc:'Made shots outside the charge circle, inside the free throw line', unit:'shots MADE', ppt:20,  per:100, isTime:false, logPrompt:'How many mid-range shots did you MAKE?'},
-  {key:'long',   label:'Long makes',    sublabel:'Deep makes',        icon:'💥', color:'#8B5CF6', desc:'Made shots past the free throw line — 3-pointers count!',         unit:'shots MADE', ppt:75,  per:100, isTime:false, logPrompt:'How many long / 3-point shots did you MAKE?'},
-  {key:'ov1',    label:'1v1 game time', sublabel:'',                  icon:'⚡', color:'#F97316', desc:'30 min of 1v1 play = 45 pts',                                      unit:'minutes played', ppt:45,  per:30,  isTime:true,  logPrompt:'Minutes of 1v1 game play'},
-  {key:'ov3',    label:'3v3 game time', sublabel:'',                  icon:'🔥', color:'#E74C3C', desc:'30 min of 3v3 play = 35 pts',                                      unit:'minutes played', ppt:35,  per:30,  isTime:true,  logPrompt:'Minutes of 3v3 game play'},
-  {key:'ov5',    label:'5v5 game time', sublabel:'',                  icon:'👑', color:'#F5C842', desc:'30 min of 5v5 play = 25 pts',                                      unit:'minutes played', ppt:25,  per:30,  isTime:true,  logPrompt:'Minutes of 5v5 game play'},
+const TYPES=[
+  {key:'short', label:'Short makes',  icon:'🎯',color:'#1DB954',desc:'Made shots inside the charge circle',            unit:'shots MADE',ppt:10, per:100,isTime:false,logPrompt:'How many short shots did you MAKE?'},
+  {key:'medium',label:'Medium makes', icon:'🏀',color:'#3B82F6',desc:'Made shots outside charge circle, inside FT line',unit:'shots MADE',ppt:20, per:100,isTime:false,logPrompt:'How many mid-range shots did you MAKE?'},
+  {key:'long',  label:'Long makes',   icon:'💥',color:'#8B5CF6',desc:'Made shots past the free throw line — 3s count!', unit:'shots MADE',ppt:75, per:100,isTime:false,logPrompt:'How many long shots / 3-pointers did you MAKE?'},
+  {key:'ov1',   label:'1v1 game',     icon:'⚡',color:'#F97316',desc:'30 min of 1v1 play = 45 pts',                     unit:'minutes',   ppt:45, per:30, isTime:true, logPrompt:'Minutes of 1v1 game play'},
+  {key:'ov3',   label:'3v3 game',     icon:'🔥',color:'#E74C3C',desc:'30 min of 3v3 play = 35 pts',                     unit:'minutes',   ppt:35, per:30, isTime:true, logPrompt:'Minutes of 3v3 game play'},
+  {key:'ov5',   label:'5v5 game',     icon:'👑',color:'#F5C842',desc:'30 min of 5v5 play = 25 pts',                     unit:'minutes',   ppt:25, per:30, isTime:true, logPrompt:'Minutes of 5v5 game play'},
 ];
-const LB_CATS = [
-  {key:'all',    label:'🏆 Overall'},
-  {key:'short',  label:'🎯 Short'},
-  {key:'medium', label:'🏀 Medium'},
-  {key:'long',   label:'💥 Long'},
-  {key:'ov1',    label:'⚡ 1v1'},
-  {key:'ov3',    label:'🔥 3v3'},
-  {key:'ov5',    label:'👑 5v5'},
+const LB_CATS=[
+  {key:'all',   label:'🏆 Overall'},
+  {key:'short', label:'🎯 Short'},
+  {key:'medium',label:'🏀 Medium'},
+  {key:'long',  label:'💥 Long'},
+  {key:'ov1',   label:'⚡ 1v1'},
+  {key:'ov3',   label:'🔥 3v3'},
+  {key:'ov5',   label:'👑 5v5'},
 ];
 
-// ── STATE ──────────────────────────────────────────────────────────────────
-let DB = {players:{}, logs:{}};
-let me = null;
-let curMonth = Math.max(6, Math.min(8, TODAY.getMonth()+1));
-let lbCat = 'all';
-let mType = null, mVal = 0;
-let logV = {};
+function calcPts(t,v){return Math.floor((v/t.per)*t.ppt);}
 
-// ── STORAGE ────────────────────────────────────────────────────────────────
-async function loadDB(){
-  try{const r=await window.storage.get('bforce2025v2');if(r&&r.value)DB=JSON.parse(r.value);}
-  catch(e){DB={players:{},logs:{}};}
-}
-async function saveDB(){try{await window.storage.set('bforce2025v2',JSON.stringify(DB));}catch(e){}}
+let DB={players:{},logs:{}};
+let me=null,curMonth=Math.max(6,Math.min(8,TODAY.getMonth()+1));
+let lbCat='all',mType=null,mVal=0,logV={},selAvId=AVATARS[0].id;
 
-function dk(){const d=TODAY;return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+// ── STORAGE ──────────────────────────────────────────────────────────────────
+async function loadDB(){try{const r=await window.storage.get('bforce2025v3');if(r&&r.value)DB=JSON.parse(r.value);}catch(e){DB={players:{},logs:{}};}}
+async function saveDB(){try{await window.storage.set('bforce2025v3',JSON.stringify(DB));}catch(e){}}
+function dk(){return `${TODAY.getFullYear()}-${String(TODAY.getMonth()+1).padStart(2,'0')}-${String(TODAY.getDate()).padStart(2,'0')}`;}
 function mk(pid,m){return `${pid}_${YEAR}_${m}`;}
 
-// ── CALCULATIONS ────────────────────────────────────────────────────────────
-function calcPts(type,val){return Math.floor((val/type.per)*type.ppt);}
 function monthStats(pid,m){
-  const logs=DB.logs[mk(pid,m)]||{};const t={};TYPES.forEach(x=>t[x.key]=0);
-  Object.values(logs).forEach(d=>{TYPES.forEach(x=>{t[x.key]+=(d[x.key]||0);});});return t;
+  const t={};TYPES.forEach(x=>t[x.key]=0);
+  Object.values(DB.logs[mk(pid,m)]||{}).forEach(d=>{TYPES.forEach(x=>{t[x.key]+=(d[x.key]||0);});});return t;
 }
-function monthPts(pid,m){
-  const s=monthStats(pid,m);let p=0;TYPES.forEach(t=>{p+=calcPts(t,s[t.key]||0);});return p;
-}
-function catPts(pid,m){
-  const s=monthStats(pid,m);const o={};TYPES.forEach(t=>{o[t.key]=calcPts(t,s[t.key]||0);});return o;
-}
+function monthPts(pid,m){const s=monthStats(pid,m);let p=0;TYPES.forEach(t=>{p+=calcPts(t,s[t.key]||0);});return p;}
+function catPtsAll(pid,m){const s=monthStats(pid,m);const o={};TYPES.forEach(t=>{o[t.key]=calcPts(t,s[t.key]||0);});return o;}
 
-// ── JERSEY SVG ──────────────────────────────────────────────────────────────
-function makeJerseySVG(style, number='', size=40, lastName=''){
-  const s = JERSEY_STYLES.find(x=>x.id===style)||JERSEY_STYLES[0];
-  const isDark = s.primary==='#0D1F4E'||s.primary==='#A8C8E8';
-  const nameColor = s.secondary==='#FFFFFF' ? 'rgba(255,255,255,.55)' : 'rgba(13,31,78,.45)';
-  // Abbreviate last name to fit on jersey
-  const nameStr = lastName ? lastName.toUpperCase().slice(0,8) : '';
-  const numSize = number.length>1 ? 11 : 13;
-  return `<svg viewBox="0 0 48 46" fill="none" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">
-    <!-- jersey body -->
-    <path d="M10,8 L18,4 L21,9 L27,9 L30,4 L38,8 L34,14 L30,12 L30,40 L18,40 L18,12 L14,14 Z" fill="${s.primary}" stroke="${s.secondary}" stroke-width="1.5" stroke-linejoin="round"/>
-    <!-- collar -->
-    <path d="M21,9 Q24,14 27,9" fill="none" stroke="${s.secondary}" stroke-width="1.2"/>
-    <!-- FORCE wordmark -->
-    <text x="24" y="20" text-anchor="middle" font-size="4.5" font-weight="800" fill="${nameColor}" font-family="-apple-system,BlinkMacSystemFont,sans-serif" letter-spacing="1">FORCE</text>
-    <!-- last name on jersey -->
-    ${nameStr ? `<text x="24" y="26" text-anchor="middle" font-size="${nameStr.length>6?3.8:4.5}" font-weight="900" fill="${s.accent}" font-family="-apple-system,BlinkMacSystemFont,sans-serif" letter-spacing="${nameStr.length>6?0.3:0.5}">${nameStr}</text>` : ''}
-    <!-- number -->
-    <text x="24" y="${nameStr?36:34}" text-anchor="middle" font-size="${numSize}" font-weight="900" fill="${s.accent}" font-family="-apple-system,BlinkMacSystemFont,sans-serif" letter-spacing="-0.5">${number||'—'}</text>
-  </svg>`;
-}
+function avSvg(id){return(AVATARS.find(a=>a.id===id)||AVATARS[0]).svg;}
+function avLabel(id){return(AVATARS.find(a=>a.id===id)||AVATARS[0]).label;}
 
-// ── JOIN ────────────────────────────────────────────────────────────────────
-function buildJerseyGrid(){
-  const g = document.getElementById('jersey-grid');g.innerHTML='';
-  JERSEY_STYLES.forEach((s,i)=>{
-    const d = document.createElement('div');d.className='jersey-opt'+(i===0?' sel':'');
-    d.dataset.style=s.id;
-    d.innerHTML=makeJerseySVG(s.id,'',34)+`<div class="jersey-lbl">${s.label}</div>`;
+// ── JOIN ──────────────────────────────────────────────────────────────────────
+function buildAvGrid(){
+  const g=document.getElementById('av-grid');g.innerHTML='';
+  AVATARS.forEach((a,i)=>{
+    const d=document.createElement('div');
+    d.className='av-opt'+(i===0?' sel':'');
+    d.dataset.id=a.id;
+    d.innerHTML=a.svg;
+    d.title=a.label;
     d.onclick=()=>{
-      document.querySelectorAll('.jersey-opt').forEach(x=>x.classList.remove('sel'));
-      d.classList.add('sel');
-      updatePreview();
+      document.querySelectorAll('.av-opt').forEach(x=>x.classList.remove('sel'));
+      d.classList.add('sel');selAvId=a.id;updatePreview();
     };
     g.appendChild(d);
   });
@@ -604,19 +786,13 @@ function buildJerseyGrid(){
 }
 
 function updatePreview(){
-  const style = document.querySelector('.jersey-opt.sel')?.dataset.style||'sky';
-  const first = (document.getElementById('jfirst')?.value||'').trim();
-  const last  = (document.getElementById('jlast')?.value||'').trim();
-  const num   = (document.getElementById('jnum')?.value||'').trim();
-  const s = JERSEY_STYLES.find(x=>x.id===style)||JERSEY_STYLES[0];
-
-  const wrap = document.getElementById('jersey-preview-wrap');
-  const svg  = document.getElementById('jersey-preview-svg');
-  const lbl  = document.getElementById('jersey-preview-label');
-  if(!wrap)return;
-
-  svg.innerHTML = makeJerseySVG(style, num||'—', 90, last);
-  lbl.textContent = `${s.label}${num?' · #'+num:''}${last?' · '+last.toUpperCase():''}`;
+  const first=(document.getElementById('jfirst')?.value||'').trim();
+  const last=(document.getElementById('jlast')?.value||'').trim();
+  const num=(document.getElementById('jnum')?.value||'').trim();
+  const av=AVATARS.find(a=>a.id===selAvId)||AVATARS[0];
+  document.getElementById('av-preview-img').innerHTML=av.svg;
+  document.getElementById('av-preview-name').textContent=(last||first)?((last?last.toUpperCase():first.toUpperCase())):av.label;
+  document.getElementById('av-preview-num').textContent=num?`#${num}`:'#—';
 }
 
 function buildExisting(){
@@ -624,41 +800,33 @@ function buildExisting(){
   s.innerHTML='<option value="">— Switch to my profile —</option>';
   Object.values(DB.players).forEach(p=>{
     const o=document.createElement('option');o.value=p.id;
-    const fullName = p.last ? p.name+' '+p.last : p.name;
-    o.textContent=(p.num?`#${p.num} `:'')+fullName;
+    const disp=(p.last?p.last.toUpperCase():p.name)+(p.num?' #'+p.num:'');
+    o.textContent=disp+' — '+avLabel(p.avId||'bball');
     s.appendChild(o);
   });
   s.onchange=()=>{if(s.value&&DB.players[s.value])login(DB.players[s.value]);};
 }
 
 function joinTeam(){
-  const first = document.getElementById('jfirst').value.trim();
-  const last  = document.getElementById('jlast').value.trim();
+  const first=document.getElementById('jfirst').value.trim();
+  const last=document.getElementById('jlast').value.trim();
   if(!first){showToast('Enter your first name 👆');return;}
-  const num   = document.getElementById('jnum').value.trim()||'';
-  const style = document.querySelector('.jersey-opt.sel')?.dataset.style||'sky';
-
-  // One-join protection — check first name (case-insensitive)
-  const existing = Object.values(DB.players).find(p=>p.name.toLowerCase()===first.toLowerCase()&&(p.last||'').toLowerCase()===(last||'').toLowerCase());
-  if(existing){
-    showToast(`${first} ${last} is already on the squad — use Switch below`);
-    return;
-  }
-
-  const id = 'p'+Date.now();
-  const p = {id, name:first, last, num, style, joined:dk()};
-  DB.players[id]=p;
-  saveDB();
-  login(p);
+  const num=document.getElementById('jnum').value.trim()||'';
+  const existing=Object.values(DB.players).find(p=>
+    p.name.toLowerCase()===first.toLowerCase()&&(p.last||'').toLowerCase()===(last||'').toLowerCase()
+  );
+  if(existing){showToast(`${first} ${last} is already on the squad — use Switch below`);return;}
+  const id='p'+Date.now();
+  DB.players[id]={id,name:first,last,num,avId:selAvId,joined:dk()};
+  saveDB();login(DB.players[id]);
 }
 
 function login(p){
   me=p;localStorage.setItem('bfpid',p.id);
-  const displayName = p.last ? p.name+' '+p.last : p.name;
-  document.getElementById('nav-name').textContent=p.last ? p.last : p.name;
-  document.getElementById('nav-jersey-svg').innerHTML=makeJerseySVG(p.style||'sky',p.num||'',28,p.last||'');
-  document.getElementById('s-join').classList.remove('active');
-  document.getElementById('s-admin').classList.remove('active');
+  const navWrap=document.getElementById('nav-av-wrap');
+  navWrap.innerHTML=avSvg(p.avId||'bball');
+  document.getElementById('nav-name').textContent=(p.last?p.last:p.name)+(p.num?' #'+p.num:'');
+  ['s-join','s-admin'].forEach(id=>document.getElementById(id).classList.remove('active'));
   document.getElementById('s-app').classList.add('active');
   initLogV();renderDash();renderLB();renderShare();showTab('dash');
 }
@@ -670,35 +838,30 @@ function switchPlayer(){
   buildExisting();
 }
 
-// ── MONTH ────────────────────────────────────────────────────────────────────
 function setMonth(el,m){
   curMonth=m;document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('active'));el.classList.add('active');
   initLogV();renderDash();renderLB();
 }
 
-// ── LOG VALUES ──────────────────────────────────────────────────────────────
 function initLogV(){
   TYPES.forEach(t=>logV[t.key]=0);
   const day=(DB.logs[mk(me.id,curMonth)]||{})[dk()]||{};
   TYPES.forEach(t=>{logV[t.key]=day[t.key]||0;});
 }
 
-// ── DASHBOARD ────────────────────────────────────────────────────────────────
+// ── DASHBOARD ──────────────────────────────────────────────────────────────
 function renderDash(){
   if(!me)return;
   const h=TODAY.getHours();
-  const fullName = me.last ? me.name+' '+me.last : me.name;
   document.getElementById('dh-greet').textContent=h<12?'Good morning ☀️':h<17?'Good afternoon ⚡':'Good evening 🌙';
+  const fullName=me.last?me.name+' '+me.last:me.name;
   document.getElementById('dh-name').textContent=fullName;
   document.getElementById('dh-num').textContent=(me.num?`#${me.num} · `:'')+'Burlington Force';
   document.getElementById('stats-month-lbl').textContent=MONTHS[curMonth];
   document.getElementById('lb-month-lbl').textContent=MONTHS[curMonth];
   document.getElementById('today-lbl').textContent=TODAY.toLocaleDateString('en-CA',{month:'short',day:'numeric'});
-
-  // Jersey in hero — show with last name
-  const svgEl=document.getElementById('dh-jersey-svg');
-  if(svgEl)svgEl.outerHTML=makeJerseySVG(me.style||'sky',me.num||'',64,me.last||'').replace('width="64" height="64"','id="dh-jersey-svg" width="64" height="64"');
-
+  const av=document.getElementById('dh-av');
+  av.innerHTML=avSvg(me.avId||'bball');
   const p=monthPts(me.id,curMonth);
   document.getElementById('dh-pts').textContent=p;
   const ranked=Object.values(DB.players).map(pl=>({pl,p:monthPts(pl.id,curMonth)})).sort((a,b)=>b.p-a.p);
@@ -724,7 +887,7 @@ function renderStreak(){
 }
 
 function renderStats(){
-  const s=monthStats(me.id,curMonth);const cp=catPts(me.id,curMonth);
+  const s=monthStats(me.id,curMonth);const cp=catPtsAll(me.id,curMonth);
   const tot=Object.values(cp).reduce((a,b)=>a+b,0);
   const shots=(s.short||0)+(s.medium||0)+(s.long||0);
   const gm=(s.ov1||0)+(s.ov3||0)+(s.ov5||0);
@@ -738,8 +901,8 @@ function renderStats(){
     const maxGoal=t.isTime?t.per*4:t.per*5;
     const pct=Math.min(100,Math.round((val/maxGoal)*100));
     const d=document.createElement('div');d.className='prog-item';
-    const subLabel = t.isTime ? `${val} min played` : `${val.toLocaleString()} makes`;
-    d.innerHTML=`<div class="prog-top"><div class="prog-name">${t.icon} ${t.label}</div><div class="prog-right"><span style="color:var(--text3)">${subLabel}</span> · <span class="prog-pts">${p}pts</span></div></div>
+    const sub=t.isTime?`${val} min played`:`${val.toLocaleString()} makes`;
+    d.innerHTML=`<div class="prog-top"><div class="prog-name">${t.icon} ${t.label}</div><div class="prog-right"><span style="color:var(--text3)">${sub}</span> · <span class="prog-pts">${p}pts</span></div></div>
     <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${t.color}"></div></div>`;
     list.appendChild(d);
   });
@@ -749,15 +912,12 @@ function renderLogGrid(){
   const grid=document.getElementById('log-grid');grid.innerHTML='';
   TYPES.forEach(t=>{
     const v=logV[t.key]||0;
-    const full=t.isTime;
-    const d=document.createElement('div');d.className='log-card'+(full?' log-full':'');
-    const hintLine = t.isTime
-      ? `30 min = ${t.ppt} pts`
-      : `Every 100 <strong>makes</strong> = ${t.ppt} pts`;
+    const d=document.createElement('div');d.className='log-card'+(t.isTime?' log-full':'');
+    const hint=t.isTime?`30 min = ${t.ppt} pts`:`Every 100 <strong>makes</strong> = ${t.ppt} pts`;
     d.innerHTML=`<div class="log-accent" style="background:${t.color}"></div>
       <div class="log-icon">${t.icon}</div>
       <div class="log-name">${t.label}</div>
-      <div class="log-pts-hint">${hintLine}</div>
+      <div class="log-pts-hint">${hint}</div>
       <div class="cnt-row">
         <button class="cnt-btn" onclick="adjLog('${t.key}',${t.isTime?-5:-10},event)">−</button>
         <input class="cnt-inp" id="inp-${t.key}" type="number" inputmode="numeric" min="0" value="${v}" onchange="setLog('${t.key}',+this.value)">
@@ -770,8 +930,7 @@ function renderLogGrid(){
 }
 
 function adjLog(key,delta,e){
-  e.stopPropagation();
-  logV[key]=Math.max(0,(logV[key]||0)+delta);
+  e.stopPropagation();logV[key]=Math.max(0,(logV[key]||0)+delta);
   const inp=document.getElementById('inp-'+key);if(inp)inp.value=logV[key];
   const t=TYPES.find(x=>x.key===key);
   const lpt=document.getElementById('lpt-'+key);if(lpt)lpt.textContent=`= ${calcPts(t,logV[key])} pts today`;
@@ -782,8 +941,7 @@ async function submitLog(){
   const m2=mk(me.id,curMonth);if(!DB.logs[m2])DB.logs[m2]={};
   const entry={ts:Date.now()};TYPES.forEach(t=>entry[t.key]=logV[t.key]||0);
   DB.logs[m2][dk()]=entry;
-  await saveDB();
-  showToast('Session logged! Keep grinding 🔥');
+  await saveDB();showToast('Session logged! Keep grinding 🔥');
   renderDash();renderLB();
 }
 
@@ -791,7 +949,7 @@ async function submitLog(){
 function openModal(type){
   mType=type;mVal=logV[type.key]||0;
   document.getElementById('m-title').textContent=type.icon+' '+type.label;
-  document.getElementById('m-sub').textContent=type.logPrompt||type.desc;
+  document.getElementById('m-sub').textContent=type.logPrompt;
   document.getElementById('m-unit').textContent=type.unit;
   document.getElementById('m-num').textContent=mVal;
   document.getElementById('m-pts').textContent=calcPts(type,mVal)+' pts';
@@ -829,7 +987,7 @@ function renderLBList(){
   document.getElementById('lb-month-lbl').textContent=MONTHS[curMonth];
   const players=Object.values(DB.players);
   if(!players.length){
-    list.innerHTML=`<div class="lb-empty"><div class="lb-empty-icon">🏀</div><div class="lb-empty-t">No players yet</div><div class="lb-empty-s">Share the link with teammates — they join once and show up here automatically</div></div>`;
+    list.innerHTML=`<div class="lb-empty"><div class="lb-empty-icon">🏀</div><div class="lb-empty-t">No players yet</div><div class="lb-empty-s">Share the link with teammates to see who's putting in work this summer</div></div>`;
     return;
   }
   const scored=players.map(p=>{
@@ -850,19 +1008,21 @@ function renderLBList(){
       ?`${((s.short||0)+(s.medium||0)+(s.long||0)).toLocaleString()} makes · ${(s.ov1||0)+(s.ov3||0)+(s.ov5||0)} game mins`
       :`${(s[lbCat]||0).toLocaleString()} ${t2?.isTime?'minutes':'makes'}`;
     const fire=p2>=50?'🔥':'';
-    const fullName = p.last ? p.name+' '+p.last : p.name;
-    row.innerHTML=`<div class="lb-rank-col">${ri}</div>
-      <div class="lb-jersey">${makeJerseySVG(p.style||'sky',p.num||'',40,p.last||'')}</div>
+    const fullName=p.last?p.name+' '+p.last:p.name;
+    const numBadge=p.num?`<span style="color:var(--gold);font-size:11px;font-weight:800">#${p.num}</span> `:'';
+    row.innerHTML=`
+      <div class="lb-rank-col">${ri}</div>
+      <div class="lb-av">${avSvg(p.avId||'bball')}</div>
       <div class="lb-info">
-        <div class="lb-pname">${p.num?'<span style="color:var(--gold);font-size:12px">#'+p.num+'</span> ':''} ${fullName}${isMe?'<span class="you-pill">you</span>':''}${fire}</div>
-        <div class="lb-psub">${subText}</div>
+        <div class="lb-pname">${numBadge}${fullName}${isMe?'<span class="you-pill">you</span>':''}${fire}</div>
+        <div class="lb-psub">${avLabel(p.avId||'bball')} · ${subText}</div>
       </div>
       <div class="lb-score"><div class="lb-pts">${p2}</div><div class="lb-pts-lbl">pts</div></div>`;
     list.appendChild(row);
   });
 }
 
-// ── SHARE / INFO ────────────────────────────────────────────────────────────
+// ── SHARE ──────────────────────────────────────────────────────────────────
 function renderShare(){
   const sm=document.getElementById('score-matrix');sm.innerHTML='';
   TYPES.forEach(t=>{
@@ -879,9 +1039,10 @@ function renderShare(){
     const top=players.length?players.map(p=>({p,p2:monthPts(p.id,m)})).sort((a,b)=>b.p2-a.p2)[0]:null;
     const d=document.createElement('div');
     d.style.cssText=`background:${isA?'var(--navy)':'var(--card)'};border:${isA?'none':'0.5px solid var(--cardborder)'};border-radius:12px;padding:14px 16px`;
+    const leader=top&&top.p2>0?(top.p.last||top.p.name)+(top.p.num?' #'+top.p.num:'')+' · '+top.p2+'pts':'No entries yet';
     d.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between">
-      <div style="font-size:14px;font-weight:800;color:${isA?'var(--white)':'var(--navy)'};letter-spacing:-.2px">${MONTHS[m]} 2025${isA?'<span style="font-size:11px;opacity:.5;margin-left:8px;font-weight:500"> Active</span>':''}</div>
-      <div style="font-size:12px;color:${isA?'rgba(255,255,255,.55)':'var(--text2)'}">🏆 ${top&&top.p2>0?top.p.name+(top.p.num?' #'+top.p.num:'')+' · '+top.p2+'pts':'No entries yet'}</div>
+      <div style="font-size:14px;font-weight:800;color:${isA?'var(--white)':'var(--navy)'}">${MONTHS[m]} 2025${isA?'<span style="font-size:11px;opacity:.5;margin-left:8px;font-weight:400"> Active</span>':''}</div>
+      <div style="font-size:12px;color:${isA?'rgba(255,255,255,.55)':'var(--text2)'}">🏆 ${leader}</div>
     </div>`;
     so.appendChild(d);
   });
@@ -889,12 +1050,12 @@ function renderShare(){
 
 function copyLink(){
   const url='https://basketballsims.github.io/basketballsimstrainer/scorecard.html';
-  const msg=`🏀 Burlington Force — Summer Scorecard 2025!\n\nTrack your makes and climb the leaderboard all summer long.\n\n📲 Open on your phone:\n${url}\n\nLog short makes, medium makes, long makes + 1v1, 3v3 & 5v5 game time. One sign-up and you're on the board. Let's see who's putting in the work this summer 🔥\n\n– Coach Sims`;
-  navigator.clipboard?.writeText(msg).then(()=>showToast('Invite message copied! 📋')).catch(()=>showToast('Copy the link above 👆'));
+  const msg=`🏀 Burlington Force — Summer Scorecard 2025!\n\nTrack your makes and climb the leaderboard all summer.\n\n📲 Open on your phone:\n${url}\n\nPick your avatar, log short / medium / long makes + 1v1, 3v3 & 5v5 game time. One sign-up and you're on the board. 🔥\n\n– Coach Sims`;
+  navigator.clipboard?.writeText(msg).then(()=>showToast('Copied! Share with the squad 📋')).catch(()=>showToast('Copy the link above 👆'));
 }
 function shareApp(){
   const url='https://basketballsims.github.io/basketballsimstrainer/scorecard.html';
-  if(navigator.share){navigator.share({title:'Burlington Force — Summer Scorecard 2025',text:'Track your shots and climb the leaderboard this summer 🏀🔥',url}).catch(()=>{});}
+  if(navigator.share){navigator.share({title:'Burlington Force — Summer Scorecard 2025',text:'Track your makes and climb the leaderboard 🏀🔥',url}).catch(()=>{});}
   else copyLink();
 }
 
@@ -910,8 +1071,7 @@ function submitPin(){
   const pin=document.getElementById('pin-input').value;
   if(pin===COACH_PIN){
     document.getElementById('admin-modal').style.display='none';
-    document.getElementById('s-join').classList.remove('active');
-    document.getElementById('s-app').classList.remove('active');
+    ['s-join','s-app'].forEach(id=>document.getElementById(id).classList.remove('active'));
     document.getElementById('s-admin').classList.add('active');
     renderAdmin();
   } else {
@@ -933,77 +1093,69 @@ function renderAdmin(){
     <div class="admin-title">Burlington Force</div>
     <div class="admin-sub">Summer Scorecard 2025 — Player Management</div>
   </div>
-
   <div class="admin-section-title">Season overview</div>
-  <div class="admin-stat-row"><span style="font-size:13px;font-weight:600;color:var(--text2)">Total players registered</span><span style="font-size:16px;font-weight:800;color:var(--navy)">${players.length}</span></div>
-  <div class="admin-stat-row"><span style="font-size:13px;font-weight:600;color:var(--text2)">Total sessions logged</span><span style="font-size:16px;font-weight:800;color:var(--navy)">${totalLogs}</span></div>
-  <div class="admin-stat-row"><span style="font-size:13px;font-weight:600;color:var(--text2)">Total season points (all)</span><span style="font-size:16px;font-weight:800;color:var(--navy)">${totalPtsAll}</span></div>
-
+  <div class="admin-stat-row"><span style="font-size:13px;font-weight:600;color:var(--text2)">Total players</span><span style="font-size:16px;font-weight:800;color:var(--navy)">${players.length}</span></div>
+  <div class="admin-stat-row"><span style="font-size:13px;font-weight:600;color:var(--text2)">Sessions logged</span><span style="font-size:16px;font-weight:800;color:var(--navy)">${totalLogs}</span></div>
+  <div class="admin-stat-row"><span style="font-size:13px;font-weight:600;color:var(--text2)">Total season points</span><span style="font-size:16px;font-weight:800;color:var(--navy)">${totalPtsAll}</span></div>
   <div class="admin-section-title">Registered players (${players.length})</div>`;
 
   if(!players.length){
-    html+=`<div style="text-align:center;padding:32px 16px;color:var(--text3);font-size:14px">No players registered yet</div>`;
+    html+=`<div style="text-align:center;padding:32px;color:var(--text3);font-size:14px">No players yet</div>`;
   } else {
-    players.sort((a,b)=>a.name.localeCompare(b.name)).forEach(p=>{
-      const fullName = p.last ? p.name+' '+p.last : p.name;
+    players.sort((a,b)=>(a.last||a.name).localeCompare(b.last||b.name)).forEach(p=>{
+      const fullName=p.last?p.name+' '+p.last:p.name;
       const seasonPts=[6,7,8].reduce((a,m)=>a+monthPts(p.id,m),0);
       const logCount=[6,7,8].reduce((a,m)=>a+Object.keys(DB.logs[mk(p.id,m)]||{}).length,0);
       html+=`<div class="admin-player-row">
-        <div class="admin-jersey">${makeJerseySVG(p.style||'sky',p.num||'',38,p.last||'')}</div>
+        <div class="admin-av">${avSvg(p.avId||'bball')}</div>
         <div class="admin-player-info">
           <div class="admin-player-name">${p.num?'#'+p.num+' ':''}${fullName}</div>
-          <div class="admin-player-sub">${seasonPts} season pts · ${logCount} sessions logged · Joined ${p.joined||'2025'}</div>
+          <div class="admin-player-sub">${avLabel(p.avId||'bball')} · ${seasonPts} season pts · ${logCount} sessions · joined ${p.joined||'2025'}</div>
         </div>
         <button class="admin-remove-btn" onclick="removePlayer('${p.id}')">Remove</button>
       </div>`;
     });
   }
 
-  html+=`<div class="admin-section-title" style="margin-top:24px">Monthly leaderboard snapshot</div>`;
+  html+=`<div class="admin-section-title" style="margin-top:20px">Monthly top 3</div>`;
   [6,7,8].forEach(m=>{
     const ranked=players.map(p=>({p,pts:monthPts(p.id,m)})).sort((a,b)=>b.pts-a.pts).slice(0,3);
     html+=`<div style="background:var(--card);border:0.5px solid var(--cardborder);border-radius:12px;padding:14px;margin-bottom:8px">
       <div style="font-size:13px;font-weight:800;color:var(--navy);margin-bottom:10px">${MONTHS[m]} 2025</div>`;
     if(ranked.length&&ranked[0].pts>0){
       ranked.forEach(({p,pts},i)=>{
-        const fullName = p.last ? p.name+' '+p.last : p.name;
+        const fn=p.last?p.name+' '+p.last:p.name;
         html+=`<div style="display:flex;align-items:center;gap:8px;padding:4px 0">
-          <div style="font-size:14px;min-width:24px">${i===0?'🥇':i===1?'🥈':'🥉'}</div>
-          <div style="flex:1;font-size:13px;font-weight:600;color:var(--navy)">${fullName}${p.num?' #'+p.num:''}</div>
+          <div style="width:26px;height:26px;border-radius:50%;overflow:hidden;flex-shrink:0">${avSvg(p.avId||'bball')}</div>
+          <div style="font-size:13px;min-width:20px">${i===0?'🥇':i===1?'🥈':'🥉'}</div>
+          <div style="flex:1;font-size:13px;font-weight:600;color:var(--navy)">${fn}${p.num?' #'+p.num:''}</div>
           <div style="font-size:14px;font-weight:800;color:var(--navy)">${pts}pts</div>
         </div>`;
       });
-    } else {
-      html+=`<div style="font-size:13px;color:var(--text3)">No entries yet</div>`;
-    }
+    } else html+=`<div style="font-size:13px;color:var(--text3)">No entries yet</div>`;
     html+=`</div>`;
   });
-
-  html+=`<div style="margin-top:24px;padding:14px;background:rgba(231,76,60,.08);border-radius:12px;border:0.5px solid rgba(231,76,60,.2)">
-    <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:6px">⚠️ Admin note</div>
-    <div style="font-size:12px;color:var(--text2);line-height:1.5">Removing a player deletes their profile but their log data remains in storage. PIN: ${COACH_PIN} — keep this confidential.</div>
+  html+=`<div style="margin-top:20px;padding:14px;background:rgba(231,76,60,.08);border-radius:12px;border:0.5px solid rgba(231,76,60,.2)">
+    <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:5px">⚠️ Admin note</div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.5">Removing a player deletes their profile. Log data is retained. PIN: ${COACH_PIN}</div>
   </div>`;
-
   content.innerHTML=html;
 }
 
 async function removePlayer(pid){
   const p=DB.players[pid];if(!p)return;
-  const fullName = p.last ? p.name+' '+p.last : p.name;
-  if(!confirm(`Remove ${fullName} from the squad?\n\nTheir activity logs will be kept but their profile will be deleted and they can re-register.`))return;
-  delete DB.players[pid];
-  await saveDB();
-  showToast(`${fullName} removed`);
-  renderAdmin();
+  const fullName=p.last?p.name+' '+p.last:p.name;
+  if(!confirm(`Remove ${fullName} from the squad?\n\nThis deletes their profile. They can re-join with a new avatar.`))return;
+  delete DB.players[pid];await saveDB();
+  showToast(`${fullName} removed`);renderAdmin();
 }
-
 function exitAdmin(){
   document.getElementById('s-admin').classList.remove('active');
   document.getElementById('s-join').classList.add('active');
   buildExisting();
 }
 
-// ── TAB NAV ────────────────────────────────────────────────────────────────
+// ── NAV + TOAST ────────────────────────────────────────────────────────────
 function showTab(t){
   ['dash','lb','share'].forEach(x=>{
     document.getElementById('tab-'+x).classList.toggle('active',x===t);
@@ -1012,21 +1164,19 @@ function showTab(t){
   if(t==='lb')renderLB();
   if(t==='share')renderShare();
 }
-
-// ── TOAST ──────────────────────────────────────────────────────────────────
 function showToast(msg){
   const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),3000);
 }
 
-// ── INIT ────────────────────────────────────────────────────────────────────
+// ── INIT ───────────────────────────────────────────────────────────────────
 async function init(){
   await loadDB();
-  buildJerseyGrid();
+  buildAvGrid();
   const pid=localStorage.getItem('bfpid');
-  if(pid&&DB.players[pid]){login(DB.players[pid]);}
-  else{buildExisting();}
-  setInterval(async()=>{await loadDB();if(me){const rr=document.querySelector('.lb-list');if(rr)renderLBList();}},20000);
+  if(pid&&DB.players[pid])login(DB.players[pid]);
+  else buildExisting();
+  setInterval(async()=>{await loadDB();if(me)renderLBList();},20000);
 }
 init();
 </script>
