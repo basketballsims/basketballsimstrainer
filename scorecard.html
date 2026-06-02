@@ -37,20 +37,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
 .jinput{width:100%;padding:12px 14px;border:1.5px solid var(--cb);border-radius:var(--rsm);font-size:16px;font-family:inherit;outline:none;color:var(--text);background:var(--off);-webkit-appearance:none}
 .jinput:focus{border-color:var(--navy)}
 
-/* AVATAR GRID */
-.av-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:8px 0 14px}
-.av-opt{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid transparent;transition:all .14s;overflow:hidden}
-.av-opt:active{transform:scale(.91)}
-.av-opt.sel{border-color:var(--navy);box-shadow:0 0 0 4px rgba(13,31,78,.15);transform:scale(1.08)}
-.av-opt svg{width:100%;height:100%;display:block}
+/* COLOR PICKER */
+.color-picker-wrap{display:flex;flex-direction:column;gap:10px;margin:8px 0 16px}
+.color-swatches{display:flex;flex-wrap:wrap;gap:8px}
+.swatch{width:40px;height:40px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .13s;flex-shrink:0}
+.swatch:active{transform:scale(.88)}
+.swatch.sel{border-color:var(--navy);box-shadow:0 0 0 3px rgba(13,31,78,.18),0 2px 8px rgba(0,0,0,.2);transform:scale(1.14)}
+.color-custom-row{display:flex;align-items:center;gap:10px;padding:4px 0}
+.color-custom-label{font-size:12px;font-weight:600;color:var(--text2)}
+.color-input{width:44px;height:44px;border-radius:50%;border:2.5px solid var(--cb);cursor:pointer;padding:0;background:none;-webkit-appearance:none;overflow:hidden}
+.color-input::-webkit-color-swatch-wrapper{padding:0;border-radius:50%}
+.color-input::-webkit-color-swatch{border:none;border-radius:50%}
 
-/* PREVIEW */
-.av-preview{display:flex;align-items:center;gap:12px;background:var(--off);border-radius:12px;padding:10px 14px;margin-bottom:14px}
-.av-preview-circle{width:52px;height:52px;border-radius:50%;border:2.5px solid var(--gold);overflow:hidden;background:var(--off);flex-shrink:0}
+/* PREVIEW — live circle + name beside it */
+.av-preview{display:flex;align-items:center;gap:16px;background:var(--navy);border-radius:16px;padding:16px 18px;margin-bottom:16px}
+.av-preview-circle-wrap{flex-shrink:0}
+.av-preview-circle{width:72px;height:72px;border-radius:50%;overflow:hidden;flex-shrink:0}
 .av-preview-circle svg{width:100%;height:100%}
-.av-preview-info{flex:1}
-.av-preview-nick{font-size:13px;font-weight:800;color:var(--navy)}
-.av-preview-sub{font-size:11px;color:var(--text3);margin-top:1px}
+.av-preview-name-col{flex:1;min-width:0}
+.av-preview-lastname{font-size:22px;font-weight:900;color:#FFFFFF;letter-spacing:-.3px;line-height:1.1;word-break:break-all}
+.av-preview-numtag{display:inline-block;margin-top:5px;font-size:13px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.04em}
+.av-preview-hint{font-size:11px;color:rgba(255,255,255,.35);margin-top:3px;font-style:italic}
 
 .join-btn{width:100%;padding:14px;background:var(--navy);color:var(--white);border:none;border-radius:var(--rsm);font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;margin-top:4px}
 .join-btn:active{background:var(--navy2)}
@@ -240,20 +247,30 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
 
   <div class="join-card">
     <div class="join-card-title">Join the squad</div>
-    <div class="join-card-sub">Pick your colour, then enter your last name and jersey number — your number fills the circle.</div>
+    <div class="join-card-sub">Pick your circle colour, add your number and last name.</div>
 
-    <div class="jlabel">Pick your colour</div>
-    <div class="av-grid" id="av-grid"></div>
-
-    <div class="av-preview">
-      <div class="av-preview-circle" id="av-preview-img"></div>
-      <div class="av-preview-info">
-        <div class="av-preview-nick" id="av-preview-nick">—</div>
-        <div class="av-preview-sub" id="av-preview-sub">Pick a player above</div>
+    <div class="jlabel">Your circle colour</div>
+    <div class="color-picker-wrap">
+      <div class="color-swatches" id="color-swatches"></div>
+      <div class="color-custom-row">
+        <input type="color" class="color-input" id="color-custom" value="#1D9E75" oninput="pickCustomColor(this.value)" onchange="pickCustomColor(this.value)">
+        <span class="color-custom-label">Custom colour</span>
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+    <!-- Live preview: circle left, name right -->
+    <div class="av-preview">
+      <div class="av-preview-circle-wrap">
+        <div class="av-preview-circle" id="av-preview-circle"></div>
+      </div>
+      <div class="av-preview-name-col">
+        <div class="av-preview-lastname" id="av-preview-lastname">—</div>
+        <div class="av-preview-numtag" id="av-preview-numtag"></div>
+        <div class="av-preview-hint" id="av-preview-hint">Add your last name and number below</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
       <div>
         <div class="jlabel">Last name</div>
         <input class="jinput" id="jlast" placeholder="Thompson" maxlength="14" autocomplete="off" autocorrect="off" spellcheck="false" oninput="updatePreview()">
@@ -451,116 +468,159 @@ const MONTHS={6:'June',7:'July',8:'August'};
 const YEAR=2025;
 const TODAY=new Date();
 
-// ── 20 NBA TEAM COLOR PALETTES ────────────────────────────────────────────
-// bg=circle fill, fg=text/num, ring=outer border, label=team name
-const AVATARS=[
-  {id:'luka',    nick:'Luka',      team:'Dallas',       bg:'#00538C', fg:'#FFFFFF', ring:'#B8C4CA', label:'#B8C4CA'},
-  {id:'jokic',   nick:'Joker',     team:'Denver',       bg:'#0E2240', fg:'#FEC524', ring:'#FEC524', label:'#FEC524'},
-  {id:'sga',     nick:'SGA',       team:'OKC',          bg:'#002D62', fg:'#EF3B24', ring:'#007AC1', label:'#007AC1'},
-  {id:'wemby',   nick:'Wemby',     team:'San Antonio',  bg:'#000000', fg:'#C4CED4', ring:'#C4CED4', label:'#C4CED4'},
-  {id:'ant',     nick:'Ant',       team:'Minnesota',    bg:'#0C2340', fg:'#78BE20', ring:'#236192', label:'#9EA2A2'},
-  {id:'curry',   nick:'Chef',      team:'Golden State', bg:'#1D428A', fg:'#FFC72C', ring:'#FFC72C', label:'#FFC72C'},
-  {id:'lebron',  nick:'King',      team:'LA Lakers',    bg:'#552583', fg:'#FDB927', ring:'#FDB927', label:'#FDB927'},
-  {id:'tatum',   nick:'JT',        team:'Boston',       bg:'#007A33', fg:'#FFFFFF', ring:'#BA9653', label:'#BA9653'},
-  {id:'giannis', nick:'Greek Freak',team:'Milwaukee',   bg:'#00471B', fg:'#EEE1C6', ring:'#EEE1C6', label:'#EEE1C6'},
-  {id:'kd',      nick:'KD',        team:'Phoenix',      bg:'#1D1160', fg:'#E56020', ring:'#E56020', label:'#E56020'},
-  {id:'dame',    nick:'Dame',      team:'Milwaukee',    bg:'#00471B', fg:'#EEE1C6', ring:'#EEE1C6', label:'#EEE1C6'},
-  {id:'hali',    nick:'Hali',      team:'Indiana',      bg:'#002D62', fg:'#FDBB30', ring:'#FDBB30', label:'#FDBB30'},
-  {id:'book',    nick:'Book',      team:'Phoenix',      bg:'#E56020', fg:'#FFFFFF', ring:'#1D1160', label:'#1D1160'},
-  {id:'embiid',  nick:'Embiid',    team:'Philly',       bg:'#006BB6', fg:'#FFFFFF', ring:'#ED174C', label:'#ED174C'},
-  {id:'kawhi',   nick:'Kawhi',     team:'LA Clippers',  bg:'#C8102E', fg:'#FFFFFF', ring:'#1D428A', label:'#1D428A'},
-  {id:'fox',     nick:'Fox',       team:'Sacramento',   bg:'#5A2D81', fg:'#FFFFFF', ring:'#63727A', label:'#63727A'},
-  {id:'trae',    nick:'Ice Trae',  team:'Atlanta',      bg:'#E03A3E', fg:'#FFFFFF', ring:'#C1D32F', label:'#C1D32F'},
-  {id:'ja',      nick:'Ja',        team:'Memphis',      bg:'#12173F', fg:'#F5B112', ring:'#5D76A9', label:'#F5B112'},
-  {id:'chet',    nick:'Chet',      team:'OKC',          bg:'#007AC1', fg:'#FFFFFF', ring:'#EF3B24', label:'#EF3B24'},
-  {id:'allstar', nick:'All-Star',  team:'NBA All-Star', bg:'#1D1160', fg:'#FFC72C', ring:'#C8102E', label:'#FFC72C'},
+// ── COLOR PALETTE — 20 preset swatches ───────────────────────────────────
+const PRESET_COLORS = [
+  '#E74C3C', // red
+  '#E67E22', // orange
+  '#F5C842', // gold / Force
+  '#2ECC71', // green
+  '#1ABC9C', // teal
+  '#3498DB', // blue
+  '#1D428A', // Warriors navy
+  '#0D1F4E', // Force navy
+  '#8E44AD', // purple
+  '#D81B60', // pink
+  '#00538C', // Mavs blue
+  '#007A33', // Celtics green
+  '#552583', // Lakers purple
+  '#C8102E', // Clippers red
+  '#00471B', // Bucks green
+  '#CE1141', // Bulls red
+  '#007AC1', // Thunder sky
+  '#5A2D81', // Kings purple
+  '#F5B112', // Grizzlies gold
+  '#FF6900', // Knicks orange
 ];
 
-// Circle for the avatar picker grid — just the team color + player name tag underneath
-// The circle itself is pure color, identity comes from last name + number on signup
-function makeAvTileSvg(avId){
-  const a = AVATARS.find(x=>x.id===avId)||AVATARS[0];
-  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="${a.bg}"/>
-    <circle cx="50" cy="50" r="44" fill="none" stroke="${a.ring}" stroke-width="3.5" opacity=".5"/>
-    <circle cx="50" cy="50" r="36" fill="none" stroke="${a.ring}" stroke-width="1.5" opacity=".25"/>
+// Determine readable text color (white or dark) for any background
+function textColorFor(hex){
+  const r=parseInt(hex.slice(1,3),16);
+  const g=parseInt(hex.slice(3,5),16);
+  const b=parseInt(hex.slice(5,7),16);
+  const lum=0.299*r+0.587*g+0.114*b;
+  return lum>145?'#0D1F4E':'#FFFFFF';
+}
+
+// Ring color: lighter/darker variant of the bg
+function ringColorFor(hex){
+  const r=parseInt(hex.slice(1,3),16);
+  const g=parseInt(hex.slice(3,5),16);
+  const b=parseInt(hex.slice(5,7),16);
+  const lum=0.299*r+0.587*g+0.114*b;
+  // bright bg → darker ring; dark bg → lighter ring
+  const shift=lum>128?-50:60;
+  const clamp=v=>Math.min(255,Math.max(0,v+shift));
+  return `rgb(${clamp(r)},${clamp(g)},${clamp(b)})`;
+}
+
+// Generate the circle SVG from a hex color + number to show inside
+// last is never inside the circle — only number (or nothing if no number yet)
+function makeAvSvg(color, num, size){
+  const fg = textColorFor(color);
+  const ring = ringColorFor(color);
+  const inner = num ? String(num) : '';
+  const fs = inner.length > 1 ? 38 : 48;
+  const s = size||100;
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}">
+    <circle cx="50" cy="50" r="50" fill="${color}"/>
+    <circle cx="50" cy="50" r="44" fill="none" stroke="${ring}" stroke-width="3.5" opacity=".45"/>
+    ${inner?`<text x="50" y="${50+fs*0.37}" text-anchor="middle" font-size="${fs}" font-weight="900" fill="${fg}" font-family="-apple-system,'Arial Black',Impact,sans-serif" letter-spacing="-1">${inner}</text>`:''}
   </svg>`;
 }
 
-// Player avatar circle — shows jersey number big and centered.
-// If no number yet: shows first letter of last name. Nothing else in the circle.
-function makeAvSvg(avId, last, num){
-  const a = AVATARS.find(x=>x.id===avId)||AVATARS[0];
-  // What goes in the circle: number if available, else first letter of last name, else nothing
-  const inner = num ? num : (last ? last.trim().charAt(0).toUpperCase() : '');
-  const fontSize = num
-    ? (String(num).length > 1 ? 38 : 46)   // two-digit number slightly smaller
-    : 42;                                    // single letter
-  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="50" fill="${a.bg}"/>
-    <circle cx="50" cy="50" r="44" fill="none" stroke="${a.ring}" stroke-width="3.5" opacity=".55"/>
-    ${inner ? `<text x="50" y="${50 + fontSize*0.36}" text-anchor="middle" font-size="${fontSize}" font-weight="900" fill="${a.fg}" font-family="-apple-system,'Arial Black',Impact,sans-serif">${inner}</text>` : ''}
-  </svg>`;
-}
-
-function avObj(id){return AVATARS.find(a=>a.id===id)||AVATARS[0];}
+let selColor = PRESET_COLORS[6]; // default: Warriors navy
 
 // ── JOIN ───────────────────────────────────────────────────────────────────
-function buildAvGrid(){
-  const g=document.getElementById('av-grid');g.innerHTML='';
-  AVATARS.forEach((a,i)=>{
-    const d=document.createElement('div');
-    d.className='av-opt'+(i===0?' sel':'');
-    d.dataset.id=a.id;
-    d.innerHTML=makeAvTileSvg(a.id);
-    d.onclick=()=>{
-      document.querySelectorAll('.av-opt').forEach(x=>x.classList.remove('sel'));
-      d.classList.add('sel');selAvId=a.id;updatePreview();
+function buildColorSwatches(){
+  const wrap = document.getElementById('color-swatches');
+  wrap.innerHTML = '';
+  PRESET_COLORS.forEach((c,i)=>{
+    const s = document.createElement('div');
+    s.className = 'swatch' + (i===6?' sel':'');
+    s.style.background = c;
+    s.dataset.color = c;
+    s.onclick = ()=>{
+      document.querySelectorAll('.swatch').forEach(x=>x.classList.remove('sel'));
+      s.classList.add('sel');
+      selColor = c;
+      document.getElementById('color-custom').value = c;
+      updatePreview();
     };
-    g.appendChild(d);
+    wrap.appendChild(s);
   });
+  // Set custom picker to match default
+  document.getElementById('color-custom').value = selColor;
+  updatePreview();
+}
+
+function pickCustomColor(hex){
+  selColor = hex;
+  // Deselect all swatches — custom is active
+  document.querySelectorAll('.swatch').forEach(x=>x.classList.remove('sel'));
   updatePreview();
 }
 
 function updatePreview(){
-  const last=(document.getElementById('jlast')?.value||'').trim();
-  const num=(document.getElementById('jnum')?.value||'').trim();
-  const av=avObj(selAvId);
-  document.getElementById('av-preview-img').innerHTML=makeAvSvg(selAvId,last,num);
-  document.getElementById('av-preview-nick').textContent=last?last.toUpperCase()+(num?' · #'+num:''):'Your name + number';
-  document.getElementById('av-preview-sub').textContent=av.nick+' · '+av.team;
+  const last = (document.getElementById('jlast')?.value||'').trim();
+  const num  = (document.getElementById('jnum')?.value||'').trim();
+
+  // Circle: color filled, number inside if available
+  document.getElementById('av-preview-circle').innerHTML = makeAvSvg(selColor, num, 72);
+
+  // Last name beside the circle — bold white, or placeholder
+  const lastEl  = document.getElementById('av-preview-lastname');
+  const numEl   = document.getElementById('av-preview-numtag');
+  const hintEl  = document.getElementById('av-preview-hint');
+
+  if(last){
+    lastEl.textContent  = last.toUpperCase();
+    lastEl.style.color  = '#FFFFFF';
+    hintEl.style.display = 'none';
+  } else {
+    lastEl.textContent  = '—';
+    lastEl.style.color  = 'rgba(255,255,255,.3)';
+    hintEl.style.display = 'block';
+  }
+
+  if(num){
+    numEl.textContent = '# ' + num;
+    numEl.style.display = 'block';
+  } else {
+    numEl.style.display = 'none';
+  }
 }
 
 function buildExisting(){
-  const s=document.getElementById('existing-sel');
-  s.innerHTML='<option value="">— Switch to my profile —</option>';
+  const s = document.getElementById('existing-sel');
+  s.innerHTML = '<option value="">— Switch to my profile —</option>';
   Object.values(DB.players).forEach(p=>{
-    const o=document.createElement('option');o.value=p.id;
-    const av=avObj(p.avId);
-    o.textContent=(p.last?p.last.toUpperCase():'Player')+(p.num?' #'+p.num:'')+' — '+av.nick+' ('+av.team+')';
+    const o = document.createElement('option');
+    o.value = p.id;
+    o.textContent = (p.last?p.last.toUpperCase():'Player')+(p.num?' #'+p.num:'');
     s.appendChild(o);
   });
-  s.onchange=()=>{if(s.value&&DB.players[s.value])login(DB.players[s.value]);};
+  s.onchange = ()=>{ if(s.value&&DB.players[s.value]) login(DB.players[s.value]); };
 }
 
 function joinTeam(){
-  const last=document.getElementById('jlast').value.trim();
-  if(!last){showToast('Enter your last name 👆');return;}
-  const num=document.getElementById('jnum').value.trim()||'';
-  const existing=Object.values(DB.players).find(p=>(p.last||'').toLowerCase()===last.toLowerCase());
-  if(existing){showToast(`${last} is already on the squad — use Switch below`);return;}
-  const id='p'+Date.now();
-  DB.players[id]={id,last,num,avId:selAvId,joined:dk()};
-  saveDB();login(DB.players[id]);
+  const last = document.getElementById('jlast').value.trim();
+  if(!last){ showToast('Enter your last name 👆'); return; }
+  const num = document.getElementById('jnum').value.trim()||'';
+  const existing = Object.values(DB.players).find(p=>(p.last||'').toLowerCase()===last.toLowerCase());
+  if(existing){ showToast(`${last} is already on the squad — use Switch below`); return; }
+  const id = 'p'+Date.now();
+  DB.players[id] = {id, last, num, color:selColor, joined:dk()};
+  saveDB(); login(DB.players[id]);
 }
 
 function login(p){
-  me=p;localStorage.setItem('bfpid',p.id);
-  document.getElementById('nav-av-wrap').innerHTML=makeAvSvg(p.avId,p.last,p.num);
-  document.getElementById('nav-name').textContent=(p.last?p.last.toUpperCase():avObj(p.avId).nick)+(p.num?' #'+p.num:'');
+  me = p; localStorage.setItem('bfpid', p.id);
+  const color = p.color || PRESET_COLORS[6];
+  document.getElementById('nav-av-wrap').innerHTML = makeAvSvg(color, p.num, 26);
+  document.getElementById('nav-name').textContent = (p.last?p.last.toUpperCase():'Player')+(p.num?' #'+p.num:'');
   ['s-join','s-admin'].forEach(id=>document.getElementById(id).classList.remove('active'));
   document.getElementById('s-app').classList.add('active');
-  initLogV();renderDash();renderLB();renderShare();showTab('dash');
+  initLogV(); renderDash(); renderLB(); renderShare(); showTab('dash');
 }
 
 function switchPlayer(){
@@ -585,14 +645,14 @@ function initLogV(){
 function renderDash(){
   if(!me)return;
   const h=TODAY.getHours();
-  const av=avObj(me.avId);
+  const color=me.color||PRESET_COLORS[6];
   document.getElementById('dh-greet').textContent=h<12?'Good morning ☀️':h<17?'Good afternoon ⚡':'Good evening 🌙';
-  document.getElementById('dh-name').textContent=(me.last?me.last.toUpperCase():av.nick)+(me.num?' #'+me.num:'');
-  document.getElementById('dh-num').textContent=av.nick+' · '+av.team+' · Burlington Force';
+  document.getElementById('dh-name').textContent=(me.last?me.last.toUpperCase():'Player')+(me.num?' #'+me.num:'');
+  document.getElementById('dh-num').textContent='Burlington Force U15 · Summer Squad';
   document.getElementById('stats-month-lbl').textContent=MONTHS[curMonth];
   document.getElementById('lb-month-lbl').textContent=MONTHS[curMonth];
   document.getElementById('today-lbl').textContent=TODAY.toLocaleDateString('en-CA',{month:'short',day:'numeric'});
-  document.getElementById('dh-av').innerHTML=makeAvSvg(me.avId,me.last,me.num);
+  document.getElementById('dh-av').innerHTML=makeAvSvg(color,me.num,56);
   const p=monthPts(me.id,curMonth);
   document.getElementById('dh-pts').textContent=p;
   const ranked=Object.values(DB.players).map(pl=>({pl,p:monthPts(pl.id,curMonth)})).sort((a,b)=>b.p-a.p);
@@ -730,7 +790,7 @@ function renderLBList(){
 
   scored.forEach(({p,p2},i)=>{
     const rank=i+1;const isMe=me&&p.id===me.id;
-    const av=avObj(p.avId);
+    const color=p.color||PRESET_COLORS[6];
     const row=document.createElement('div');
     row.className='lb-row'+(isMe?' me':'')+(rank===1?' top1':'');
     const ri=rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':rank;
@@ -740,15 +800,15 @@ function renderLBList(){
       ?`${((s.short||0)+(s.medium||0)+(s.long||0)).toLocaleString()} makes · ${(s.ov1||0)+(s.ov3||0)+(s.ov5||0)}m game`
       :`${(s[lbCat]||0).toLocaleString()} ${t2?.isTime?'min':'makes'}`;
     const fire=p2>=50?'🔥':'';
-    // Last name shown in lb-pname, NOT inside circle
-    const lastName=p.last?p.last.toUpperCase():av.nick;
-    const numTag=p.num?`<span style="background:${av.bg};color:${av.fg};font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:.04em">#${p.num}</span>`:'';
+    const lastName=p.last?p.last.toUpperCase():'Player';
+    const fg=textColorFor(color);
+    const numTag=p.num?`<span style="background:${color};color:${fg};font-size:11px;font-weight:800;padding:2px 9px;border-radius:20px;letter-spacing:.04em">#${p.num}</span>`:'';
     row.innerHTML=`
       <div class="lb-rank-col">${ri}</div>
-      <div class="lb-av">${makeAvSvg(p.avId,p.last,p.num)}</div>
+      <div class="lb-av">${makeAvSvg(color,p.num,44)}</div>
       <div class="lb-info">
         <div class="lb-pname">${lastName} ${numTag}${isMe?'<span class="you-pill">you</span>':''}${fire}</div>
-        <div class="lb-psub">${av.nick} · ${av.team} · ${subText}</div>
+        <div class="lb-psub">${subText}</div>
       </div>
       <div class="lb-score"><div class="lb-pts">${p2}</div><div class="lb-pts-lbl">pts</div></div>`;
     list.appendChild(row);
@@ -772,7 +832,7 @@ function renderShare(){
     const top=players.length?players.map(p=>({p,p2:monthPts(p.id,m)})).sort((a,b)=>b.p2-a.p2)[0]:null;
     const d=document.createElement('div');
     d.style.cssText=`background:${isA?'var(--navy)':'var(--card)'};border:${isA?'none':'.5px solid var(--cb)'};border-radius:12px;padding:13px 16px`;
-    const leader=top&&top.p2>0?(top.p.last||avObj(top.p.avId).nick)+(top.p.num?' #'+top.p.num:'')+' · '+top.p2+'pts':'No entries yet';
+    const leader=top&&top.p2>0?(top.p.last?top.p.last.toUpperCase():'Player')+(top.p.num?' #'+top.p.num:'')+' · '+top.p2+'pts':'No entries yet';
     d.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between">
       <div style="font-size:14px;font-weight:800;color:${isA?'var(--white)':'var(--navy)'}">${MONTHS[m]} 2025${isA?'<span style="font-size:11px;opacity:.5;margin-left:8px;font-weight:400"> Active</span>':''}</div>
       <div style="font-size:12px;color:${isA?'rgba(255,255,255,.55)':'var(--text2)'}">🏆 ${leader}</div>
@@ -836,15 +896,15 @@ function renderAdmin(){
     html+=`<div style="text-align:center;padding:32px;color:var(--text3);font-size:14px">No players yet</div>`;
   } else {
     players.sort((a,b)=>(a.last||'').localeCompare(b.last||'')).forEach(p=>{
-      const av=avObj(p.avId);
+      const color=p.color||PRESET_COLORS[6];
       const seasonPts=[6,7,8].reduce((a,m)=>a+monthPts(p.id,m),0);
       const logCount=[6,7,8].reduce((a,m)=>a+Object.keys(DB.logs[mk(p.id,m)]||{}).length,0);
-      const nameDisp=(p.last?p.last.toUpperCase():av.nick)+(p.num?' #'+p.num:'');
+      const nameDisp=(p.last?p.last.toUpperCase():'Player')+(p.num?' #'+p.num:'');
       html+=`<div class="admin-player-row">
-        <div class="admin-av">${makeAvSvg(p.avId,p.last,p.num)}</div>
+        <div class="admin-av">${makeAvSvg(color,p.num,40)}</div>
         <div class="admin-player-info">
           <div class="admin-player-name">${nameDisp}</div>
-          <div class="admin-player-sub">${av.nick} · ${seasonPts} season pts · ${logCount} sessions · joined ${p.joined||'2025'}</div>
+          <div class="admin-player-sub">${seasonPts} season pts · ${logCount} sessions · joined ${p.joined||'2025'}</div>
         </div>
         <button class="admin-remove-btn" onclick="removePlayer('${p.id}')">Remove</button>
       </div>`;
@@ -858,10 +918,10 @@ function renderAdmin(){
       <div style="font-size:13px;font-weight:800;color:var(--navy);margin-bottom:10px">${MONTHS[m]} 2025</div>`;
     if(ranked.length&&ranked[0].pts>0){
       ranked.forEach(({p,pts},i)=>{
-        const av=avObj(p.avId);
-        const dn=(p.last?p.last.toUpperCase():av.nick)+(p.num?' #'+p.num:'');
+        const color=p.color||PRESET_COLORS[6];
+        const dn=(p.last?p.last.toUpperCase():'Player')+(p.num?' #'+p.num:'');
         html+=`<div style="display:flex;align-items:center;gap:8px;padding:4px 0">
-          <div style="width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0">${makeAvSvg(p.avId,p.last,p.num)}</div>
+          <div style="width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0">${makeAvSvg(color,p.num,28)}</div>
           <div style="font-size:13px;min-width:20px">${i===0?'🥇':i===1?'🥈':'🥉'}</div>
           <div style="flex:1;font-size:13px;font-weight:600;color:var(--navy)">${dn}</div>
           <div style="font-size:14px;font-weight:800;color:var(--navy)">${pts}pts</div>
@@ -879,9 +939,8 @@ function renderAdmin(){
 
 async function removePlayer(pid){
   const p=DB.players[pid];if(!p)return;
-  const av=avObj(p.avId);
-  const nameDisp=(p.last?p.last.toUpperCase():av.nick)+(p.num?' #'+p.num:'');
-  if(!confirm(`Remove ${nameDisp} from the squad?\n\nThis deletes their profile. They can re-join with any avatar.`))return;
+  const nameDisp=(p.last?p.last.toUpperCase():'Player')+(p.num?' #'+p.num:'');
+  if(!confirm(`Remove ${nameDisp} from the squad?\n\nThis deletes their profile. They can re-join with a new colour.`))return;
   delete DB.players[pid];await saveDB();
   showToast(`${nameDisp} removed`);renderAdmin();
 }
@@ -908,7 +967,7 @@ function showToast(msg){
 // ── INIT ─────────────────────────────────────────────────────────────────
 async function init(){
   await loadDB();
-  buildAvGrid();
+  buildColorSwatches();
   const pid=localStorage.getItem('bfpid');
   if(pid&&DB.players[pid])login(DB.players[pid]);
   else buildExisting();
