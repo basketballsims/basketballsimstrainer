@@ -25,10 +25,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
 .screen.active{display:flex;flex-direction:column}
 
 /* ── JOIN ── */
-.join-wrap{flex:1;background:var(--navy);display:flex;flex-direction:column;align-items:center;padding:calc(var(--st)+16px) 16px calc(24px + var(--sb));min-height:100%}
+.join-wrap{flex:1;background:var(--navy);display:flex;flex-direction:column;align-items:center;padding:calc(var(--st)+20px) 16px calc(28px + var(--sb));min-height:100%}
 
-/* Curved text header */
-.join-hero-text{text-align:center;margin-bottom:20px;width:100%;max-width:360px}
+/* HERO HEADER */
+.join-hero-text{text-align:center;margin-bottom:20px;width:100%;max-width:400px;padding:0 8px}
+.join-hero-title{color:#FFFFFF;font-size:28px;font-weight:900;letter-spacing:-.4px;line-height:1.15;margin-bottom:5px}
+.join-hero-sub{color:var(--gold);font-size:16px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
+.join-hero-rule{width:44px;height:3px;background:var(--gold);border-radius:2px;margin:0 auto 14px;opacity:.55}
+.join-hero-intro{color:rgba(255,255,255,.65);font-size:14px;font-weight:500;line-height:1.55;text-align:center}
+
+/* STEPS */
+.step-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;margin-top:16px}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--navy);color:var(--gold);font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid var(--gold)}
+.step-label{font-size:13px;font-weight:700;color:var(--navy);letter-spacing:.01em}
+
+/* INPUT VALIDATION HINT */
+.input-rule{font-size:11px;color:var(--text3);margin:-10px 0 12px;min-height:16px;transition:color .2s}
+.input-rule.ok{color:var(--green)}
+.input-rule.err{color:var(--red);font-weight:600}
+
+/* PRIZES CALLOUT */
+.prizes-callout{background:linear-gradient(135deg,rgba(245,200,66,.12),rgba(245,200,66,.06));border:1.5px solid rgba(245,200,66,.35);border-radius:12px;padding:12px 14px;margin:14px 0 0;font-size:13px;color:var(--text2);line-height:1.55;text-align:center}
+.prizes-callout strong{color:var(--navy)}
 
 .join-card{background:var(--white);border-radius:22px;padding:20px;width:100%;max-width:400px}
 .join-card-title{font-size:16px;font-weight:800;color:var(--navy);margin-bottom:3px}
@@ -238,53 +256,68 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sa
 <div class="screen active" id="s-join">
 <div class="join-wrap">
 
-  <!-- Clean text header -->
+  <!-- Hero header -->
   <div class="join-hero-text">
-    <div style="color:#FFFFFF;font-size:32px;font-weight:900;letter-spacing:-.5px;line-height:1;margin-bottom:6px;font-family:-apple-system,'Arial Black',sans-serif">Burlington Force U15</div>
-    <div style="color:var(--gold);font-size:14px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;opacity:.9">Summer Squad</div>
-    <div style="width:48px;height:3px;background:var(--gold);border-radius:2px;margin:10px auto 0;opacity:.6"></div>
+    <div class="join-hero-title">Burlington Force U15</div>
+    <div class="join-hero-sub">Summer Squad</div>
+    <div class="join-hero-rule"></div>
+    <div class="join-hero-intro">Join the squad — pick your color,<br>add your number and last name</div>
   </div>
 
   <div class="join-card">
-    <div class="join-card-title">Join the squad</div>
-    <div class="join-card-sub">Pick your circle colour, add your number and last name.</div>
 
-    <div class="jlabel">Your circle colour</div>
+    <!-- Step 1 -->
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-label">Pick your profile color</div>
+    </div>
     <div class="color-picker-wrap">
       <div class="color-swatches" id="color-swatches"></div>
       <div class="color-custom-row">
-        <input type="color" class="color-input" id="color-custom" value="#1D9E75" oninput="pickCustomColor(this.value)" onchange="pickCustomColor(this.value)">
-        <span class="color-custom-label">Custom colour</span>
+        <input type="color" class="color-input" id="color-custom" value="#1D428A" oninput="pickCustomColor(this.value)" onchange="pickCustomColor(this.value)">
+        <span class="color-custom-label">Custom color</span>
       </div>
     </div>
 
-    <!-- Live preview: circle left, name right -->
+    <!-- Step 2 -->
+    <div class="step-row" style="margin-top:4px">
+      <div class="step-num">2</div>
+      <div class="step-label">Add your last name</div>
+    </div>
+    <input class="jinput" id="jlast" placeholder="e.g. Thompson" maxlength="12"
+      autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"
+      style="margin-bottom:14px" oninput="updatePreview()">
+    <div class="input-rule" id="rule-last"></div>
+
+    <!-- Step 3 -->
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-label">Add your number</div>
+    </div>
+    <input class="jinput" id="jnum" placeholder="e.g. 23" maxlength="2"
+      type="number" inputmode="numeric"
+      style="text-align:center;font-size:28px;font-weight:900;letter-spacing:6px;margin-bottom:6px"
+      oninput="updatePreview()">
+    <div class="input-rule" id="rule-num"></div>
+
+    <!-- Live preview -->
     <div class="av-preview">
-      <div class="av-preview-circle-wrap">
-        <div class="av-preview-circle" id="av-preview-circle"></div>
-      </div>
+      <div class="av-preview-circle" id="av-preview-circle"></div>
       <div class="av-preview-name-col">
         <div class="av-preview-lastname" id="av-preview-lastname">—</div>
         <div class="av-preview-numtag" id="av-preview-numtag"></div>
-        <div class="av-preview-hint" id="av-preview-hint">Add your last name and number below</div>
-      </div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
-      <div>
-        <div class="jlabel">Last name</div>
-        <input class="jinput" id="jlast" placeholder="Thompson" maxlength="14" autocomplete="off" autocorrect="off" spellcheck="false" oninput="updatePreview()">
-      </div>
-      <div>
-        <div class="jlabel">Jersey #</div>
-        <input class="jinput" id="jnum" placeholder="23" maxlength="2" type="number" inputmode="numeric"
-          style="text-align:center;font-size:24px;font-weight:900;letter-spacing:4px" oninput="updatePreview()">
+        <div class="av-preview-hint" id="av-preview-hint">Fill in steps 2 & 3 above</div>
       </div>
     </div>
 
     <button class="join-btn" onclick="joinTeam()">🏀 Join the Force</button>
 
-    <div class="join-locked"><span style="font-size:15px">🔒</span><span>One spot per player. Only your coach can remove players.</span></div>
+    <!-- Prizes callout -->
+    <div class="prizes-callout">
+      🏆 <strong>Special prizes</strong> awarded to the top 5 finishers at the end of the summer season. Get out there and get playing!
+    </div>
+
+    <div class="join-locked"><span>🔒</span><span>One spot per player. Only your coach can remove players.</span></div>
     <div class="join-divider"><span>Already on the squad?</span></div>
     <select class="jinput" id="existing-sel" style="cursor:pointer">
       <option value="">— Switch to my profile —</option>
@@ -567,26 +600,36 @@ function updatePreview(){
   // Circle: color filled, number inside if available
   document.getElementById('av-preview-circle').innerHTML = makeAvSvg(selColor, num, 72);
 
-  // Last name beside the circle — bold white, or placeholder
-  const lastEl  = document.getElementById('av-preview-lastname');
-  const numEl   = document.getElementById('av-preview-numtag');
-  const hintEl  = document.getElementById('av-preview-hint');
+  // Last name beside the circle
+  const lastEl = document.getElementById('av-preview-lastname');
+  const numEl  = document.getElementById('av-preview-numtag');
+  const hintEl = document.getElementById('av-preview-hint');
 
   if(last){
-    lastEl.textContent  = last.toUpperCase();
-    lastEl.style.color  = '#FFFFFF';
+    lastEl.textContent = last.toUpperCase();
+    lastEl.style.color = '#FFFFFF';
     hintEl.style.display = 'none';
   } else {
-    lastEl.textContent  = '—';
-    lastEl.style.color  = 'rgba(255,255,255,.3)';
+    lastEl.textContent = '—';
+    lastEl.style.color = 'rgba(255,255,255,.3)';
     hintEl.style.display = 'block';
   }
 
-  if(num){
-    numEl.textContent = '# ' + num;
-    numEl.style.display = 'block';
+  numEl.textContent = num ? '# ' + num : '';
+  numEl.style.display = num ? 'block' : 'none';
+
+  // Live inline hints (only show when field has content)
+  if(last){
+    const r = validateName(last);
+    showInputRule('rule-last', {ok:r.ok, msg: r.ok ? '' : r.msg});
   } else {
-    numEl.style.display = 'none';
+    showInputRule('rule-last', {ok:null, msg:''});
+  }
+  if(num){
+    const r = validateNum(num);
+    showInputRule('rule-num', {ok:r.ok, msg: r.ok ? '' : r.msg});
+  } else {
+    showInputRule('rule-num', {ok:null, msg:''});
   }
 }
 
@@ -602,14 +645,74 @@ function buildExisting(){
   s.onchange = ()=>{ if(s.value&&DB.players[s.value]) login(DB.players[s.value]); };
 }
 
+// ── VALIDATION ────────────────────────────────────────────────────────────
+// Basic profanity blocklist — common foul words, case-insensitive
+const FOUL_WORDS = [
+  'ass','arse','bastard','bitch','bollocks','bugger','cock','crap','cunt',
+  'damn','dick','douche','dumbass','fag','fuck','hell','jackass','jerk',
+  'knob','moron','motherfucker','piss','prick','pussy','shit','slut',
+  'twat','wank','whore','idiot','stupid','retard','nigger','nigga',
+];
+
+function containsFoulWord(str){
+  const lower = str.toLowerCase().replace(/[^a-z]/g,'');
+  return FOUL_WORDS.some(w=>lower.includes(w));
+}
+
+function validateName(raw){
+  if(!raw) return {ok:false, msg:'Last name is required'};
+  if(raw.length > 12) return {ok:false, msg:'Max 12 characters'};
+  if(/\s/.test(raw)) return {ok:false, msg:'No spaces allowed'};
+  if(/[^a-zA-Z\-']/.test(raw)) return {ok:false, msg:'Letters, hyphens and apostrophes only'};
+  if(containsFoulWord(raw)) return {ok:false, msg:'Keep it clean 🙏'};
+  return {ok:true, msg:'✓ Looks good'};
+}
+
+function validateNum(raw){
+  if(!raw) return {ok:null, msg:''};  // optional
+  const n = parseInt(raw, 10);
+  if(isNaN(n)||n<0||n>99) return {ok:false, msg:'Number must be 0–99 (2 digits max)'};
+  return {ok:true, msg:'✓'};
+}
+
+function showInputRule(elId, result){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  el.textContent = result.msg||'';
+  el.className = 'input-rule' + (result.ok===true?' ok':result.ok===false?' err':'');
+}
+
 function joinTeam(){
-  const last = document.getElementById('jlast').value.trim();
-  if(!last){ showToast('Enter your last name 👆'); return; }
-  const num = document.getElementById('jnum').value.trim()||'';
-  const existing = Object.values(DB.players).find(p=>(p.last||'').toLowerCase()===last.toLowerCase());
-  if(existing){ showToast(`${last} is already on the squad — use Switch below`); return; }
+  const lastRaw = (document.getElementById('jlast').value||'').trim();
+  const numRaw  = (document.getElementById('jnum').value||'').trim();
+
+  const nameResult = validateName(lastRaw);
+  const numResult  = validateNum(numRaw);
+
+  showInputRule('rule-last', nameResult);
+  if(numRaw) showInputRule('rule-num', numResult);
+
+  if(!nameResult.ok){
+    showToast(nameResult.msg);
+    document.getElementById('jlast').focus();
+    return;
+  }
+  if(numRaw && numResult.ok===false){
+    showToast(numResult.msg);
+    document.getElementById('jnum').focus();
+    return;
+  }
+
+  const existing = Object.values(DB.players).find(
+    p=>(p.last||'').toLowerCase()===lastRaw.toLowerCase()
+  );
+  if(existing){
+    showToast(`${lastRaw} is already on the squad — use Switch below`);
+    return;
+  }
+
   const id = 'p'+Date.now();
-  DB.players[id] = {id, last, num, color:selColor, joined:dk()};
+  DB.players[id] = {id, last:lastRaw, num:numRaw, color:selColor, joined:dk()};
   saveDB(); login(DB.players[id]);
 }
 
