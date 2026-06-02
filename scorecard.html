@@ -563,6 +563,42 @@ function makeAvSvg(color, num, size){
 
 let selColor = PRESET_COLORS[6]; // default: Warriors navy
 
+// ── VALIDATION ────────────────────────────────────────────────────────────
+const FOUL_WORDS = [
+  'ass','arse','bastard','bitch','bollocks','bugger','cock','crap','cunt',
+  'damn','dick','douche','dumbass','fag','fuck','hell','jackass','jerk',
+  'knob','moron','motherfucker','piss','prick','pussy','shit','slut',
+  'twat','wank','whore','idiot','stupid','retard','nigger','nigga',
+];
+
+function containsFoulWord(str){
+  const lower = str.toLowerCase().replace(/[^a-z]/g,'');
+  return FOUL_WORDS.some(w=>lower.includes(w));
+}
+
+function validateName(raw){
+  if(!raw) return {ok:false, msg:'Last name is required'};
+  if(raw.length > 12) return {ok:false, msg:'Max 12 characters'};
+  if(/\s/.test(raw)) return {ok:false, msg:'No spaces allowed'};
+  if(/[^a-zA-Z\-']/.test(raw)) return {ok:false, msg:'Letters, hyphens and apostrophes only'};
+  if(containsFoulWord(raw)) return {ok:false, msg:'Keep it clean 🙏'};
+  return {ok:true, msg:''};
+}
+
+function validateNum(raw){
+  if(!raw) return {ok:null, msg:''};
+  const n = parseInt(raw, 10);
+  if(isNaN(n)||n<0||n>99) return {ok:false, msg:'Number must be 0–99'};
+  return {ok:true, msg:''};
+}
+
+function showInputRule(elId, result){
+  const el = document.getElementById(elId);
+  if(!el) return;
+  el.textContent = result.msg||'';
+  el.className = 'input-rule' + (result.ok===true?' ok':result.ok===false?' err':'');
+}
+
 // ── JOIN ───────────────────────────────────────────────────────────────────
 function buildColorSwatches(){
   const wrap = document.getElementById('color-swatches');
@@ -643,43 +679,6 @@ function buildExisting(){
     s.appendChild(o);
   });
   s.onchange = ()=>{ if(s.value&&DB.players[s.value]) login(DB.players[s.value]); };
-}
-
-// ── VALIDATION ────────────────────────────────────────────────────────────
-// Basic profanity blocklist — common foul words, case-insensitive
-const FOUL_WORDS = [
-  'ass','arse','bastard','bitch','bollocks','bugger','cock','crap','cunt',
-  'damn','dick','douche','dumbass','fag','fuck','hell','jackass','jerk',
-  'knob','moron','motherfucker','piss','prick','pussy','shit','slut',
-  'twat','wank','whore','idiot','stupid','retard','nigger','nigga',
-];
-
-function containsFoulWord(str){
-  const lower = str.toLowerCase().replace(/[^a-z]/g,'');
-  return FOUL_WORDS.some(w=>lower.includes(w));
-}
-
-function validateName(raw){
-  if(!raw) return {ok:false, msg:'Last name is required'};
-  if(raw.length > 12) return {ok:false, msg:'Max 12 characters'};
-  if(/\s/.test(raw)) return {ok:false, msg:'No spaces allowed'};
-  if(/[^a-zA-Z\-']/.test(raw)) return {ok:false, msg:'Letters, hyphens and apostrophes only'};
-  if(containsFoulWord(raw)) return {ok:false, msg:'Keep it clean 🙏'};
-  return {ok:true, msg:'✓ Looks good'};
-}
-
-function validateNum(raw){
-  if(!raw) return {ok:null, msg:''};  // optional
-  const n = parseInt(raw, 10);
-  if(isNaN(n)||n<0||n>99) return {ok:false, msg:'Number must be 0–99 (2 digits max)'};
-  return {ok:true, msg:'✓'};
-}
-
-function showInputRule(elId, result){
-  const el = document.getElementById(elId);
-  if(!el) return;
-  el.textContent = result.msg||'';
-  el.className = 'input-rule' + (result.ok===true?' ok':result.ok===false?' err':'');
 }
 
 function joinTeam(){
