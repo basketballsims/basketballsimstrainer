@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Basketball Sims Trainer — Burlington Force</title>
+<title>Basketball Sims Trainer</title>
 <meta name="description" content="Self-guided basketball workouts with plyometrics — indoor, outdoor, or anywhere. Built on basketballsims.com drills.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -11,19 +11,19 @@
 <style>
   /* ── Basketball Sims Brand: Navy · Gold · White ── */
   :root {
-    /* Primary: Navy */
-    --navy:#1B2E5A;--navy-dark:#0F1E3D;--navy-deeper:#08112A;--navy-light:#E8EBF4;--navy-mid:#8999C4;
-    /* Accent: Gold */
-    --gold:#C9A227;--gold-dark:#A07B10;--gold-deeper:#6B5109;--gold-light:#FBF4DC;--gold-mid:#E8CC7A;
-    /* Plyo: Amber-orange (accessible, distinct from gold) */
-    --orange:#C47A1A;--orange-dark:#9A5C0C;--orange-deeper:#6B3C06;--orange-light:#FDF0D8;
-    /* Location/outdoor: teal accent */
-    --teal:#0F7C6E;--teal-dark:#085A50;--teal-deeper:#043D36;--teal-light:#E2F4F2;
-    /* Neutrals */
-    --bg:#ffffff;--bg2:#F6F7FA;--bg3:#ECEEF5;
-    --text:#0F1E3D;--text2:#4A5568;--text3:#9AA3B8;
-    --border:rgba(27,46,90,0.12);--border2:rgba(27,46,90,0.25);
-    /* Semantic reuse */
+    /* Primary: deep navy — high contrast on white */
+    --navy:#152448;--navy-dark:#0A1530;--navy-deeper:#060D1F;--navy-light:#DDE3F0;--navy-mid:#6B82B8;
+    /* Accent: rich gold — AA-accessible on white & navy */
+    --gold:#B88A00;--gold-dark:#8C6800;--gold-deeper:#5C4400;--gold-light:#FBF3D0;--gold-mid:#D4AE3C;
+    /* Plyo: warm amber — distinct from gold, AA on white */
+    --orange:#B86000;--orange-dark:#8C4500;--orange-deeper:#5C2C00;--orange-light:#FDECD6;
+    /* Outdoor/teal — AA on white */
+    --teal:#0A6B5E;--teal-dark:#074E45;--teal-deeper:#03312C;--teal-light:#D8F0ED;
+    /* Neutrals — high contrast */
+    --bg:#FFFFFF;--bg2:#F2F4FA;--bg3:#E4E8F2;
+    --text:#060D1F;--text2:#3A4560;--text3:#7A89A8;
+    --border:rgba(21,36,72,0.14);--border2:rgba(21,36,72,0.30);
+    /* Semantic aliases */
     --green:var(--navy);--green-dark:var(--navy-dark);--green-deeper:var(--navy-deeper);
     --green-light:var(--navy-light);--green-mid:var(--navy-mid);
     --blue:var(--navy);--blue-dark:var(--navy-dark);--blue-deeper:var(--navy-deeper);--blue-light:var(--navy-light);
@@ -33,43 +33,42 @@
   }
   @media(prefers-color-scheme:dark){
     :root{
-      /* Dark mode: deep navy canvas, gold stays bright */
-      --bg:#0D1830;--bg2:#162040;--bg3:#1E2E58;
-      --text:#EEF0F8;--text2:#A8B4D0;--text3:#5A6A8A;
-      --border:rgba(201,162,39,0.15);--border2:rgba(201,162,39,0.30);
-      /* Navy tokens flip to lighter for legibility */
-      --navy:#7B96D4;--navy-dark:#5B7AC0;--navy-deeper:#EEF0F8;
-      --navy-light:#1A2E58;--navy-mid:#3A5490;
-      /* Gold stays vivid on dark */
-      --gold:#E0B830;--gold-dark:#C9A227;--gold-deeper:#F5D878;--gold-light:#1E1800;--gold-mid:#8B6B10;
-      /* Plyo orange */
-      --orange:#E09040;--orange-dark:#C47A1A;--orange-deeper:#F5C878;--orange-light:#1E1000;
+      /* Dark canvas: near-black navy base */
+      --bg:#090E1C;--bg2:#111A30;--bg3:#192440;
+      --text:#F0F3FC;--text2:#B0BCDA;--text3:#5A6A8A;
+      --border:rgba(184,138,0,0.18);--border2:rgba(184,138,0,0.36);
+      /* Navy tokens — lighter for dark bg legibility, WCAG AA */
+      --navy:#8FAEE0;--navy-dark:#6B90D4;--navy-deeper:#F0F3FC;
+      --navy-light:#151F3A;--navy-mid:#2E4070;
+      /* Gold — vivid, WCAG AA on dark bg (#111A30) */
+      --gold:#EDBA00;--gold-dark:#C9A000;--gold-deeper:#FFD84D;--gold-light:#1A1400;--gold-mid:#7A6000;
+      /* Plyo amber */
+      --orange:#E07C00;--orange-dark:#C06400;--orange-deeper:#FFB84D;--orange-light:#180E00;
       /* Teal */
-      --teal:#3DC4B4;--teal-dark:#0F7C6E;--teal-deeper:#A0EDE4;--teal-light:#001814;
-      /* Reuse */
+      --teal:#2DC9B4;--teal-dark:#1A9E8C;--teal-deeper:#9EEEE4;--teal-light:#001410;
+      /* Aliases */
       --green:var(--navy);--green-dark:var(--navy-dark);--green-deeper:var(--navy-deeper);
       --green-light:var(--navy-light);--green-mid:var(--navy-mid);
       --blue:var(--navy);--blue-dark:var(--navy-dark);--blue-deeper:var(--navy-deeper);--blue-light:var(--navy-light);
       --amber-light:var(--gold-light);--amber-dark:var(--gold-deeper);
       --purple-light:var(--navy-light);--purple-dark:var(--navy);
-      --text3:#5A6A8A;
     }
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.5}
-  body::before{content:'';display:block;height:4px;background:linear-gradient(90deg,var(--navy) 0%,var(--gold) 55%,var(--navy) 100%);position:sticky;top:0;z-index:100}
+  body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  body::before{content:'';display:block;height:5px;background:linear-gradient(90deg,var(--navy) 0%,var(--navy) 35%,var(--gold) 65%,var(--gold) 100%);position:sticky;top:0;z-index:100}
   .app-shell{max-width:540px;margin:0 auto;padding:1.5rem 1rem 4rem}
   .screen{display:none}.screen.active{display:block}
 
   /* Header */
   .hdr{display:flex;align-items:center;gap:12px;margin-bottom:1.75rem}
-  .logo{width:46px;height:46px;border-radius:50%;background:var(--navy);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(27,46,90,0.18)}
+  .logo{width:46px;height:46px;border-radius:50%;background:var(--navy);border:2.5px solid var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 3px 10px rgba(9,14,28,0.28)}
   .logo i{font-size:22px;color:var(--gold)}
-  .hdr h1{font-size:19px;font-weight:700;color:var(--navy-deeper);letter-spacing:-.01em}
+  .hdr h1{font-size:19px;font-weight:700;color:var(--navy-deeper);letter-spacing:-.02em}
   .hdr p{font-size:12px;color:var(--text2)}
   .hdr a{color:var(--gold-dark);text-decoration:none;font-weight:500}
 
-  .slabel{font-size:11px;font-weight:700;color:var(--navy);letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;margin-top:1.5rem;opacity:.8}
+  .slabel{font-size:11px;font-weight:700;color:var(--navy-deeper);letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;margin-top:1.5rem}
 
   /* Location selector - 3-way */
   .loc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
@@ -109,7 +108,7 @@
   .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
   .mode-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:13px;cursor:pointer;text-align:left;transition:border-color .15s}
   .mode-card:hover{border-color:var(--border2)}
-  .mode-card.sel{border:2px solid var(--navy);background:var(--navy-light)}
+  .mode-card.sel{border:2.5px solid var(--navy);background:var(--navy-light);box-shadow:0 0 0 3px rgba(21,36,72,0.10)}
   .mode-card i{font-size:20px;color:var(--navy);display:block;margin-bottom:7px}
   .mode-card h3{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
   .mode-card p{font-size:11px;color:var(--text2);line-height:1.4}
@@ -118,7 +117,7 @@
   .diff-row{display:flex;gap:6px}
   .dbtn{flex:1;padding:9px 4px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);font-size:12px;color:var(--text2);cursor:pointer;text-align:center;line-height:1.5;font-family:inherit}
   .dbtn:hover{border-color:var(--border2)}
-  .dbtn.sel{border:2px solid var(--gold);color:var(--gold-deeper);background:var(--gold-light);font-weight:600}
+  .dbtn.sel{border:2.5px solid var(--gold-dark);color:var(--gold-deeper);background:var(--gold-light);font-weight:700;box-shadow:0 0 0 3px rgba(184,138,0,0.12)}
   .dbtn span{font-size:10px;color:var(--text3);display:block}
   .dbtn.sel span{color:var(--gold-dark)}
 
@@ -126,7 +125,7 @@
   .chip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:8px}
   .chip{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:7px 10px;cursor:pointer;font-size:12px;color:var(--text2);text-align:center;transition:all .15s}
   .chip:hover{border-color:var(--border2);color:var(--text)}
-  .chip.sel{background:var(--navy-light);border-color:var(--navy);color:var(--navy-deeper);font-weight:600}
+  .chip.sel{background:var(--navy-light);border:2px solid var(--navy);color:var(--navy-deeper);font-weight:700}
 
   /* Toggles */
   .toggle-row{display:flex;flex-direction:column;gap:8px}
@@ -136,7 +135,7 @@
   .tog-left{display:flex;align-items:center;gap:10px}
   .tog-left i{font-size:18px;color:var(--navy)}
   .tog-txt h4{font-size:13px;font-weight:500;color:var(--text)}
-  .tog.sel .tog-txt h4{color:var(--navy-deeper)}
+  .tog.sel .tog-txt h4{color:var(--navy-deeper);font-weight:600}
   .tog-txt p{font-size:11px;color:var(--text2)}
   .pill{width:36px;height:20px;border-radius:10px;background:var(--bg3);position:relative;transition:background .2s;flex-shrink:0}
   .tog.sel .pill{background:var(--navy)}
@@ -162,12 +161,12 @@
   .plyo-note{font-size:11px;color:var(--text3);margin-top:8px}
 
   /* Buttons */
-  .btn-primary{background:var(--navy);color:#fff;border:none;border-radius:var(--radius);padding:12px 20px;font-size:14px;font-weight:600;cursor:pointer;width:100%;margin-top:1.5rem;font-family:inherit;letter-spacing:.01em;box-shadow:0 2px 6px rgba(27,46,90,0.20)}
+  .btn-primary{background:var(--navy);color:#fff;border:none;border-radius:var(--radius);padding:12px 20px;font-size:14px;font-weight:700;cursor:pointer;width:100%;margin-top:1.5rem;font-family:inherit;letter-spacing:.015em;box-shadow:0 3px 8px rgba(9,14,28,0.30)}
   .btn-primary:hover{background:var(--navy-dark);box-shadow:0 3px 10px rgba(27,46,90,0.28)}
   .btn-primary:disabled{background:var(--bg2);color:var(--text3);cursor:default;box-shadow:none}
   .btn-primary.orange{background:var(--gold);color:var(--navy-deeper)}
   .btn-primary.orange:hover{background:var(--gold-dark);color:var(--navy-deeper)}
-  .btn-ghost{background:transparent;border:0.5px solid var(--border2);border-radius:var(--radius);padding:7px 13px;font-size:13px;color:var(--text2);cursor:pointer;font-family:inherit}
+  .btn-ghost{background:transparent;border:1.5px solid var(--border2);border-radius:var(--radius);padding:7px 13px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;font-family:inherit}
   .btn-ghost:hover{background:var(--bg2)}
 
   /* Badges */
@@ -197,7 +196,7 @@
   .active-d.is-plyo .dnum{background:var(--gold);color:var(--navy-deeper)}
   .done-d .dnum{background:var(--navy-mid);color:#fff}
   .dinfo{flex:1;min-width:0}
-  .dname{font-size:13px;font-weight:500;color:var(--text)}
+  .dname{font-size:13px;font-weight:600;color:var(--navy-deeper)}
   .active-d .dname{color:var(--navy-deeper)}
   .active-d.is-plyo .dname{color:var(--gold-deeper)}
   .ddesc{font-size:11px;color:var(--text2);margin-top:2px;line-height:1.4}
@@ -226,10 +225,10 @@
   .timer-block.plyo-mode{border-color:var(--gold);background:var(--gold-light)}
   .t-step{font-size:11px;color:var(--text3);margin-bottom:3px}
   .t-type{font-size:10px;font-weight:600;padding:2px 9px;border-radius:10px;display:inline-block;margin-bottom:5px}
-  .bball-type{background:var(--navy-light);color:var(--navy-deeper);border:0.5px solid var(--navy-mid)}
-  .plyo-type{background:var(--gold-light);color:var(--gold-deeper);border:0.5px solid var(--gold-mid)}
+  .bball-type{background:var(--navy-light);color:var(--navy-deeper);border:1px solid var(--navy-mid);font-weight:700}
+  .plyo-type{background:var(--gold-light);color:var(--gold-deeper);border:1px solid var(--gold-mid);font-weight:700}
   .outdoor-type{background:var(--teal-light);color:var(--teal-deeper)}
-  .t-name{font-size:17px;font-weight:500;color:var(--text);margin-bottom:4px}
+  .t-name{font-size:17px;font-weight:700;color:var(--navy-deeper);margin-bottom:4px}
   .t-sets{font-size:12px;color:var(--text2);margin-bottom:5px;min-height:16px}
   .t-cue{font-size:12px;margin-bottom:.5rem;min-height:16px;font-style:italic}
   .bball-cue{color:var(--navy)}
@@ -242,7 +241,7 @@
   .ring-wrap svg{transform:rotate(-90deg)}
   .ring-track{fill:none;stroke:var(--bg3);stroke-width:7}
   .ring-fill{fill:none;stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset 1s linear}
-  .ring-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:500;color:var(--text)}
+  .ring-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:var(--navy-deeper)}
 
   /* Controls */
   .ctrl-row{display:flex;gap:10px;justify-content:center;align-items:center}
@@ -277,13 +276,13 @@
   .done-icon i{font-size:28px;color:var(--gold-dark)}
   .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:1.25rem 0}
   .stat-box{background:var(--bg2);border-radius:var(--radius);padding:10px 6px;text-align:center}
-  .stat-v{font-size:20px;font-weight:500;color:var(--text)}
+  .stat-v{font-size:20px;font-weight:700;color:var(--navy-deeper)}
   .stat-l{font-size:10px;color:var(--text2);margin-top:2px}
   .btn-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 
   /* Print */
   .print-sec{background:var(--bg2);border-radius:var(--radius-lg);padding:1rem;margin-top:1rem}
-  .print-sec h4{font-size:13px;font-weight:500;color:var(--text);margin-bottom:8px}
+  .print-sec h4{font-size:13px;font-weight:700;color:var(--navy-deeper);margin-bottom:8px}
   .print-line{padding:4px 0;border-bottom:0.5px solid var(--border);display:flex;justify-content:space-between;font-size:12px;color:var(--text2)}
   .print-line.plyo-line{color:var(--gold-dark)}
   .print-line:last-child{border-bottom:none}
@@ -316,10 +315,7 @@
       <h1>Basketball Sims Trainer</h1>
       <p>Self-guided workouts · up to 45 min · <a href="https://sites.google.com/view/basketballsims/home" target="_blank" rel="noopener">basketballsims.com</a></p>
     </div>
-    <div style="margin-left:auto;text-align:right;flex-shrink:0">
-      <div style="font-size:10px;font-weight:700;color:var(--gold-dark);letter-spacing:.12em;text-transform:uppercase;line-height:1.2">Burlington</div>
-      <div style="font-size:10px;font-weight:700;color:var(--navy);letter-spacing:.12em;text-transform:uppercase;line-height:1.2">Force</div>
-    </div>
+
   </div>
 
   <div class="slabel">Who is training?</div>
@@ -455,7 +451,7 @@
     <button class="btn-ghost" onclick="printWorkout()" style="margin-left:auto"><i class="ti ti-printer" aria-hidden="true"></i> Print / share</button>
   </div>
   <div style="margin-bottom:.75rem">
-    <div id="plan-title" style="font-size:17px;font-weight:600;color:var(--text);margin-bottom:6px"></div>
+    <div id="plan-title" style="font-size:17px;font-weight:700;color:var(--navy-deeper);margin-bottom:6px"></div>
     <div id="plan-badges"></div>
   </div>
   <div id="plan-notes"></div>
@@ -915,7 +911,7 @@ function finishWorkout(){
   document.getElementById('done-sub').textContent=cfg.focuses.map(f=>f.charAt(0).toUpperCase()+f.slice(1)).join(' + ')+(pC?' + Plyo':'')+' · '+lvl+' · '+locL;
   document.getElementById('done-stats').innerHTML=
     `<div class="stat-box"><div class="stat-v">${bC}</div><div class="stat-l">Skill drills</div></div>`+
-    (pC?`<div class="stat-box"><div class="stat-v" style="color:var(--gold-dark)">${pC}</div><div class="stat-l">Plyo exercises</div></div>`:'')+
+    (pC?`<div class="stat-box"><div class="stat-v" style="color:var(--gold-dark);font-weight:700">${pC}</div><div class="stat-l">Plyo exercises</div></div>`:'')+
     `<div class="stat-box"><div class="stat-v">${elapsed}m</div><div class="stat-l">Time on court</div></div>`+
     `<div class="stat-box"><div class="stat-v">${cfg.focuses.length}</div><div class="stat-l">Focus areas</div></div>`;
   document.getElementById('done-print').innerHTML=
