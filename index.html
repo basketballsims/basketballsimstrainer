@@ -20,8 +20,8 @@
     /* Outdoor: sage — muted earthy green */
     --teal:#4A7060;--teal-dark:#345248;--teal-deeper:#1E3430;--teal-light:#E2EDE8;
     /* Neutrals — airy light backgrounds */
-    --bg:#F7F5F0;--bg2:#EDEAE2;--bg3:#DDD9CE;
-    --text:#0E1720;--text2:#3D4E60;--text3:#8A98A8;
+    --bg:#F0F4F8;--bg2:#E6EBF2;--bg3:#D4DCE8;
+    --text:#0E1720;--text2:#3D4E60;--text3:#5A6878;
     --border:rgba(46,61,82,0.12);--border2:rgba(46,61,82,0.26);
     /* Semantic aliases */
     --green:var(--navy);--green-dark:var(--navy-dark);--green-deeper:var(--navy-deeper);
@@ -35,7 +35,7 @@
     :root{
       /* Dark canvas: near-black navy base */
       --bg:#12171E;--bg2:#1C242E;--bg3:#263040;
-      --text:#F0EDE6;--text2:#A8B4C0;--text3:#58687A;
+      --text:#F0EDE6;--text2:#A8B4C0;--text3:#8A9AAE;
       --border:rgba(160,112,10,0.16);--border2:rgba(160,112,10,0.32);
       /* Slate — lighter on dark */
       --navy:#8AAAC8;--navy-dark:#6A90B4;--navy-deeper:#F0EDE6;
@@ -57,12 +57,12 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;
     /* Subtle basketball SVG pattern — circles + seam lines */
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ccircle cx='40' cy='40' r='28' fill='none' stroke='%232E3D52' stroke-width='0.7' stroke-opacity='0.07'/%3E%3Cpath d='M40 12 Q52 26 52 40 Q52 54 40 68' fill='none' stroke='%232E3D52' stroke-width='0.7' stroke-opacity='0.07'/%3E%3Cpath d='M40 12 Q28 26 28 40 Q28 54 40 68' fill='none' stroke='%232E3D52' stroke-width='0.7' stroke-opacity='0.07'/%3E%3Cpath d='M12 40 Q26 28 40 28 Q54 28 68 40' fill='none' stroke='%232E3D52' stroke-width='0.7' stroke-opacity='0.07'/%3E%3Cpath d='M12 40 Q26 52 40 52 Q54 52 68 40' fill='none' stroke='%232E3D52' stroke-width='0.7' stroke-opacity='0.07'/%3E%3C/svg%3E");
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Ccircle cx='45' cy='45' r='32' fill='none' stroke='%232E3D52' stroke-width='1.0' stroke-opacity='0.09'/%3E%3Cpath d='M45 13 Q59 29 59 45 Q59 61 45 77' fill='none' stroke='%232E3D52' stroke-width='1.0' stroke-opacity='0.09'/%3E%3Cpath d='M45 13 Q31 29 31 45 Q31 61 45 77' fill='none' stroke='%232E3D52' stroke-width='1.0' stroke-opacity='0.09'/%3E%3Cpath d='M13 45 Q29 31 45 31 Q61 31 77 45' fill='none' stroke='%232E3D52' stroke-width='1.0' stroke-opacity='0.09'/%3E%3Cpath d='M13 45 Q29 59 45 59 Q61 59 77 45' fill='none' stroke='%232E3D52' stroke-width='1.0' stroke-opacity='0.09'/%3E%3C/svg%3E");
     background-size:80px 80px;}
   @media(prefers-color-scheme:dark){
     body{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ccircle cx='40' cy='40' r='28' fill='none' stroke='%23D49A20' stroke-width='0.7' stroke-opacity='0.06'/%3E%3Cpath d='M40 12 Q52 26 52 40 Q52 54 40 68' fill='none' stroke='%23D49A20' stroke-width='0.7' stroke-opacity='0.06'/%3E%3Cpath d='M40 12 Q28 26 28 40 Q28 54 40 68' fill='none' stroke='%23D49A20' stroke-width='0.7' stroke-opacity='0.06'/%3E%3Cpath d='M12 40 Q26 28 40 28 Q54 28 68 40' fill='none' stroke='%23D49A20' stroke-width='0.7' stroke-opacity='0.06'/%3E%3Cpath d='M12 40 Q26 52 40 52 Q54 52 68 40' fill='none' stroke='%23D49A20' stroke-width='0.7' stroke-opacity='0.06'/%3E%3C/svg%3E");}}
   body::before{content:'';display:block;height:5px;background:linear-gradient(90deg,var(--navy-deeper) 0%,var(--navy) 40%,var(--gold-mid) 70%,var(--gold) 100%);position:sticky;top:0;z-index:100}
-  .app-shell{max-width:540px;margin:0 auto;padding:1.5rem 1rem 4rem}
+  .app-shell{max-width:540px;margin:0 auto;padding:1.5rem 1rem 6rem}
   .screen{display:none}.screen.active{display:block}
 
   /* Header */
@@ -77,7 +77,7 @@
 
   /* Location selector - 3-way */
   .loc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-  .loc-card{background:#FDFAF4;border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:12px 10px;cursor:pointer;text-align:center;transition:all .15s;box-shadow:0 1px 3px rgba(46,61,82,0.08)}
+  .loc-card{background:#FFFFFF;border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:12px 10px;cursor:pointer;text-align:center;transition:all .15s;box-shadow:0 1px 4px rgba(46,61,82,0.10)}
   .loc-card:hover{border-color:var(--navy);background:#F5F2EA;box-shadow:0 3px 8px rgba(46,61,82,0.14);transform:translateY(-1px)}
   .loc-card:active{transform:translateY(0);box-shadow:0 1px 3px rgba(46,61,82,0.10);background:#EDE9DE}
   .loc-card i{font-size:22px;display:block;margin-bottom:6px;color:var(--text3)}
@@ -94,52 +94,52 @@
   .loc-card.sel-any h3{color:var(--text)}
 
   /* Outdoor conditions card */
-  .outdoor-card{background:#FDFAF4;border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:13px;margin-top:.75rem;transition:opacity .2s;box-shadow:0 1px 3px rgba(46,61,82,0.07)}
+  .outdoor-card{background:#FFFFFF;border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:13px;margin-top:.75rem;transition:opacity .2s;box-shadow:0 1px 4px rgba(46,61,82,0.10)}
   .outdoor-card.hidden{display:none}
   .outdoor-card-header{display:flex;align-items:center;gap:9px;margin-bottom:10px}
   .outdoor-card-header i{font-size:18px;color:var(--teal)}
   .outdoor-card-header h4{font-size:13px;font-weight:500;color:var(--text)}
   .outdoor-card-header p{font-size:11px;color:var(--text2)}
   .cond-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
-  .cond-chip{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:8px 10px;cursor:pointer;font-size:12px;color:var(--text2);text-align:left;display:flex;align-items:center;gap:7px;transition:all .15s}
+  .cond-chip{background:var(--bg2);border:1px solid rgba(74,112,96,0.30);border-radius:var(--radius);padding:8px 10px;cursor:pointer;font-size:12px;color:var(--navy);font-weight:500;text-align:left;display:flex;align-items:center;gap:7px;transition:all .15s}
   .cond-chip i{font-size:15px;flex-shrink:0}
   .cond-chip:hover{border-color:var(--teal);background:var(--teal-light);color:var(--teal-deeper);box-shadow:0 2px 6px rgba(74,112,96,0.14);transform:translateY(-1px)}
   .cond-chip:active{transform:translateY(0);box-shadow:none}
   .cond-chip.sel{background:var(--teal-light);border-color:var(--teal);color:var(--teal-deeper)}
   .cond-chip .cond-name{font-weight:500;font-size:12px}
-  .cond-chip .cond-sub{font-size:10px;color:var(--text3);margin-top:1px}
+  .cond-chip .cond-sub{font-size:10px;color:var(--orange-dark);margin-top:1px;font-weight:500}
   .cond-chip.sel .cond-sub{color:var(--teal-dark)}
   .outdoor-warn{background:var(--amber-light);border-radius:var(--radius);padding:8px 12px;font-size:11px;color:var(--amber-dark);margin-top:8px;display:flex;gap:7px;align-items:flex-start;line-height:1.5}
 
   /* Card grid (mode) */
   .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
-  .mode-card{background:#FDFAF4;border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:13px;cursor:pointer;text-align:left;transition:all .15s;box-shadow:0 1px 3px rgba(46,61,82,0.08)}
+  .mode-card{background:#FFFFFF;border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:13px;cursor:pointer;text-align:left;transition:all .15s;box-shadow:0 1px 4px rgba(46,61,82,0.10)}
   .mode-card:hover{border-color:var(--navy);background:#F5F2EA;box-shadow:0 3px 10px rgba(46,61,82,0.15);transform:translateY(-1px)}
   .mode-card:active{transform:translateY(0);box-shadow:0 1px 3px rgba(46,61,82,0.10);background:#EDE9DE}
   .mode-card.sel{border:2.5px solid var(--navy);background:var(--navy-light);box-shadow:0 0 0 3px rgba(21,36,72,0.10)}
   .mode-card i{font-size:20px;color:var(--navy);display:block;margin-bottom:7px}
   .mode-card h3{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
-  .mode-card p{font-size:11px;color:var(--text2);line-height:1.4}
+  .mode-card p{font-size:11px;color:var(--navy);opacity:.75;line-height:1.4}
 
   /* Diff buttons */
   .diff-row{display:flex;gap:6px}
-  .dbtn{flex:1;padding:9px 4px;border:0.5px solid var(--border);border-radius:var(--radius);background:#FDFAF4;font-size:12px;color:var(--text2);cursor:pointer;text-align:center;line-height:1.5;font-family:inherit;box-shadow:0 1px 3px rgba(46,61,82,0.07);transition:all .15s}
+  .dbtn{flex:1;padding:9px 4px;border:1px solid rgba(160,112,10,0.35);border-radius:var(--radius);background:#FDFAF4;font-size:12px;color:var(--navy);cursor:pointer;text-align:center;line-height:1.5;font-family:inherit;font-weight:500;box-shadow:0 1px 3px rgba(46,61,82,0.07);transition:all .15s}
   .dbtn:hover{border-color:var(--gold);background:var(--gold-light);color:var(--gold-deeper);box-shadow:0 2px 6px rgba(160,112,10,0.16);transform:translateY(-1px)}
   .dbtn:active{transform:translateY(0);box-shadow:none;background:#EDE9DE}
   .dbtn.sel{border:2.5px solid var(--gold-dark);color:var(--gold-deeper);background:var(--gold-light);font-weight:700;box-shadow:0 0 0 3px rgba(184,138,0,0.12)}
-  .dbtn span{font-size:10px;color:var(--text3);display:block}
+  .dbtn span{font-size:10px;color:var(--orange-dark);display:block;font-weight:600}
   .dbtn.sel span{color:var(--gold-dark)}
 
   /* Chips */
   .chip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:8px}
-  .chip{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:7px 10px;cursor:pointer;font-size:12px;color:var(--text2);text-align:center;transition:all .15s}
+  .chip{background:var(--bg2);border:1px solid rgba(160,112,10,0.30);border-radius:var(--radius);padding:7px 10px;cursor:pointer;font-size:12px;color:var(--navy);font-weight:500;text-align:center;transition:all .15s}
   .chip:hover{border-color:var(--navy);background:var(--navy-light);color:var(--navy-deeper);box-shadow:0 2px 6px rgba(46,61,82,0.14);transform:translateY(-1px)}
   .chip:active{transform:translateY(0);box-shadow:none;background:#DDE3F0}
   .chip.sel{background:var(--navy-light);border:2px solid var(--navy);color:var(--navy-deeper);font-weight:700}
 
   /* Toggles */
   .toggle-row{display:flex;flex-direction:column;gap:8px}
-  .tog{display:flex;align-items:center;justify-content:space-between;background:#FDFAF4;border:0.5px solid var(--border);border-radius:var(--radius);padding:10px 13px;cursor:pointer;box-shadow:0 1px 3px rgba(46,61,82,0.07);transition:all .15s}
+  .tog{display:flex;align-items:center;justify-content:space-between;background:#FFFFFF;border:0.5px solid var(--border);border-radius:var(--radius);padding:10px 13px;cursor:pointer;box-shadow:0 1px 4px rgba(46,61,82,0.10);transition:all .15s}
   .tog:hover{border-color:var(--navy);background:var(--navy-light);box-shadow:0 2px 8px rgba(46,61,82,0.13)}
   .tog:active{background:#DDE3F0;box-shadow:none}
   .tog.sel{border-color:var(--navy);background:var(--navy-light)}
@@ -154,20 +154,20 @@
   .tog.sel .pill::after{left:19px}
 
   /* Plyo card */
-  .plyo-card{background:#FDFAF4;border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:14px;margin-top:.75rem;box-shadow:0 1px 3px rgba(46,61,82,0.07)}
+  .plyo-card{background:#FFFFFF;border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:14px;margin-top:.75rem;box-shadow:0 1px 4px rgba(46,61,82,0.10)}
   .plyo-card.disabled{opacity:.4;pointer-events:none}
   .plyo-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
   .plyo-icon{width:34px;height:34px;border-radius:50%;background:var(--gold-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--gold-mid)}
   .plyo-icon i{font-size:17px;color:var(--gold-dark)}
   .plyo-title{font-size:14px;font-weight:500;color:var(--text)}
   .plyo-sub{font-size:11px;color:var(--text2)}
-  .plyo-len-btn{flex:1;padding:8px 4px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg2);font-size:12px;color:var(--text2);cursor:pointer;text-align:center;line-height:1.5;font-family:inherit;transition:all .15s}
+  .plyo-len-btn{flex:1;padding:8px 4px;border:1px solid rgba(160,112,10,0.35);border-radius:var(--radius);background:var(--bg2);font-size:12px;color:var(--navy);font-weight:500;cursor:pointer;text-align:center;line-height:1.5;font-family:inherit;transition:all .15s}
   .plyo-len-btn:hover{border-color:var(--gold);background:var(--gold-light);color:var(--gold-deeper);box-shadow:0 2px 6px rgba(160,112,10,0.14);transform:translateY(-1px)}
   .plyo-len-btn:active{transform:translateY(0);box-shadow:none}
   .plyo-len-btn.sel{border:2px solid var(--gold);color:var(--gold-deeper);background:var(--gold-light);font-weight:600}
-  .plyo-len-btn span{font-size:10px;color:var(--text3);display:block}
+  .plyo-len-btn span{font-size:10px;color:var(--orange-dark);display:block;font-weight:600}
   .plyo-chip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:6px;margin-top:8px}
-  .plyo-chip{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:6px 8px;cursor:pointer;font-size:11px;color:var(--text2);text-align:center;transition:all .15s}
+  .plyo-chip{background:var(--bg2);border:1px solid rgba(160,112,10,0.30);border-radius:var(--radius);padding:6px 8px;cursor:pointer;font-size:11px;color:var(--navy);font-weight:500;text-align:center;transition:all .15s}
   .plyo-chip:hover{border-color:var(--gold);background:var(--gold-light);color:var(--gold-deeper);box-shadow:0 2px 6px rgba(160,112,10,0.14);transform:translateY(-1px)}
   .plyo-chip:active{transform:translateY(0);box-shadow:none}
   .plyo-chip.sel{background:var(--gold-light);border-color:var(--gold);color:var(--gold-deeper);font-weight:600}
@@ -201,7 +201,7 @@
 
   /* Drill list */
   .drill-list{display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem}
-  .drill-item{background:#FDFAF4;border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:11px 13px;display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 3px rgba(46,61,82,0.07)}
+  .drill-item{background:#FFFFFF;border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:11px 13px;display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 4px rgba(46,61,82,0.10)}
   .drill-item.is-plyo{border-left:3px solid var(--orange)}
   .drill-item.is-outdoor{border-left:3px solid var(--teal)}
   .drill-item.active-d{border-color:var(--navy);background:var(--navy-light)}
@@ -237,7 +237,7 @@
   .sdiv-outdoor{color:var(--teal-deeper);background:var(--teal-light)}
 
   /* Timer */
-  .timer-block{background:#FDFAF4;border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;margin-bottom:1rem;box-shadow:0 2px 8px rgba(46,61,82,0.09)}
+  .timer-block{background:#FFFFFF;border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;text-align:center;margin-bottom:1rem;box-shadow:0 2px 10px rgba(46,61,82,0.12)}
   .timer-block.plyo-mode{border-color:var(--gold);background:var(--gold-light)}
   .t-step{font-size:11px;color:var(--text3);margin-bottom:3px}
   .t-type{font-size:10px;font-weight:600;padding:2px 9px;border-radius:10px;display:inline-block;margin-bottom:5px}
@@ -261,7 +261,7 @@
 
   /* Controls */
   .ctrl-row{display:flex;gap:10px;justify-content:center;align-items:center}
-  .ctrl-btn{width:44px;height:44px;border-radius:50%;border:0.5px solid var(--border2);background:#FDFAF4;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--text);font-family:inherit;box-shadow:0 1px 3px rgba(46,61,82,0.09);transition:all .15s}
+  .ctrl-btn{width:44px;height:44px;border-radius:50%;border:0.5px solid var(--border2);background:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--text);font-family:inherit;box-shadow:0 1px 4px rgba(46,61,82,0.12);transition:all .15s}
   .ctrl-btn:hover{background:var(--navy-light);border-color:var(--navy);color:var(--navy-deeper);box-shadow:0 3px 8px rgba(46,61,82,0.18);transform:scale(1.08)}
   .ctrl-btn:active{transform:scale(0.95);box-shadow:none}
   .ctrl-btn.cp-g{background:var(--navy);border-color:var(--navy);color:#fff;box-shadow:0 3px 8px rgba(46,61,82,0.28)}
@@ -320,6 +320,47 @@
     .dbtn{min-width:70px}
     .loc-grid{grid-template-columns:1fr}
   }
+
+  /* ── Workout Calendar ── */
+  .cal-screen{padding:0}
+  .cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+  .cal-header h2{font-size:16px;font-weight:700;color:var(--navy-deeper)}
+  .cal-nav-btn{background:#FFFFFF;border:1px solid var(--border2);border-radius:var(--radius);padding:5px 12px;font-size:13px;font-weight:500;color:var(--navy);cursor:pointer;transition:all .15s}
+  .cal-nav-btn:hover{background:var(--navy-light);border-color:var(--navy)}
+  .cal-nav-btn:active{transform:scale(0.97)}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:.75rem}
+  .cal-dow{text-align:center;font-size:10px;font-weight:700;color:var(--navy);letter-spacing:.06em;text-transform:uppercase;padding:4px 0}
+  .cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:12px;font-weight:500;color:var(--text2);background:#FFFFFF;border:0.5px solid var(--border);cursor:pointer;position:relative;transition:all .15s;user-select:none}
+  .cal-day:hover{background:var(--navy-light);border-color:var(--navy);color:var(--navy-deeper)}
+  .cal-day:active{transform:scale(0.93)}
+  .cal-day.empty{background:transparent;border-color:transparent;cursor:default}
+  .cal-day.empty:hover{background:transparent;transform:none}
+  .cal-day.today{border:2px solid var(--gold);color:var(--navy-deeper);font-weight:700}
+  .cal-day.worked-out{background:var(--navy);color:#fff;border-color:var(--navy);font-weight:700}
+  .cal-day.worked-out::after{content:'✕';position:absolute;font-size:9px;bottom:2px;right:3px;opacity:.7}
+  .cal-day.worked-out:hover{background:var(--navy-dark)}
+  .cal-day.worked-out.today{background:var(--navy);border:2px solid var(--gold)}
+  .cal-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--text2);margin-bottom:1rem}
+  .cal-legend-item{display:flex;align-items:center;gap:5px}
+  .cal-legend-dot{width:14px;height:14px;border-radius:4px;flex-shrink:0}
+  .cal-streak{background:var(--gold-light);border:1px solid var(--gold-mid);border-radius:var(--radius);padding:10px 14px;margin-bottom:1rem;display:flex;align-items:center;gap:10px}
+  .cal-streak i{font-size:20px;color:var(--gold-dark)}
+  .cal-streak-val{font-size:22px;font-weight:700;color:var(--navy-deeper)}
+  .cal-streak-lbl{font-size:12px;color:var(--navy);font-weight:500}
+  .cal-month-count{font-size:12px;color:var(--text2);margin-top:2px}
+  .tab-bar{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:1.25rem}
+  .tab-btn{flex:1;padding:10px 6px;background:transparent;border:none;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;font-family:inherit}
+  .tab-btn:hover{color:var(--navy);background:var(--navy-light)}
+  .tab-btn.active-tab{color:var(--navy-deeper);font-weight:700;border-bottom-color:var(--navy)}
+
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#FFFFFF;border-top:1px solid var(--border2);display:flex;z-index:200;box-shadow:0 -2px 12px rgba(46,61,82,0.10)}
+  .bottom-nav-btn{flex:1;padding:10px 4px 12px;background:transparent;border:none;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--text3);font-size:10px;font-weight:500;transition:color .15s}
+  .bottom-nav-btn i{font-size:21px}
+  .bottom-nav-btn:hover{color:var(--navy)}
+  .bottom-nav-btn.active-nav{color:var(--navy-deeper)}
+  .bottom-nav-btn.active-nav i{color:var(--navy)}
+  @media(prefers-color-scheme:dark){.bottom-nav{background:#1C242E;border-top-color:rgba(184,138,0,0.16)}}
+
 </style>
 </head>
 <body>
@@ -713,7 +754,13 @@ function togglePlyoFocus(el){
 }
 function toggleEq(key){
   cfg[key]=!cfg[key];
-  const tog=document.getElementById('tog-'+key);if(tog)tog.classList.toggle('sel',cfg[key]);
+  const idMap={twoball:'tog-2ball',plyo:'tog-plyo'};
+  const pillMap={twoball:'pill-2ball',plyo:'pill-plyo'};
+  const togId=idMap[key]||('tog-'+key);
+  const pillId=pillMap[key]||('pill-'+key);
+  const tog=document.getElementById(togId);if(tog)tog.classList.toggle('sel',cfg[key]);
+  const pill=document.getElementById(pillId);
+  // pill visual already handled by .tog.sel .pill CSS; just confirm parent sel class is set
   if(key==='plyo')document.getElementById('plyo-card').classList.toggle('disabled',!cfg.plyo);
   checkReady();
 }
@@ -964,6 +1011,114 @@ function renderActiveList(){
 function fmtTime(s){const m=Math.floor(s/60),sec=s%60;return `${m}:${sec.toString().padStart(2,'0')}`;}
 function fmtDur(s){return s<60?s+'s':Math.round(s/60)+'m';}
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+// ── CALENDAR ──────────────────────────────────────────────────────────────
+const CAL_KEY = 'bball-workout-days-v1';
+let calYear, calMonth;
+
+function calInit() {
+  const now = new Date();
+  calYear = now.getFullYear();
+  calMonth = now.getMonth();
+  renderCal();
+}
+
+function calNav(dir) {
+  calMonth += dir;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0)  { calMonth = 11; calYear--; }
+  renderCal();
+}
+
+function getWorkoutDays() {
+  try { return JSON.parse(localStorage.getItem(CAL_KEY) || '[]'); } catch(e) { return []; }
+}
+function saveWorkoutDays(days) {
+  try { localStorage.setItem(CAL_KEY, JSON.stringify(days)); } catch(e) {}
+}
+function dayKey(y, m, d) { return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
+
+function toggleDay(y, m, d) {
+  const key = dayKey(y, m, d);
+  let days = getWorkoutDays();
+  if (days.includes(key)) days = days.filter(k => k !== key);
+  else days.push(key);
+  saveWorkoutDays(days);
+  renderCal();
+}
+
+function calcStreak(days) {
+  if (!days.length) return 0;
+  const daySet = new Set(days);
+  let streak = 0;
+  const now = new Date();
+  const check = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  // allow today or yesterday as streak start
+  if (!daySet.has(dayKey(check.getFullYear(), check.getMonth(), check.getDate()))) {
+    check.setDate(check.getDate() - 1);
+  }
+  while (daySet.has(dayKey(check.getFullYear(), check.getMonth(), check.getDate()))) {
+    streak++;
+    check.setDate(check.getDate() - 1);
+  }
+  return streak;
+}
+
+function renderCal() {
+  const days = getWorkoutDays();
+  const now = new Date();
+  const todayKey = dayKey(now.getFullYear(), now.getMonth(), now.getDate());
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('cal-month-label').textContent = `${monthNames[calMonth]} ${calYear}`;
+
+  // streak + month count
+  document.getElementById('cal-streak-val').textContent = calcStreak(days);
+  const monthWorkouts = days.filter(k => k.startsWith(`${calYear}-${String(calMonth+1).padStart(2,'0')}-`)).length;
+  document.getElementById('cal-month-count').textContent = `${monthWorkouts} workout${monthWorkouts !== 1 ? 's' : ''} this month`;
+
+  // build grid
+  const grid = document.getElementById('cal-grid');
+  const dows = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  let html = dows.map(d => `<div class="cal-dow">${d}</div>`).join('');
+
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+
+  for (let i = 0; i < firstDay; i++) html += `<div class="cal-day empty"></div>`;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const k = dayKey(calYear, calMonth, d);
+    const isToday = k === todayKey;
+    const isWorked = days.includes(k);
+    const cls = ['cal-day', isToday ? 'today' : '', isWorked ? 'worked-out' : ''].filter(Boolean).join(' ');
+    html += `<div class="${cls}" onclick="toggleDay(${calYear},${calMonth},${d})" aria-label="${monthNames[calMonth]} ${d}${isWorked ? ', workout logged' : ''}" role="button" tabindex="0">${d}</div>`;
+  }
+  grid.innerHTML = html;
+}
+
+// ── TAB SWITCHING ────────────────────────────────────────────────────────
+const WORKOUT_SCREENS = new Set(['s-setup','s-plan','s-active','s-rest','s-plyo-intro','s-outdoor-intro','s-done']);
+let currentTab = 'workout';
+let lastWorkoutScreen = 's-setup';
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.bottom-nav-btn').forEach(b => b.classList.remove('active-nav'));
+  document.getElementById('nav-' + tab).classList.add('active-nav');
+  if (tab === 'calendar') {
+    document.querySelectorAll('.screen').forEach(s => {
+      if (WORKOUT_SCREENS.has(s.id) && s.classList.contains('active')) lastWorkoutScreen = s.id;
+    });
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('s-calendar').classList.add('active');
+    renderCal();
+  } else {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(lastWorkoutScreen || 's-setup').classList.add('active');
+  }
+}
+
+// Init calendar
+calInit();
 </script>
 </body>
 </html>
