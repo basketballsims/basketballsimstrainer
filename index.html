@@ -150,6 +150,20 @@
   .plyo-chip.sel{background:var(--gold-light);border-color:var(--gold);color:var(--gold-deeper);font-weight:600}
   .plyo-note{font-size:11px;color:#2E3D52;font-weight:500;margin-top:8px}
 
+  /* Injury Recovery Mode */
+  .hidden{display:none !important}
+  .ir-banner{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--teal-light);border:1.5px solid var(--teal);border-radius:var(--radius-lg);padding:12px 14px;cursor:pointer;margin-bottom:1.5rem;transition:all .15s}
+  .ir-banner:hover{box-shadow:0 3px 10px rgba(74,112,96,0.18);transform:translateY(-1px)}
+  .ir-banner-left{display:flex;align-items:center;gap:11px}
+  .ir-banner-icon{width:36px;height:36px;border-radius:50%;background:#FFFFFF;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1.5px solid var(--teal)}
+  .ir-banner-icon i{font-size:18px;color:var(--teal-dark)}
+  .ir-banner-title{font-size:13px;font-weight:700;color:var(--teal-deeper)}
+  .ir-banner-sub{font-size:11px;color:var(--teal-dark);font-weight:500;line-height:1.4;max-width:320px}
+  .ir-banner .pill{background:var(--bg3)}
+  .ir-banner.sel .pill{background:var(--teal)}
+  .ir-safety-note{background:var(--gold-light);border:1px solid var(--gold-mid);border-radius:var(--radius);padding:10px 13px;font-size:12px;color:var(--gold-deeper);font-weight:500;line-height:1.5;display:flex;gap:9px;align-items:flex-start;margin-bottom:1.25rem}
+  .ir-safety-note i{flex-shrink:0;margin-top:1px;font-size:15px}
+
   /* Buttons */
   .btn-primary{background:var(--navy);color:#fff;border:none;border-radius:var(--radius);padding:12px 20px;font-size:14px;font-weight:700;cursor:pointer;width:100%;margin-top:1.5rem;font-family:inherit;letter-spacing:.015em;box-shadow:0 3px 8px rgba(46,61,82,0.22);transition:all .15s}
   .btn-primary:hover{background:var(--navy-dark);box-shadow:0 5px 14px rgba(46,61,82,0.30);transform:translateY(-1px)}
@@ -357,6 +371,38 @@
 
   </div>
 
+  <div class="ir-banner" id="ir-banner" onclick="toggleInjuryMode()">
+    <div class="ir-banner-left">
+      <div class="ir-banner-icon"><i class="ti ti-first-aid-kit" aria-hidden="true"></i></div>
+      <div><div class="ir-banner-title">Injury Recovery Mode</div><div class="ir-banner-sub">Seated / no-foot-load program for players coming back from a lower-body injury</div></div>
+    </div>
+    <div class="pill" id="pill-ir"></div>
+  </div>
+
+  <!-- INJURY RECOVERY SETUP (shown instead of normal setup when active) -->
+  <div id="ir-setup" class="hidden">
+    <div class="ir-safety-note"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Get clearance from a doctor or physio before starting. This program is seated or single-leg-supported only — no jumping, cutting, or weight-bearing on the injured side unless your medical provider has specifically cleared it.</div>
+
+    <div class="slabel">Week of program</div>
+    <div class="diff-row" id="ir-week-grid">
+      <button class="dbtn" data-v="1" onclick="pickIrWeek(this)">Wk 1–2<span>Foundation</span></button>
+      <button class="dbtn" data-v="3" onclick="pickIrWeek(this)">Wk 3–4<span>Build</span></button>
+      <button class="dbtn" data-v="5" onclick="pickIrWeek(this)">Wk 5–6<span>Progress</span></button>
+    </div>
+
+    <div class="slabel">Session length</div>
+    <div class="diff-row" id="ir-len-grid">
+      <button class="dbtn" data-v="15" onclick="pickIrLen(this)">15 min<span>Core blocks</span></button>
+      <button class="dbtn" data-v="20" onclick="pickIrLen(this)">20 min<span>+ extra reps</span></button>
+      <button class="dbtn" data-v="30" onclick="pickIrLen(this)">30 min<span>Full session</span></button>
+    </div>
+
+    <button class="btn-primary" id="ir-build-btn" disabled onclick="buildInjuryWorkout()" style="background:var(--teal)"><i class="ti ti-layout-list" aria-hidden="true"></i> Build recovery session</button>
+    <div class="site-footer">Built on <a href="https://sites.google.com/view/basketballsims/home" target="_blank" rel="noopener">basketballsims.com</a> · Sims Consulting Inc</div>
+  </div>
+
+  <!-- NORMAL SETUP -->
+  <div id="normal-setup">
   <div class="slabel">Who is training?</div>
   <div class="card-grid" id="mode-grid">
     <div class="mode-card" data-v="solo" onclick="pick(this,'mode')"><i class="ti ti-user" aria-hidden="true"></i><h3>Solo player</h3><p>Individual skill work, no partner needed</p></div>
@@ -481,6 +527,7 @@
 
   <button class="btn-primary" id="build-btn" disabled onclick="buildWorkout()"><i class="ti ti-layout-list" aria-hidden="true"></i> Build my workout</button>
   <div class="site-footer">Built on <a href="https://sites.google.com/view/basketballsims/home" target="_blank" rel="noopener">basketballsims.com</a> · Sims Consulting Inc</div>
+  </div>
 </div>
 
 <!-- PLAN -->
@@ -716,6 +763,50 @@ const PLYO_DB={
 // ── OUTDOOR ADAPTATION LOGIC ──────────────────────────────────────────────
 const OUTDOOR_CONDITION_LABELS={uneven:"Uneven surface",wet:"Wet / damp",smallcourt:"Half court only",hot:"Hot / sunny",wind:"Windy",nolines:"No court lines"};
 
+// ── INJURY RECOVERY DB ────────────────────────────────────────────────────
+// Seated / no-foot-load drills. Keyed by week block: 1 (wk1-2), 3 (wk3-4), 5 (wk5-6).
+// Every drill must be cleared by a doctor/physio before use.
+const INJURY_DB={
+  warmup:{name:"Seated ball-handling warmup",desc:"Pound dribbles each hand, seated crossovers, figure-8s around legs — ball stays below knee height",cues:{1:"Slow and controlled — feel the ball",3:"Build tempo through the set",5:"Full speed — treat it like game prep"},dur:300,cat:"handles"},
+  handles1:{name:"Pound dribble — both hands",desc:"Seated, 30 sec each hand, ball stays low and controlled",cues:{1:"Wide base, eyes up off the ball",3:"Add a slight tempo increase each round",5:"Max controlled speed, no loss of control"},dur:120,cat:"handles"},
+  handles2:{name:"Seated crossovers",desc:"Low, sharp crossover dribble — keep the ball below the knee",cues:{1:"Slow rep, focus on a tight pocket",3:"Speed up the exchange",5:"Add a hesitation before each crossover"},dur:120,cat:"handles"},
+  handles3:{name:"Figure-8 around legs",desc:"Weave the ball around both legs in a continuous figure-8",cues:{1:"Slow, deliberate loops",3:"Keep the loop tight and quick",5:"Eyes up — don't watch the ball"},dur:120,cat:"handles"},
+  handles4:{name:"Two-ball taps / off-hand control",desc:"Tennis ball or second ball in the off hand while dribbling — builds ambidexterity and proprioception",cues:{1:"Skip for week 1–2 — introduce in week 3",3:"Light taps, don't rush the off-hand",5:"Push both hands to work independently at speed"},dur:150,cat:"handles"},
+  handles5:{name:"Reactive crossover — called direction",desc:"Partner or parent calls 'left' or 'right' — player reacts with a crossover or hesitation move",cues:{1:"Not yet — this is a week 5–6 drill",3:"Walk through the read slowly first",5:"React at full speed to the call"},dur:180,cat:"handles"},
+  shoot1:{name:"Seated form shooting — close range",desc:"Seated at the rim from close range, focus purely on follow-through, elbow alignment, and wrist snap — no legs involved",cues:{1:"One-hand form first, build the guide hand in after",3:"Full pocket, smooth release rhythm",5:"Track makes out of 10, push for consistency"},dur:240,cat:"shooting"},
+  shoot2:{name:"One-leg balanced catch-and-shoot",desc:"Standing on the good leg with support, catch a pass from a chair and shoot — gather-to-release rhythm",cues:{1:"Hold for week 3–4 — only attempt if standing is cleared",3:"Light support nearby, slow controlled rhythm",5:"Full rhythm, no hesitation on the catch"},dur:240,cat:"shooting"},
+  shoot3:{name:"Volume shooting — makes tracker",desc:"Increase shooting reps and track makes out of 10 each set for motivation",cues:{1:"Stay seated — quality over volume this early",3:"Build toward higher rep counts",5:"Compete against your own best set"},dur:240,cat:"shooting"},
+  strength1:{name:"Band rows or modified push-ups",desc:"Resistance band rows or push-ups — knees down if needed — 3 sets of 10",cues:{1:"Controlled tempo, full range of motion",3:"Add a short pause at full contraction",5:"Move toward full push-ups if cleared"},dur:240,cat:"strength",sets:"3 sets x 10"},
+  strength2:{name:"Band shoulder rotations",desc:"External and internal shoulder rotations with a resistance band — protects the shooting shoulder, 2 sets of 12 each side",cues:{1:"Light band tension, slow and controlled",3:"Increase band tension slightly",5:"Add a brief hold at end range"},dur:180,cat:"strength",sets:"2 sets x 12/side"},
+  strength3:{name:"Plank hold",desc:"Forearm plank, knees down if seated balance is a concern — build hold time week over week",cues:{1:"Build toward 15 seconds, stop before form breaks",3:"Build toward 30 seconds",5:"Build toward 45 seconds, full plank if cleared"},dur:120,cat:"strength"},
+  strength4:{name:"Overhead press — band or light dumbbell",desc:"Light resistance overhead press — 2 sets of 10, focus on control not load",cues:{1:"Very light resistance, full control",3:"Slight resistance increase if comfortable",5:"Add a slow eccentric (lowering) phase"},dur:180,cat:"strength",sets:"2 sets x 10"},
+};
+
+function buildInjuryDrillList(weekBlock,lenMin){
+  const wk=String(weekBlock);
+  const order=[
+    INJURY_DB.warmup,
+    INJURY_DB.handles1,INJURY_DB.handles2,INJURY_DB.handles3,
+    ...(weekBlock>=3?[INJURY_DB.handles4]:[]),
+    ...(weekBlock>=5?[INJURY_DB.handles5]:[]),
+    INJURY_DB.shoot1,
+    ...(weekBlock>=3?[INJURY_DB.shoot2]:[]),
+    ...(weekBlock>=5?[INJURY_DB.shoot3]:[]),
+    INJURY_DB.strength1,INJURY_DB.strength2,INJURY_DB.strength3,
+    ...(weekBlock>=3?[INJURY_DB.strength4]:[]),
+  ];
+  const budget=lenMin*60-30;
+  let used=0,list=[];
+  for(const d of order){
+    if(used+d.dur>budget && list.length>0)break;
+    list.push({...d,irCueText:d.cues[wk]||d.cues['1']});
+    used+=d.dur;
+  }
+  return list;
+}
+
+
+
 function getOutdoorAdaptation(drill){
   if(!drill.outdoorMod||!cfg.conditions.length)return null;
   const msgs=[];
@@ -731,6 +822,7 @@ const WET_SKIP_NAMES=new Set(["Bounding figure-8s","Euro step","Lateral bounds (
 
 // ── STATE ─────────────────────────────────────────────────────────────────
 let cfg={mode:null,level:null,loc:null,conditions:[],focuses:[],len:null,twoball:false,plyo:false,plyoLen:null,plyoFocuses:[]};
+let irMode=false,irWeek=null,irLen=null;
 let fullWorkout=[],idx=0,secsLeft=0,totalSecs=0,running=false,timer=null,restTmr=null,restSecs=0,wStart=null,plyoStartIdx=0,outdoorIntroSeen=false;
 
 // ── SETUP HANDLERS ────────────────────────────────────────────────────────
@@ -782,6 +874,59 @@ function toggleEq(key){
 }
 function checkReady(){
   document.getElementById('build-btn').disabled=!(cfg.mode&&cfg.level&&cfg.loc&&cfg.focuses.length&&cfg.len);
+}
+
+// ── INJURY RECOVERY MODE HANDLERS ────────────────────────────────────────
+function toggleInjuryMode(){
+  irMode=!irMode;
+  document.getElementById('ir-banner').classList.toggle('sel',irMode);
+  document.getElementById('ir-setup').classList.toggle('hidden',!irMode);
+  document.getElementById('normal-setup').classList.toggle('hidden',irMode);
+}
+function pickIrWeek(el){
+  document.querySelectorAll('#ir-week-grid .dbtn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');irWeek=parseInt(el.dataset.v);checkIrReady();
+}
+function pickIrLen(el){
+  document.querySelectorAll('#ir-len-grid .dbtn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');irLen=parseInt(el.dataset.v);checkIrReady();
+}
+function checkIrReady(){
+  document.getElementById('ir-build-btn').disabled=!(irWeek&&irLen);
+}
+function buildInjuryWorkout(){
+  const drills=buildInjuryDrillList(irWeek,irLen);
+  fullWorkout=drills.map(d=>({
+    name:d.name,desc:d.desc,
+    cues:{beginner:d.irCueText,intermediate:d.irCueText,advanced:d.irCueText,elite:d.irCueText},
+    dur:{beginner:d.dur,intermediate:d.dur,advanced:d.dur,elite:d.dur},
+    sets:d.sets||null,isPlyo:false,isInjury:true,irCat:d.cat
+  }));
+  cfg.level='beginner'; // reuse existing duration/cue lookup keyed by cfg.level
+  plyoStartIdx=fullWorkout.length;
+  outdoorIntroSeen=false;
+  renderInjuryPlan();
+  show('s-plan');
+}
+function renderInjuryPlan(){
+  const wkLabel={1:'Week 1–2',3:'Week 3–4',5:'Week 5–6'}[irWeek];
+  const totalMin=Math.round(fullWorkout.reduce((a,d)=>a+(d.dur.beginner||180),0)/60);
+  document.getElementById('plan-title').textContent=`Injury Recovery — ${wkLabel}`;
+  document.getElementById('plan-badges').innerHTML=
+    `<span class="badge bdg-g"><i class="ti ti-first-aid-kit" style="font-size:10px"></i> ${fullWorkout.length} drills</span>`+
+    `<span class="badge bdg-o">~${totalMin} min total</span>`+
+    `<span class="badge" style="background:var(--teal-light);color:var(--teal-deeper)">${wkLabel}</span>`;
+  document.getElementById('plan-notes').innerHTML=
+    `<div class="ir-safety-note" style="margin-bottom:1rem"><i class="ti ti-alert-triangle"></i> Seated / no-foot-load session. Confirm clearance with a doctor or physio before each progression.</div>`;
+  const catIcon={handles:'hand-stop',shooting:'target',strength:'barbell'};
+  let html='';
+  fullWorkout.forEach((d,i)=>{
+    const cueL=d.cues.beginner?`<div class="dcues">${d.cues.beginner}</div>`:'';
+    const setsL=d.sets?`<div class="dcues plyo-cue">${d.sets}</div>`:'';
+    const tag=d.irCat?`<div class="dtags"><span class="dtag" style="background:var(--teal-light);color:var(--teal-deeper)"><i class="ti ti-${catIcon[d.irCat]||'circle'}" style="font-size:10px"></i> ${d.irCat}</span></div>`:'';
+    html+=`<div class="drill-item"><div class="dnum">${i+1}</div><div class="dinfo"><div class="dname">${d.name}</div><div class="ddesc">${d.desc}</div>${setsL}${cueL}${tag}</div><div class="dtime">${fmtDur(d.dur.beginner||180)}</div></div>`;
+  });
+  document.getElementById('plan-list').innerHTML=html;
 }
 
 // ── BUILD WORKOUT ─────────────────────────────────────────────────────────
@@ -890,6 +1035,13 @@ function printWorkout(){
   const w=document.getElementById('print-sec-wrap');
   w.style.display=w.style.display==='none'?'block':'none';
   if(w.style.display==='block'){
+    if(irMode){
+      const wkLabel={1:'Week 1–2',3:'Week 3–4',5:'Week 5–6'}[irWeek];
+      w.innerHTML=`<div class="print-sec"><h4>Injury Recovery — ${wkLabel}</h4>`+
+        fullWorkout.map((d,i)=>`<div class="print-line"><span>${i+1}. ${d.name}</span><span>${fmtDur(d.dur.beginner||180)}</span></div>`).join('')+
+        `<div class="print-footer">basketballsims.com · ${new Date().toLocaleDateString()}</div></div>`;
+      return;
+    }
     const lvl={beginner:'Beginner',intermediate:'Intermediate',advanced:'Advanced',elite:'Elite'}[cfg.level];
     const mL={solo:'Solo',partner:'Partner',team:'Team'}[cfg.mode];
     const locL={indoor:'Indoor gym',outdoor:'Outdoor court',any:'Any location'}[cfg.loc];
@@ -986,6 +1138,18 @@ function endWorkout(){clearInterval(timer);clearInterval(restTmr);running=false;
 function finishWorkout(){
   clearInterval(timer);
   const elapsed=Math.round((Date.now()-wStart)/60000);
+  if(irMode){
+    const wkLabel={1:'Week 1–2',3:'Week 3–4',5:'Week 5–6'}[irWeek];
+    document.getElementById('done-sub').textContent=`Injury Recovery · ${wkLabel}`;
+    document.getElementById('done-stats').innerHTML=
+      `<div class="stat-box"><div class="stat-v">${fullWorkout.length}</div><div class="stat-l">Drills completed</div></div>`+
+      `<div class="stat-box"><div class="stat-v">${elapsed}m</div><div class="stat-l">Time on session</div></div>`;
+    document.getElementById('done-print').innerHTML=
+      `<div class="print-sec"><h4>Injury Recovery log — ${wkLabel}</h4>`+
+      fullWorkout.map((d,i)=>`<div class="print-line"><span>${i+1}. ${d.name}</span><span>${fmtDur(d.dur.beginner||180)}</span></div>`).join('')+
+      `<div class="print-footer">basketballsims.com · ${new Date().toLocaleDateString()}</div></div>`;
+    show('s-done');return;
+  }
   const bC=fullWorkout.filter(d=>!d.isPlyo).length;
   const pC=fullWorkout.filter(d=>d.isPlyo).length;
   const lvl={beginner:'Beginner',intermediate:'Intermediate',advanced:'Advanced',elite:'Elite'}[cfg.level];
